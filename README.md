@@ -20,6 +20,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 ```
 
 ## Application URLs - LOCAL Environment (Docker Container):
+- Product API: http://localhost:6002/api/products
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
 - Portainer: http://localhost:9000 - username: admin ; pass: admin123456789
@@ -31,7 +32,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Run Compound to start multi projects
 ---
 ## Application URLs - DEVELOPMENT Environment:
-
+- Product API: http://localhost:5002/api/products
 ---
 ## Application URLs - PRODUCTION Environment:
 

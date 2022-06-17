@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Tedu-Microservices-Solution_Architect.jpg = Tedu-Microservices-Solution_Architect.jpg
 		src\docker-compose.yml = src\docker-compose.yml
 		src\docker-compose.override.yml = src\docker-compose.override.yml
+		.dockerignore = .dockerignore
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{731E699E-62B0-413D-AB37-FAFF7BDBA602}"

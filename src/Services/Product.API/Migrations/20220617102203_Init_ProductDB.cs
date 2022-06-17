@@ -34,6 +34,12 @@ namespace Product.API.Migrations
                     table.PrimaryKey("PK_Products", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_No",
+                table: "Products",
+                column: "No",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
