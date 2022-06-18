@@ -9,6 +9,7 @@ Log.Information("Start Basket API up");
 
 try
 {
+    builder.Host.AddAppConfigurations();
     // Add services to the container.
     builder.Services.ConfigureRedis(builder.Configuration);
     builder.Services.ConfigureServices();
@@ -21,7 +22,7 @@ try
     builder.Services.AddSwaggerGen();
 
     var app = builder.Build();
-
+    
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -33,7 +34,7 @@ try
 
     app.UseAuthorization();
 
-    app.MapControllers();
+    app.MapDefaultControllerRoute();
 
     app.Run();
 }
