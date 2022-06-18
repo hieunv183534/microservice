@@ -13,7 +13,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Serilogger.Configure);
 
-Log.Information("Start Customer API up");
+Log.Information("Start Customer Minimal API up");
 
 try
 {
@@ -32,21 +32,21 @@ try
         .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
         .AddScoped<ICustomerService, CustomerService>();
 
-
     var app = builder.Build();
 
-    app.MapGet("/", () => "Welcome to Customer API!");
-
+    // Configure the HTTP request pipeline.
+    app.MapGet("/", () => "Welcome to Customer Minimal API!");
     app.MapCustomersAPI();
     
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+    app.UseSwagger();
+    
+    app.UseSwaggerUI(c =>
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+        c.SwaggerEndpoint("/swagger/v1/swagger.json",
+            "Swagger Customer Minimal API v1");
+    });
 
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection(); //production only
 
     app.UseAuthorization();
 
@@ -64,6 +64,6 @@ catch (Exception ex)
 }
 finally
 {
-    Log.Information("Shut down Customer API complete");
+    Log.Information("Shut down Customer Minimal API complete");
     Log.CloseAndFlush();
 }
