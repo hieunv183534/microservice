@@ -1,4 +1,3 @@
-using Customer.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Customer.API.Persistence;
@@ -33,6 +32,5 @@ public static class CustomerContextSeed
             await customerContext.Customers.AddAsync(newCustomer);
             await customerContext.SaveChangesAsync();
         }
-
     }
 }

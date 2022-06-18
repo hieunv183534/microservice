@@ -1,6 +1,5 @@
 using Customer.API.Repositories.Interfaces;
 using Customer.API.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Customer.API.Services;
 
