@@ -21,6 +21,8 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 
 ## Application URLs - LOCAL Environment (Docker Container):
 - Product API: http://localhost:6002/api/products
+- Customer API: http://localhost:6003/api/customers
+- Basket API: http://localhost:6004/api/baskets
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
 - Portainer: http://localhost:9000 - username: admin ; pass: admin123456789
@@ -33,6 +35,9 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 ---
 ## Application URLs - DEVELOPMENT Environment:
 - Product API: http://localhost:5002/api/products
+- Customer API: http://localhost:5003/api/customers
+- Basket API: http://localhost:5004/api/baskets
+
 ---
 ## Application URLs - PRODUCTION Environment:
 
@@ -45,6 +50,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://visualstudio.microsoft.com/
 
 ## References URLS
+- https://github.com/jasontaylordev/CleanArchitecture
 
 ## Docker Commands:
 
@@ -52,8 +58,9 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 
 ## Useful commands:
 
-- ASPNETCORE_ENVIRONMENT=Production dotnet ef database update
+- ASPNETCORE_ENVIRONMENT=Development dotnet ef database update
 - dotnet watch run --environment "Development"
 - dotnet restore
 - dotnet build
-- Migration commands: (cd into OctoQual.API folder)
+- Migration commands:
+  - dotnet ef migrations add "SampleMigration" --project {project dir} --startup-project {project dir} --output-dir {project dir}\Migrations
