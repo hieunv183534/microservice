@@ -15,7 +15,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\Shared\Shared.csproj" />
       <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Orders\Commands" />
+      <Folder Include="Orders\EventHandlers" />
     </ItemGroup>
 
 </Project>
