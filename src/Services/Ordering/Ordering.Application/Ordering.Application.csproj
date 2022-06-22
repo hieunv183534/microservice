@@ -20,8 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Orders\Commands" />
-      <Folder Include="Orders\EventHandlers" />
+      <Folder Include="Features\V1" />
+      <Folder Include="Features\V2" />
     </ItemGroup>
 
 </Project>

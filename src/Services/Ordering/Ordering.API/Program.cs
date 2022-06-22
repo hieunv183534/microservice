@@ -1,4 +1,5 @@
 using Common.Logging;
+using Ordering.Application;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
 using Serilog;
@@ -11,6 +12,7 @@ Log.Information("Start Ordering API up");
 try
 {
     // Add services to the container.
+    builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration);
 
     builder.Services.AddControllers();
@@ -24,7 +26,9 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c =>
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "Swagger Order API v1"));
     }
 
     // Initialise and seed database
@@ -35,7 +39,7 @@ try
         await orderContextSeed.SeedAsync();
     }
 
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection(); //production only
 
     app.UseAuthorization();
 
