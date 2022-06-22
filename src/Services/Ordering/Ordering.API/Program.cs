@@ -40,10 +40,13 @@ try
     }
 
     // app.UseHttpsRedirection(); //production only
+    app.UseRouting();
 
     app.UseAuthorization();
 
     app.MapControllers();
+
+    app.MapDefaultControllerRoute();
 
     app.Run();
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ public class OrdersController : ControllerBase
     
     [HttpGet("{userName}", Name = RouteNames.GetOrder)]
     [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName(string userName)
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required]string userName)
     {
         var query = new GetOrdersQuery(userName);
         var orders = await _mediator.Send(query);
