@@ -1,5 +1,6 @@
 using Common.Logging;
 using Contracts.Common.Interfaces;
+using Customer.API;
 using Customer.API.Controllers;
 using Customer.API.Persistence;
 using Customer.API.Repositories;
@@ -23,6 +24,7 @@ try
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
     builder.Services.AddDbContext<CustomerContext>(
