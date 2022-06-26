@@ -11,6 +11,6 @@ public static class CustomersController
             {
                 var result = await customerService.GetCustomerByUsernameAsync(username);
                 return result != null ? result : Results.NotFound();
-            });        
+            });
     }
 }
