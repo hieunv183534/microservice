@@ -14,7 +14,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Serilogger.Configure);
 
-Log.Information("Start Customer API up");
+Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
@@ -37,7 +37,7 @@ try
 
     var app = builder.Build();
 
-    app.MapGet("/", () => "Welcome to Customer API!");
+    app.MapGet("/", () => $"Welcome to {builder.Environment.ApplicationName}!");
 
     app.MapCustomersAPI();
     
@@ -45,7 +45,11 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c =>
+        {
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                $"{builder.Environment.ApplicationName} v1"));
+        });
     }
 
     app.UseHttpsRedirection();
@@ -66,6 +70,6 @@ catch (Exception ex)
 }
 finally
 {
-    Log.Information("Shut down Customer API complete");
+    Log.Information($"Shut down {builder.Environment.ApplicationName} complete");
     Log.CloseAndFlush();
 }
