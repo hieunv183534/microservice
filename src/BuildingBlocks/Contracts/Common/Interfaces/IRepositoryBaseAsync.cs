@@ -16,7 +16,6 @@ public interface IRepositoryQueryBase<T, K> where T : EntityBase<K>
 
     Task<T?> GetByIdAsync(K id);
     Task<T?> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties);
-    Task<int> SaveChangesAsync();
 }
 
 public interface IRepositoryBaseAsync<T, K> : IRepositoryQueryBase<T, K>
@@ -32,6 +31,7 @@ public interface IRepositoryBaseAsync<T, K> : IRepositoryQueryBase<T, K>
     Task<IDbContextTransaction> BeginTransactionAsync();
     Task EndTransactionAsync();
     Task RollbackTransactionAsync();
+    Task<int> SaveChangesAsync();
 }
 
 public interface IRepositoryQueryBase<T, K, TContext>

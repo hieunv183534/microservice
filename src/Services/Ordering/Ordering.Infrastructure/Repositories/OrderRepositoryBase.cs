@@ -7,12 +7,12 @@ using Ordering.Infrastructure.Persistence;
 
 namespace Ordering.Infrastructure.Repositories;
 
-public class RepositoryBase<T, K> : IRepositoryBaseAsync<T, K> where T : EntityBase<K>
+public class OrderRepositoryBase<T, K> : IRepositoryBaseAsync<T, K> where T : EntityBase<K>
 {
     private readonly OrderContext _dbContext;
     private readonly IUnitOfWork _unitOfWork;
 
-    public RepositoryBase(OrderContext dbContext, IUnitOfWork unitOfWork)
+    public OrderRepositoryBase(OrderContext dbContext, IUnitOfWork unitOfWork)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));

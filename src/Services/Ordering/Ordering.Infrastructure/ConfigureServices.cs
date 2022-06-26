@@ -20,7 +20,7 @@ public static class ConfigureServices
         });
 
         services.AddScoped<OrderContextSeed>();
-        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderRepository, OrderOrderRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

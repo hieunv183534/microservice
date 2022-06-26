@@ -6,9 +6,9 @@ using Ordering.Infrastructure.Persistence;
 
 namespace Ordering.Infrastructure.Repositories;
 
-public class OrderRepository : RepositoryBase<Order, long>, IOrderRepository
+public class OrderOrderRepository : OrderRepositoryBase<Order, long>, IOrderRepository
 {
-    public OrderRepository(OrderContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
+    public OrderOrderRepository(OrderContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
     {
     }
 
