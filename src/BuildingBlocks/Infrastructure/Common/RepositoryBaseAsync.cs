@@ -22,22 +22,30 @@ where TContext : DbContext
         !trackChanges ? _dbContext.Set<T>().AsNoTracking() : 
             _dbContext.Set<T>();
 
-    public IQueryable<T> FindAll(bool trackChanges = false, params Expression<Func<T, object>>[] includeProperties)
+    public IQueryable<T> FindAll(bool trackChanges = false, 
+        params Expression<Func<T, object>>[] includeProperties)
     {
         var items = FindAll(trackChanges);
-        items = includeProperties.Aggregate(items, (current, includeProperty) => current.Include(includeProperty));
+        items = includeProperties.Aggregate(items, (current, 
+                includeProperty) 
+            => current.Include(includeProperty));
         return items;
     }
 
-    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) => 
+    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, 
+        bool trackChanges = false) => 
         !trackChanges
             ? _dbContext.Set<T>().Where(expression).AsNoTracking()
             : _dbContext.Set<T>().Where(expression);
 
-    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false, params Expression<Func<T, object>>[] includeProperties)
+    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, 
+        bool trackChanges = false, 
+        params Expression<Func<T, object>>[] includeProperties)
     {
         var items = FindByCondition(expression, trackChanges);
-        items = includeProperties.Aggregate(items, (current, includeProperty) => current.Include(includeProperty));
+        items = includeProperties.Aggregate(items, (current, 
+                includeProperty) 
+            => current.Include(includeProperty));
         return items;
     }
 
@@ -45,11 +53,14 @@ where TContext : DbContext
         await FindByCondition(x => x.Id.Equals(id))
         .FirstOrDefaultAsync();
 
-    public async Task<T?> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties) => 
-        await FindByCondition(x => x.Id.Equals(id), trackChanges:false, includeProperties)
+    public async Task<T?> GetByIdAsync(K id, 
+        params Expression<Func<T, object>>[] includeProperties) => 
+        await FindByCondition(x => x.Id.Equals(id), 
+                trackChanges:false, includeProperties)
             .FirstOrDefaultAsync();
 
-    public Task<IDbContextTransaction> BeginTransactionAsync() => _dbContext.Database.BeginTransactionAsync();
+    public Task<IDbContextTransaction> BeginTransactionAsync() 
+        => _dbContext.Database.BeginTransactionAsync();
 
     public async Task EndTransactionAsync()
     { 
@@ -81,7 +92,8 @@ where TContext : DbContext
         return Task.CompletedTask;
     }
 
-    public Task UpdateListAsync(IEnumerable<T> entities) => _dbContext.Set<T>().AddRangeAsync(entities);
+    public Task UpdateListAsync(IEnumerable<T> entities) 
+        => _dbContext.Set<T>().AddRangeAsync(entities);
 
     public Task DeleteAsync(T entity) 
     {
@@ -95,5 +107,6 @@ where TContext : DbContext
         return Task.CompletedTask;
     }
 
-    public Task<int> SaveChangesAsync() => _unitOfWork.CommitAsync();
+    public Task<int> SaveChangesAsync() 
+        => _unitOfWork.CommitAsync();
 }

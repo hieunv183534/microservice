@@ -25,7 +25,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Basket API: http://localhost:6004/api/baskets
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
-- Portainer: http://localhost:9000 - username: admin ; pass: admin123456789
+- Portainer: http://localhost:9000 - username: admin ; pass: admin1234
 - Kibana: http://localhost:5601 - username: elastic ; pass: admin
 - RabbitMQ: http://localhost:15672 - username: guest ; pass: guest
 
