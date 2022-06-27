@@ -3,7 +3,7 @@
 ## Prepare environment
 
 * Install dotnet core version in file `global.json`
-* Visual Studio 2022+
+* IDE: Visual Studio 2022+, Rider, Visual Studio Code
 * Docker Desktop
 ---
 ## How to run the project
@@ -23,7 +23,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Product API: http://localhost:6002/api/products
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
-- Portainer: http://localhost:9000 - username: admin ; pass: admin123456789
+- Portainer: http://localhost:9000 - username: admin ; pass: admin1234
 - Kibana: http://localhost:5601 - username: elastic ; pass: admin
 - RabbitMQ: http://localhost:15672 - username: guest ; pass: guest
 
