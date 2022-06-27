@@ -56,4 +56,3 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - dotnet watch run --environment "Development"
 - dotnet restore
 - dotnet build
-- Migration commands: (cd into OctoQual.API folder)
