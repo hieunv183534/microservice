@@ -3,8 +3,14 @@
 ## Prepare environment
 
 * Install dotnet core version in file `global.json`
-* Visual Studio 2022+
+* IDE: Visual Studio 2022+, Rider, Visual Studio Code
 * Docker Desktop
+
+## Warning:
+
+Some docker images are not compatible with Apple Chip (M1, M2). You should replace them with appropriate images. Suggestion images below:
+- sql server: mcr.microsoft.com/azure-sql-edge
+- mysql: arm64v8/mysql:oracle
 ---
 ## How to run the project
 
@@ -21,11 +27,9 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 
 ## Application URLs - LOCAL Environment (Docker Container):
 - Product API: http://localhost:6002/api/products
-- Customer API: http://localhost:6003/api/customers
-- Basket API: http://localhost:6004/api/baskets
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
-- Portainer: http://localhost:9000 - username: admin ; pass: admin123456789
+- Portainer: http://localhost:9000 - username: admin ; pass: admin1234
 - Kibana: http://localhost:5601 - username: elastic ; pass: admin
 - RabbitMQ: http://localhost:15672 - username: guest ; pass: guest
 
@@ -35,9 +39,6 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 ---
 ## Application URLs - DEVELOPMENT Environment:
 - Product API: http://localhost:5002/api/products
-- Customer API: http://localhost:5003/api/customers
-- Basket API: http://localhost:5004/api/baskets
-
 ---
 ## Application URLs - PRODUCTION Environment:
 
@@ -50,17 +51,21 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://visualstudio.microsoft.com/
 
 ## References URLS
-- https://github.com/jasontaylordev/CleanArchitecture
 
-## Docker Commands:
+## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
-- docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remove-orphans --build
+- Up & running: 
+```Powershell
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remove-orphans --build
+```
+- Stop & Removing: 
+```Powershell
+docker-compose down
+```
 
 ## Useful commands:
 
-- ASPNETCORE_ENVIRONMENT=Development dotnet ef database update
+- ASPNETCORE_ENVIRONMENT=Production dotnet ef database update
 - dotnet watch run --environment "Development"
 - dotnet restore
 - dotnet build
-- Migration commands:
-  - dotnet ef migrations add "SampleMigration" --project {project dir} --startup-project {project dir} --output-dir {project dir}\Migrations
