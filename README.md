@@ -5,6 +5,12 @@
 * Install dotnet core version in file `global.json`
 * IDE: Visual Studio 2022+, Rider, Visual Studio Code
 * Docker Desktop
+
+## Warning:
+
+Some docker images are not compatible with Apple Chip (M1, M2). You should replace them with appropriate images. Suggestion images below:
+- sql server: mcr.microsoft.com/azure-sql-edge
+- mysql: arm64v8/mysql:oracle
 ---
 ## How to run the project
 
@@ -46,9 +52,16 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 
 ## References URLS
 
-## Docker Commands:
+## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
-- docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remove-orphans --build
+- Up & running: 
+```Powershell
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remove-orphans --build
+```
+- Stop & Removing: 
+```Powershell
+docker-compose down
+```
 
 ## Useful commands:
 
