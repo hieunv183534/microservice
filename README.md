@@ -1,4 +1,9 @@
 ## Tedu AspnetCore Microservices:
+A large numerous developers have heard about microservices and how it is the next big thing. In any case, for some developers I have coporate with, microservices is simply one more popular expression like DevOps. I have been dealing with various tasks involving microservices for somewhat more than a year now and here, I might want to discuss the hypothesis and the thoughts behind the idea. I built this course to help developers narrow down your challenges with my reality experiences.
+
+- Microservice Course : [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/khoa-hoc/xay-dung-he-thong-voi-kien-truc-micro-service-49.html)
+- Facebook Group: [https://www.facebook.com/groups/](https://www.facebook.com/groups/learnmicroservices)
+- Slides: [Section 1](https://tedu.com.vn/uploaded/files/slides/062022/Xay%20dung%20he%20thong%20voi%20Microservice.pdf)
 
 ## Prepare environment
 
