@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Common;
 
-public class RepositoryBaseAsync<T, K, TContext> : 
-    RepositoryQueryBaseAsync<T, K, TContext>,
+public class RepositoryBase<T, K, TContext> : 
+    RepositoryQueryBase<T, K, TContext>,
     IRepositoryBaseAsync<T, K, TContext> 
     where T : EntityBase<K>
     where TContext : DbContext
@@ -14,7 +14,7 @@ public class RepositoryBaseAsync<T, K, TContext> :
     private readonly TContext _dbContext;
     private readonly IUnitOfWork<TContext> _unitOfWork;
     
-    public RepositoryBaseAsync(TContext dbContext, IUnitOfWork<TContext> unitOfWork) : base(dbContext)
+    public RepositoryBase(TContext dbContext, IUnitOfWork<TContext> unitOfWork) : base(dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
