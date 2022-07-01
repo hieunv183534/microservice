@@ -18,9 +18,8 @@ public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
-
-    public Task<IDbContextTransaction> BeginTransactionAsync() 
-        => _dbContext.Database.BeginTransactionAsync();
+    
+    public Task<IDbContextTransaction> BeginTransactionAsync() => _dbContext.Database.BeginTransactionAsync();
 
     public async Task EndTransactionAsync()
     { 
@@ -52,8 +51,7 @@ public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext
         return Task.CompletedTask;
     }
 
-    public Task UpdateListAsync(IEnumerable<T> entities) 
-        => _dbContext.Set<T>().AddRangeAsync(entities);
+    public Task UpdateListAsync(IEnumerable<T> entities) => _dbContext.Set<T>().AddRangeAsync(entities);
 
     public Task DeleteAsync(T entity) 
     {
@@ -67,6 +65,5 @@ public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext
         return Task.CompletedTask;
     }
 
-    public Task<int> SaveChangesAsync() 
-        => _unitOfWork.CommitAsync();
+    public Task<int> SaveChangesAsync() => _unitOfWork.CommitAsync();
 }

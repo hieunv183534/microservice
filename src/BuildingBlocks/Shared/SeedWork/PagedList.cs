@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Shared.SeedWork;
 
 public class PagedList<T> : List<T>

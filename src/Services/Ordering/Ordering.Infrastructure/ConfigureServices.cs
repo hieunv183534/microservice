@@ -20,8 +20,8 @@ public static class ConfigureServices
         });
 
         services.AddScoped<OrderContextSeed>();
-        services.AddScoped<IOrderRepository, OrderOrderRepository>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
 
         return services;
     }

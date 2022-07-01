@@ -1,4 +1,5 @@
 using Contracts.Common.Interfaces;
+using Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Domain.Entities;
@@ -6,9 +7,10 @@ using Ordering.Infrastructure.Persistence;
 
 namespace Ordering.Infrastructure.Repositories;
 
-public class OrderOrderRepository : OrderRepositoryBase<Order, long>, IOrderRepository
+public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrderRepository
 {
-    public OrderOrderRepository(OrderContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
+    public OrderRepository(OrderContext dbContext, IUnitOfWork<OrderContext> unitOfWork) 
+        : base(dbContext, unitOfWork)
     {
     }
 

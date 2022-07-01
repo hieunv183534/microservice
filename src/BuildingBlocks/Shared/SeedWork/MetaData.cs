@@ -1,3 +1,5 @@
+using System;
+
 namespace Shared.SeedWork;
 
 public class MetaData
