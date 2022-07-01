@@ -20,7 +20,7 @@ public class CustomerService : ICustomerService
     {
         var entity = await _repository.GetCustomerByUserNameAsync(username);
         var result = _mapper.Map<CustomerDto>(entity);
-
+        
         return Results.Ok(result);
     }
 }
