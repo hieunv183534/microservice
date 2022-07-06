@@ -1,4 +1,3 @@
-using Basket.API.Extensions;
 using Common.Logging;
 using Serilog;
 
@@ -9,10 +8,7 @@ Log.Information("Start Basket API up");
 
 try
 {
-    builder.Host.AddAppConfigurations();
     // Add services to the container.
-    builder.Services.ConfigureRedis(builder.Configuration);
-    builder.Services.ConfigureServices();
     builder.Services.Configure<RouteOptions>(options 
         => options.LowercaseUrls = true);
 
