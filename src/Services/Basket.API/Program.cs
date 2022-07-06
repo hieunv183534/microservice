@@ -1,3 +1,4 @@
+using Basket.API.Extensions;
 using Common.Logging;
 using Serilog;
 
@@ -11,8 +12,12 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
-    // Add services to the container.
     builder.Host.UseSerilog(Serilogger.Configure);
+    builder.Host.AddAppConfigurations();
+    
+    // Add services to the container.
+    builder.Services.ConfigureServices();
+    builder.Services.ConfigureRedis(builder.Configuration);
     builder.Services.Configure<RouteOptions>(options 
         => options.LowercaseUrls = true);
 

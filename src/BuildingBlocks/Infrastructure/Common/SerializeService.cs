@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Infrastructure.Common;
 
-public class SerializerService : ISerializerService
+public class SerializeService : ISerializeService
 {
     public string Serialize<T>(T obj)
     {
@@ -17,7 +17,7 @@ public class SerializerService : ISerializerService
             {
                 new StringEnumConverter
                 {
-                    NamingStrategy = new CamelCaseNamingStrategy(),
+                    NamingStrategy = new CamelCaseNamingStrategy()
                 }
             }
         });
