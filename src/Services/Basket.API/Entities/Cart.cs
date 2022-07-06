@@ -1,24 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Basket.API.Entities;
 
 public class Cart
 {
-    public string UserName { get; set; }
+    public string Username { get; set; }
+
     public List<CartItem> Items { get; set; } = new();
 
     public Cart()
     {
     }
 
-    public Cart(string userName)
+    public Cart(string username)
     {
-        UserName = userName;
+        Username = username;
     }
-        
-    public decimal TotalPrice 
-    { 
-        get
-        {
-            return Items.Sum(item => item.ProductPrice * item.Quantity);
-        }
-    }
+
+    public decimal TotalPrice => Items.Sum(item => item.ItemPrice * item.Quantity);
 }

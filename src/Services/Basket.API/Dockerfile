@@ -9,6 +9,7 @@ COPY ["BuildingBlocks/Common.Logging/Common.Logging.csproj", "BuildingBlocks/Com
 COPY ["BuildingBlocks/Contracts/Contracts.csproj", "BuildingBlocks/Contracts/"]
 COPY ["BuildingBlocks/Infrastructure/Infrastructure.csproj", "BuildingBlocks/Infrastructure/"]
 RUN dotnet restore "Services/Basket.API/Basket.API.csproj"
+
 COPY . .
 WORKDIR "/src/Services/Basket.API"
 RUN dotnet build "Basket.API.csproj" -c Release -o /app/build

@@ -4,48 +4,58 @@ using Basket.API.Entities;
 using Basket.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using ILogger = Serilog.ILogger;
 
 namespace Basket.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class BasketsController : ControllerBase
 {
     private readonly IBasketRepository _basketRepository;
+    private readonly ILogger _logger;
 
-    public BasketsController(IBasketRepository basketRepository)
+    public BasketsController(IBasketRepository basketRepository, ILogger logger)
     {
-        _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
+        _basketRepository = basketRepository;
+        _logger = logger;
     }
-    
-    [HttpGet("{userName}", Name = "GetBasket")]
+
+    [HttpGet("{username}", Name = "GetBasket")]
     [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<Cart>> GetBasket([Required]string userName)
+    public async Task<ActionResult<Cart>> GetBasket([Required] string username)
     {
-        var result = await _basketRepository.GetBasketByUserName(userName);
-        return Ok(result ?? new Cart(userName));
+        _logger.Information($"BEGIN: GetBasketByUserName {username}");
+        var result = await _basketRepository.GetBasketByUserName(username);
+        _logger.Information($"END: GetBasketByUserName {username}");
+
+        return Ok(result ?? new Cart(username));
     }
     
     [HttpPost(Name = "UpdateBasket")]
     [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart basket)
+    public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
     {
+        _logger.Information($"BEGIN: UpdateBasket for {cart.Username}");
         var options = new DistributedCacheEntryOptions()
             //set the absolute expiration time.
-            .SetAbsoluteExpiration(DateTime.UtcNow.AddMinutes(10)) 
+            .SetAbsoluteExpiration(DateTime.UtcNow.AddMinutes(10))
             //a cached object will be expired if it not being requested for a defined amount of time period.
             //Sliding Expiration should always be set lower than the absolute expiration.
             .SetSlidingExpiration(TimeSpan.FromMinutes(2));
-        
-        var result = await _basketRepository.UpdateBasket(basket, options);
+
+        var result = await _basketRepository.UpdateBasket(cart, options);
+        _logger.Information($"END: UpdateBasket for {cart.Username}");
         return Ok(result);
     }
     
-    [HttpDelete("{userName}", Name = "DeleteBasket")]        
-    [ProducesResponseType(typeof(void), (int)HttpStatusCode.Accepted)]
-    public async Task<IActionResult> DeleteBasket([Required]string userName)
+    [HttpDelete("{username}", Name = "DeleteBasket")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<bool>> DeleteBasket([Required] string username)
     {
-        await _basketRepository.DeleteBasketFromUserName(userName);
-        return Accepted();
+        _logger.Information($"BEGIN: DeleteBasket {username}");
+        var result = await _basketRepository.DeleteBasketFromUserName(username);
+        _logger.Information($"END: DeleteBasket {username}");
+        return Ok(result);
     }
 }

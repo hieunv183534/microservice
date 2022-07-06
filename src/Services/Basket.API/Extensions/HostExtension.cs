@@ -1,6 +1,6 @@
 namespace Basket.API.Extensions;
 
-public static class HostExtensions
+public static class HostExtension
 {
     public static void AddAppConfigurations(this ConfigureHostBuilder host)
     {
@@ -11,5 +11,5 @@ public static class HostExtensions
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
         });
-    }
+    } 
 }
