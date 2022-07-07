@@ -13,21 +13,17 @@ namespace Basket.API.Controllers;
 public class BasketsController : ControllerBase
 {
     private readonly IBasketRepository _basketRepository;
-    private readonly ILogger _logger;
 
-    public BasketsController(IBasketRepository basketRepository, ILogger logger)
+    public BasketsController(IBasketRepository basketRepository)
     {
         _basketRepository = basketRepository;
-        _logger = logger;
     }
 
     [HttpGet("{username}", Name = "GetBasket")]
     [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Cart>> GetBasket([Required] string username)
     {
-        _logger.Information($"BEGIN: GetBasketByUserName {username}");
         var result = await _basketRepository.GetBasketByUserName(username);
-        _logger.Information($"END: GetBasketByUserName {username}");
 
         return Ok(result ?? new Cart(username));
     }
@@ -36,7 +32,6 @@ public class BasketsController : ControllerBase
     [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
     {
-        _logger.Information($"BEGIN: UpdateBasket for {cart.Username}");
         var options = new DistributedCacheEntryOptions()
             //set the absolute expiration time.
             .SetAbsoluteExpiration(DateTime.UtcNow.AddMinutes(10))
@@ -45,7 +40,6 @@ public class BasketsController : ControllerBase
             .SetSlidingExpiration(TimeSpan.FromMinutes(2));
 
         var result = await _basketRepository.UpdateBasket(cart, options);
-        _logger.Information($"END: UpdateBasket for {cart.Username}");
         return Ok(result);
     }
     
@@ -53,9 +47,7 @@ public class BasketsController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<bool>> DeleteBasket([Required] string username)
     {
-        _logger.Information($"BEGIN: DeleteBasket {username}");
         var result = await _basketRepository.DeleteBasketFromUserName(username);
-        _logger.Information($"END: DeleteBasket {username}");
         return Ok(result);
     }
 }
