@@ -4,6 +4,10 @@ using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
 using Serilog;
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Serilogger.Configure);
 
