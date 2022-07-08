@@ -4,7 +4,6 @@ using Basket.API.Entities;
 using Basket.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using ILogger = Serilog.ILogger;
 
 namespace Basket.API.Controllers;
 
