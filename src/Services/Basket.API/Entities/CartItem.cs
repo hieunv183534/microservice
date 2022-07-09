@@ -12,6 +12,8 @@ public class CartItem
     [Range(0.1, double.PositiveInfinity, ErrorMessage = "The field {0} must be >= {1}.")]
     public decimal ItemPrice { get; set; }
     
+    [Required]
     public string ItemNo { get; set; }
+    [Required]
     public string ItemName { get; set; }
 }
