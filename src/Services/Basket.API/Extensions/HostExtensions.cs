@@ -1,6 +1,6 @@
-namespace Product.API.Extensions;
+namespace Basket.API.Extensions;
 
-public static class ConfigureHostExtensions
+public static class HostExtensions
 {
     public static void AddAppConfigurations(this ConfigureHostBuilder host)
     {
