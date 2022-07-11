@@ -16,10 +16,12 @@ public class MappingProfile : Profile
         
         const string mappingMethodName = nameof(IMapFrom<object>.Mapping);
 
-        bool HasInterface(Type t) => t.IsGenericType && t.GetGenericTypeDefinition() == mapFromType;
+        bool HasInterface(Type t) => t.IsGenericType 
+                                     && t.GetGenericTypeDefinition() == mapFromType;
         
         var types = assembly.GetExportedTypes()
-            .Where(t => t.GetInterfaces().Any(HasInterface)).ToList();
+            .Where(t => t.GetInterfaces()
+                .Any(HasInterface)).ToList();
         
         var argumentTypes = new Type[] { typeof(Profile) };
 
@@ -35,7 +37,8 @@ public class MappingProfile : Profile
             }
             else
             {
-                var interfaces = type.GetInterfaces().Where(HasInterface).ToList();
+                var interfaces = type.GetInterfaces()
+                    .Where(HasInterface).ToList();
 
                 if (interfaces.Count <= 0) continue;
                 

@@ -17,19 +17,18 @@ public class OrdersController : ControllerBase
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
-    
+
     private static class RouteNames
     {
-        public const string GetOrder = nameof(GetOrder);
+        public const string GetOrders = nameof(GetOrders);
     }
-    
-    [HttpGet("{userName}", Name = RouteNames.GetOrder)]
-    [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int) HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required]string userName)
+
+    [HttpGet("{username}", Name = RouteNames.GetOrders)]
+    [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required] string username)
     {
-        var query = new GetOrdersQuery(userName);
-        var orders = await _mediator.Send(query);
-        return Ok(orders);
+        var query = new GetOrdersQuery(username);
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
-    
 }

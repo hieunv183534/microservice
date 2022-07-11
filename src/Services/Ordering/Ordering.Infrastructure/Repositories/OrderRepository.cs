@@ -9,14 +9,10 @@ namespace Ordering.Infrastructure.Repositories;
 
 public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrderRepository
 {
-    public OrderRepository(OrderContext dbContext, IUnitOfWork<OrderContext> unitOfWork) 
-        : base(dbContext, unitOfWork)
+    public OrderRepository(OrderContext dbContext, IUnitOfWork<OrderContext> unitOfWork) : base(dbContext, unitOfWork)
     {
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
-    {
-        var result = FindByCondition(x => x.UserName.Equals(userName));
-        return await result.ToListAsync();
-    }
+    public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName) =>
+        await FindByCondition(x => x.UserName.Equals(userName)).ToListAsync();
 }
