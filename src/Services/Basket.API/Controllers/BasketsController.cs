@@ -32,11 +32,8 @@ public class BasketsController : ControllerBase
     public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
     {
         var options = new DistributedCacheEntryOptions()
-            //set the absolute expiration time.
-            .SetAbsoluteExpiration(DateTime.UtcNow.AddMinutes(10))
-            //a cached object will be expired if it not being requested for a defined amount of time period.
-            //Sliding Expiration should always be set lower than the absolute expiration.
-            .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+            .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10))
+            .SetSlidingExpiration(TimeSpan.FromMinutes(10));
 
         var result = await _basketRepository.UpdateBasket(cart, options);
         return Ok(result);
