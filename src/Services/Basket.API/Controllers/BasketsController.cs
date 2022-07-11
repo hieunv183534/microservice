@@ -32,8 +32,8 @@ public class BasketsController : ControllerBase
     public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
     {
         var options = new DistributedCacheEntryOptions()
-            .SetAbsoluteExpiration(DateTime.UtcNow.AddMinutes(10))
-            .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+            .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10))
+            .SetSlidingExpiration(TimeSpan.FromMinutes(10));
 
         var result = await _basketRepository.UpdateBasket(cart, options);
         return Ok(result);
