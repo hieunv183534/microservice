@@ -143,3 +143,15 @@ services:
     ports:
       - "6004:80"
     restart: always
+  
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "ConnectionStrings:DefaultConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=Passw0rd!"
+    depends_on: 
+      - orderdb
+    ports:
+      - "6005:80"
+    restart: always
