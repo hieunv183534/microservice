@@ -26,7 +26,7 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, ApiResult<L
     {
         _logger.Information($"BEGIN: {MethodName} - Username: {request.UserName}");
         
-        var orderEntities = await _repository.GetOrdersByUserName(request.UserName);
+        var orderEntities = await _repository.GetOrdersByUserNameAsync(request.UserName);
         var orderList = _mapper.Map<List<OrderDto>>(orderEntities);
         
         _logger.Information($"END: {MethodName} - Username: {request.UserName}");

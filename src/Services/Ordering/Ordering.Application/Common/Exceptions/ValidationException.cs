@@ -2,7 +2,7 @@ using FluentValidation.Results;
 
 namespace Ordering.Application.Common.Exceptions;
 
-public class ValidationException : Exception
+public class ValidationException : ApplicationException
 {
     public ValidationException()
         : base("One or more validation failures have occurred.")

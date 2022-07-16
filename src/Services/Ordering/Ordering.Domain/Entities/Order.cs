@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Domains.Interfaces;
-using Ordering.Domain.Enums;
 
 namespace Ordering.Domain.Entities;
 

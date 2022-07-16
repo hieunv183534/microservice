@@ -25,7 +25,7 @@ public class PerformanceBehaviour<TRequest, TResponse> :
 
         var elapsedMilliseconds = _timer.ElapsedMilliseconds;
 
-        if (elapsedMilliseconds <= 500) return response;
+        if (elapsedMilliseconds <= 5000) return response;
         
         var requestName = typeof(TRequest).Name;
         _logger.LogWarning("Application Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
