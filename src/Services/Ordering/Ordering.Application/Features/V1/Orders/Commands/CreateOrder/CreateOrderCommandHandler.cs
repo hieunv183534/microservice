@@ -37,13 +37,13 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Api
         await _orderRepository.SaveChangesAsync();
         _logger.Information($"Order {addedOrder.Id} is successfully created.");
 
-        SendEmailAsync(addedOrder, cancellationToken);
+        SendEmail(addedOrder, cancellationToken);
 
         _logger.Information($"END: {MethodName} - Username: {request.UserName}");
         return new ApiSuccessResult<long>(addedOrder.Id);
     }
 
-    private async Task SendEmailAsync(Order order, CancellationToken cancellationToken)
+    private void SendEmail(Order order, CancellationToken cancellationToken)
     {
         var emailRequest = new MailRequest
         {
@@ -53,8 +53,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Api
         };
 
         try
-        {
-            await _emailService.SendEmailAsync(emailRequest, cancellationToken);
+        { 
+            _emailService.SendEmailAsync(emailRequest, cancellationToken);
             _logger.Information($"Sent Created Order to email {order.EmailAddress}");
         }
         catch (Exception ex)

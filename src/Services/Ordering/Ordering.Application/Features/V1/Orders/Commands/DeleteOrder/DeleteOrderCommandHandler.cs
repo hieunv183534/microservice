@@ -22,7 +22,7 @@ public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand>
         var orderEntity = await _orderRepository.GetByIdAsync(request.Id);
         if (orderEntity == null) throw new NotFoundException(nameof(Order), request.Id);
 
-        await _orderRepository.DeleteAsync(orderEntity);
+        _orderRepository.DeleteAsync(orderEntity);
         _orderRepository.SaveChangesAsync();
 
         _logger.Information($"Order {orderEntity.Id} was successfully deleted.");

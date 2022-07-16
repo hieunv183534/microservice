@@ -36,7 +36,7 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Api
         
         orderEntity = _mapper.Map(request, orderEntity);
         var updatedOrder = await _orderRepository.UpdateOrderAsync(orderEntity);
-        await _orderRepository.SaveChangesAsync();
+        _orderRepository.SaveChangesAsync();
         _logger.Information($"Order {request.Id} was successfully updated.");
         var result = _mapper.Map<OrderDto>(updatedOrder);
         
