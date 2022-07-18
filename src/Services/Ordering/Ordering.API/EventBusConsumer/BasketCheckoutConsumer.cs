@@ -2,6 +2,7 @@ using AutoMapper;
 using EventBus.MessageComponents.Consumers.Basket;
 using MassTransit;
 using MediatR;
+using Ordering.Application.Features.V1.Orders;
 using ILogger = Serilog.ILogger;
 
 namespace Ordering.API.EventBusConsumer;
@@ -19,10 +20,11 @@ public class BasketCheckoutConsumer : IBasketCheckoutConsumer
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
     
-    public Task Consume(ConsumeContext<BasketCheckoutEvent> context)
+    public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
     {
-        _logger.Information("BasketCheckoutEvent consumed successfully. Id: {MessageId}", context.Message.Id);
-        
-        return Task.CompletedTask;
+        var command = _mapper.Map<CreateOrderCommand>(context.Message);
+        var result = await _mediator.Send(command);
+        _logger.Information("BasketCheckoutEvent consumed successfully. " +
+                            "Order is created with Id: {newOrderId}", result.Data);
     }
 }

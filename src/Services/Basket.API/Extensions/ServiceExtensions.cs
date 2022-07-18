@@ -47,7 +47,7 @@ public static class ServiceExtensions
     {
         var settings = services.GetOptions<EventBusSettings>("EventBusSettings");
         if (settings == null || string.IsNullOrEmpty(settings.HostAddress) ||
-            string.IsNullOrEmpty(settings.HostAddress)) throw new Exception("EventBusSettings is not configured!");
+            string.IsNullOrEmpty(settings.HostAddress)) throw new ArgumentNullException("EventBusSettings is not configured!");
 
         var mqConnection = new Uri(settings.HostAddress);
         

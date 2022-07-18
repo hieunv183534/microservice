@@ -48,8 +48,10 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Api
         var emailRequest = new MailRequest
         {
             ToAddress = order.EmailAddress,
-            Body = "Order was created.",
-            Subject = "Order was created"
+            Body = $"Your order detail. " +
+                   $"<p> Order Id: {order.Id}</p>" +
+                   $"<p> Total: {order.TotalPrice}</p>",
+            Subject = $"Hello {order.FullName}, your order was created"
         };
 
         try
