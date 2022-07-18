@@ -1,6 +1,7 @@
 using Basket.API.Repositories;
 using Basket.API.Repositories.Interfaces;
 using Contracts.Common.Interfaces;
+using EventBus.Messages;
 using Infrastructure.Common;
 using Infrastructure.Configurations;
 using MassTransit;
@@ -57,6 +58,8 @@ public static class ServiceExtensions
             {
                 cfg.Host(mqConnection);
             });
+            // Publish submit order message, instead of sending it to a specific queue directly.
+            config.AddRequestClient<IBasketCheckoutEvent>();
         });
     }
 }
