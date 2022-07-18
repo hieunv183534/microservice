@@ -16,6 +16,7 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Host.UseSerilog(Serilogger.Configure);
     builder.Host.AddAppConfigurations();
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
@@ -27,15 +28,7 @@ try
         => options.LowercaseUrls = true);
     
     // configure Mass Transit
-    // Use snake-like-names for queues
-    builder.Services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
-    builder.Services.AddMassTransit(config =>
-    {
-        config.UsingRabbitMq((ctx, cfg) =>
-        {
-            cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
-        });
-    });
+    builder.Services.ConfigureMassTransit();
 
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
