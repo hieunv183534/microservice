@@ -1,7 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using AutoMapper;
 using Basket.API.Entities;
 using Basket.API.Repositories.Interfaces;
+using EventBus.MessageComponents.Consumers.Basket;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -12,10 +15,14 @@ namespace Basket.API.Controllers;
 public class BasketsController : ControllerBase
 {
     private readonly IBasketRepository _basketRepository;
+    private readonly IMapper _mapper;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public BasketsController(IBasketRepository basketRepository)
+    public BasketsController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
-        _basketRepository = basketRepository;
+        _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
+        _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [HttpGet("{username}", Name = "GetBasket")]
@@ -45,5 +52,24 @@ public class BasketsController : ControllerBase
     {
         var result = await _basketRepository.DeleteBasketFromUserName(username);
         return Ok(result);
+    }
+
+    [Route("[action]")]
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+    {
+        var basket = await _basketRepository.GetBasketByUserName(basketCheckout.UserName);
+        if (basket == null) return NotFound();
+        
+        //publish checkout event to EventBus Message
+        var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+        eventMessage.TotalPrice = basket.TotalPrice;
+        await _publishEndpoint.Publish(eventMessage);
+        //remove the basket
+        // await _basketRepository.DeleteBasketFromUserName(basket.Username);
+        
+        return Accepted();
     }
 }

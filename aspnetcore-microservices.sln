@@ -71,6 +71,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{63
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Messages", "src\BuildingBlocks\EventBus\EventBus.Messages\EventBus.Messages.csproj", "{CD3A76D3-B301-4587-BA2F-AA4C8A2307D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.MessageComponents", "src\BuildingBlocks\EventBus\EventBus.MessageComponents\EventBus.MessageComponents.csproj", "{B77E18B6-58E0-4511-9FDE-922012779053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,7 @@ Global
 		{0187A810-2908-4DC6-858E-BDFEA0CF3BED} = {4A4D6FD1-1E96-4C9F-A2F0-D8BABB5D58AA}
 		{63EC954F-569D-4EA5-AF92-420F8C0B0E6C} = {2D8FB126-B25D-4927-A831-69710F5AA913}
 		{CD3A76D3-B301-4587-BA2F-AA4C8A2307D4} = {63EC954F-569D-4EA5-AF92-420F8C0B0E6C}
+		{B77E18B6-58E0-4511-9FDE-922012779053} = {63EC954F-569D-4EA5-AF92-420F8C0B0E6C}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E935D43-600D-419E-AB64-CD9DCA91BC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -175,5 +178,9 @@ Global
 		{CD3A76D3-B301-4587-BA2F-AA4C8A2307D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD3A76D3-B301-4587-BA2F-AA4C8A2307D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD3A76D3-B301-4587-BA2F-AA4C8A2307D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B77E18B6-58E0-4511-9FDE-922012779053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B77E18B6-58E0-4511-9FDE-922012779053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B77E18B6-58E0-4511-9FDE-922012779053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B77E18B6-58E0-4511-9FDE-922012779053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
