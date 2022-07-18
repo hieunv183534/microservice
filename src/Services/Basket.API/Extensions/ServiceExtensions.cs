@@ -17,6 +17,9 @@ public static class ServiceExtensions
         var eventBusSettings = configuration.GetSection(nameof(EventBusSettings))
             .Get<EventBusSettings>();
         services.AddSingleton(eventBusSettings);
+        var cacheSettings = configuration.GetSection(nameof(CacheSettings))
+            .Get<CacheSettings>();
+        services.AddSingleton(cacheSettings);
 
         return services;
     }
@@ -28,14 +31,14 @@ public static class ServiceExtensions
 
     public static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        var redisConnectionString = configuration.GetSection("CacheSettings:ConnectionString").Value;
-        if (string.IsNullOrEmpty(redisConnectionString))
+        var settings = services.GetOptions<CacheSettings>("CacheSettings");
+        if (string.IsNullOrEmpty(settings.ConnectionString))
             throw new ArgumentNullException("Redis Connection string is not configured.");
         
         //Redis Configuration
         services.AddStackExchangeRedisCache(options =>
         {
-            options.Configuration = redisConnectionString;
+            options.Configuration = settings.ConnectionString;
         });
     }
 
