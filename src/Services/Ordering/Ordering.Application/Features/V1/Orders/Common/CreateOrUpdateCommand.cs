@@ -13,7 +13,13 @@ public class CreateOrUpdateCommand : IMapFrom<Order>
     public string EmailAddress { get; set; }
 
     public string ShippingAddress { get; set; }
-    public string InvoiceAddress { get; set; }
+
+    private string _invoiceAddress;
+    public string? InvoiceAddress
+    {
+        get => _invoiceAddress;
+        set => _invoiceAddress = value ?? ShippingAddress;
+    }
     
     public void Mapping(Profile profile)
     {

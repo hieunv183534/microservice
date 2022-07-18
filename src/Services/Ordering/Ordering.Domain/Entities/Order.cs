@@ -30,4 +30,5 @@ public class Order : EntityAuditBase<long>
 
     public EOrderStatus Status { get; set; }
 
+    [NotMapped] public string FullName => FirstName + " " + LastName;
 }
