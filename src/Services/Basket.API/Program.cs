@@ -31,8 +31,6 @@ try
     builder.Services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
     builder.Services.AddMassTransit(config =>
     {
-        // Allow Mass Transit to scan all the types instead of manually adding them all
-        config.AddConsumersFromNamespaceContaining<IBasketCheckoutConsumer>();
         config.UsingRabbitMq((ctx, cfg) =>
         {
             cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
