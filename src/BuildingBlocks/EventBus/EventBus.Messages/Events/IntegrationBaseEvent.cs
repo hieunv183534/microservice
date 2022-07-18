@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace EventBus.Messages.Events;
 
-public record IntegrationBaseEvent
+public record IntegrationBaseEvent : IIntegrationEvent
 {
     public IntegrationBaseEvent()
     {
