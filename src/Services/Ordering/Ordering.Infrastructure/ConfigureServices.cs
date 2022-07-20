@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Infrastructure.Persistence;
+using Ordering.Infrastructure.Persistence.Interceptors;
 using Ordering.Infrastructure.Repositories;
 using Shared.Services.Email;
 
@@ -18,6 +19,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<EntitySaveChangesInterceptor>();
         services.AddDbContext<OrderContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"),

@@ -2,13 +2,16 @@ using System.Reflection;
 using Contracts.Domains.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Domain.Entities;
+using Ordering.Infrastructure.Persistence.Interceptors;
 
 namespace Ordering.Infrastructure.Persistence;
 
 public class OrderContext : DbContext
 {
-    public OrderContext(DbContextOptions<OrderContext> options) : base(options)
+    private readonly EntitySaveChangesInterceptor _entitySaveChangesInterceptor;
+    public OrderContext(DbContextOptions<OrderContext> options, EntitySaveChangesInterceptor entitySaveChangesInterceptor) : base(options)
     {
+        _entitySaveChangesInterceptor = entitySaveChangesInterceptor;
     }
     
     public DbSet<Order> Orders { get; set; }
@@ -19,37 +22,14 @@ public class OrderContext : DbContext
         
         base.OnModelCreating(modelBuilder);
     }
-    
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var modified = ChangeTracker.Entries()
-            .Where(e => e.State == EntityState.Modified ||
-                        e.State == EntityState.Added ||
-                        e.State == EntityState.Deleted);
+        optionsBuilder.AddInterceptors(_entitySaveChangesInterceptor);
+    }
 
-        foreach (var item in modified)
-        {
-            switch (item.State)
-            {
-                case EntityState.Added:
-                    if (item.Entity is IDateTracking addedEntity)
-                    {
-                        addedEntity.CreatedDate = DateTime.UtcNow;
-                        item.State = EntityState.Added;
-                    }
-                    break;
-            
-                case EntityState.Modified:
-                    Entry(item.Entity).Property("Id").IsModified = false;
-                    if (item.Entity is IDateTracking modifiedEntity)
-                    {
-                        modifiedEntity.LastModifiedDate = DateTime.UtcNow;
-                        item.State = EntityState.Modified;
-                    }
-                    break; 
-            }
-        }
-
-        return base.SaveChangesAsync(cancellationToken);
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }
