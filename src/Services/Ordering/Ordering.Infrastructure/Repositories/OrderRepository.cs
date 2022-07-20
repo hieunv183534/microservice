@@ -1,9 +1,11 @@
 using Contracts.Common.Interfaces;
 using Infrastructure.Common;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Domain.Entities;
 using Ordering.Infrastructure.Persistence;
+using Serilog;
 
 namespace Ordering.Infrastructure.Repositories;
 
@@ -28,4 +30,6 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
         await UpdateAsync(order);
         return order;
     }
+
+
 }

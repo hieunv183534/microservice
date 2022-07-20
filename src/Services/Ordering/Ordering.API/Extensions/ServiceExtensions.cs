@@ -1,5 +1,6 @@
 using EventBus.MessageComponents.Consumers.Basket;
 using Infrastructure.Configurations;
+using Infrastructure.Extensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ordering.API.EventBusConsumer;

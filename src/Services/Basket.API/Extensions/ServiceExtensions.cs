@@ -3,7 +3,7 @@ using Basket.API.Repositories.Interfaces;
 using Contracts.Common.Interfaces;
 using EventBus.Messages;
 using Infrastructure.Common;
-using Infrastructure.Configurations;
+using Infrastructure.Extensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;

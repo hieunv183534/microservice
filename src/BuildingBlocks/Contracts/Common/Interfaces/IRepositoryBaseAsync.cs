@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Contracts.Domain.SeedWork;
 using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -20,10 +21,9 @@ public interface IRepositoryQueryBase<T, in K> where T : EntityBase<K>
 public interface IRepositoryQueryBase<T, K, TContext> : IRepositoryQueryBase<T, K> where T : EntityBase<K>
     where TContext : DbContext
 {
-    
 }
 
-public interface IRepositoryBaseAsync<T, K> : IRepositoryQueryBase<T, K>
+public interface IRepositoryBaseAsync<T, K> : IAggregateRoot, IRepositoryQueryBase<T, K>
     where T : EntityBase<K>
 {
     Task<K> CreateAsync(T entity);

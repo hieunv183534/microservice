@@ -1,9 +1,11 @@
 using Contracts.Common.Interfaces;
 using Infrastructure.Common;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Product.API.Entities;
 using Product.API.Persistence;
 using Product.API.Repositories.Interfaces;
+using ILogger = Serilog.ILogger;
 
 namespace Product.API.Repositories;
 
@@ -12,7 +14,7 @@ public class ProductRepository : RepositoryBase<CatalogProduct, long, ProductCon
     public ProductRepository(ProductContext dbContext, IUnitOfWork<ProductContext> unitOfWork) : base(dbContext, unitOfWork)
     {
     }
-
+   
     public async Task<IEnumerable<CatalogProduct>> GetProducts() => await FindAll().ToListAsync();
 
     public Task<CatalogProduct> GetProduct(long id) => GetByIdAsync(id);

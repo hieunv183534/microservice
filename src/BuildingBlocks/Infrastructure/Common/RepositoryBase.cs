@@ -1,7 +1,10 @@
 using Contracts.Common.Interfaces;
 using Contracts.Domains;
+using Infrastructure.Extensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Serilog;
 
 namespace Infrastructure.Common;
 

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Configurations;
+namespace Infrastructure.Extensions;
 
 public static class ConfigurationExtensions
 {
