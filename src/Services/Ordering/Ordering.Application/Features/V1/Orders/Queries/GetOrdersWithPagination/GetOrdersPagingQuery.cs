@@ -4,9 +4,9 @@ using Shared.SeedWork;
 
 namespace Ordering.Application.Features.V1.Orders;
 
-public class GetOrdersWithPaginationQuery : PagingRequestParameters, IRequest<PagedList<OrderDto>>
+public class GetOrdersPagingQuery : PagingRequestParameters, IRequest<PagedList<OrderDto>>
 {
-    public GetOrdersWithPaginationQuery()
+    public GetOrdersPagingQuery()
     {
         OrderBy = "CreatedDate Desc";
     }
