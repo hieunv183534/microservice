@@ -1,9 +1,13 @@
 using Contracts.Common.Interfaces;
 using Infrastructure.Common;
+using Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Common.Interfaces;
+using Ordering.Application.Features.V1.Orders;
 using Ordering.Domain.Entities;
+using Ordering.Infrastructure.Extensions;
 using Ordering.Infrastructure.Persistence;
+using Shared.SeedWork;
 
 namespace Ordering.Infrastructure.Repositories;
 
@@ -11,6 +15,13 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
 {
     public OrderRepository(OrderContext dbContext, IUnitOfWork<OrderContext> unitOfWork) : base(dbContext, unitOfWork)
     {
+    }
+
+    public async Task<PagedList<Order>> GetOrderPagination(GetOrderParameters parameters)
+    {
+        return await FindAll()
+            .Sort(parameters.OrderBy)
+            .PaginatedListAsync(parameters.PageNumber, parameters.PageSize);
     }
 
     public async Task<IEnumerable<Order>> GetOrdersByUserNameAsync(string userName) =>

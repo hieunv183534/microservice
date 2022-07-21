@@ -32,7 +32,7 @@ public class OrdersController : ControllerBase
 
     [HttpGet("", Name = RouteNames.GetOrdersPagination)]
     [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<PagedList<OrderDto>>> GetOrdersPagingQuery([FromQuery] GetOrdersPagingQuery query)
+    public async Task<ActionResult<PagedList<OrderDto>>> GetOrdersPagingQuery([FromQuery] GetOrderPagingQuery query)
     {
         var result = await _mediator.Send(query);
         return Ok(result);
