@@ -1,11 +1,9 @@
 using Contracts.Common.Interfaces;
 using Infrastructure.Common;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Domain.Entities;
 using Ordering.Infrastructure.Persistence;
-using Serilog;
 
 namespace Ordering.Infrastructure.Repositories;
 
@@ -19,11 +17,7 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
         await FindByCondition(x => x.UserName.Equals(userName))
             .ToListAsync();
 
-    public async Task<Order> CreateOrderAsync(Order order)
-    {
-        await CreateAsync(order); 
-        return order;
-    }
+    public void CreateOrder(Order order) => Create(order);
 
     public async Task<Order> UpdateOrderAsync(Order order)
     {
@@ -31,5 +25,5 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
         return order;
     }
 
-
+    public void DeleteOrder(Order order) => Delete(order);
 }

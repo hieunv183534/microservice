@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace Ordering.Application.Common.Exceptions;
+namespace Infrastructure.Exceptions;
 
 public class ValidationException : ApplicationException
 {
@@ -15,8 +15,7 @@ public class ValidationException : ApplicationException
     {
         Errors = failures
             .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-            .ToDictionary(failureGroup => 
-                failureGroup.Key, failureGroup => failureGroup.ToArray());
+            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
     }
 
     public IDictionary<string, string[]> Errors { get; }

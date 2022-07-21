@@ -6,6 +6,7 @@ using Customer.API.Repositories;
 using Customer.API.Repositories.Interfaces;
 using Customer.API.Services;
 using Customer.API.Services.Interfaces;
+using Infrastructure.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -49,6 +50,8 @@ try
                 $"{builder.Environment.ApplicationName} v1"));
         });
     }
+
+    app.UseMiddleware<ErrorWrappingMiddleware>();
 
     // app.UseHttpsRedirection(); //production only
 

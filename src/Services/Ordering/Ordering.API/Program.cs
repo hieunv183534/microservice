@@ -1,4 +1,5 @@
 using Common.Logging;
+using Infrastructure.Middlewares;
 using Ordering.API.Extensions;
 using Ordering.Application;
 using Ordering.Infrastructure;
@@ -21,15 +22,13 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration);
-    // builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
-    // builder.Services.AddScoped<ISerializeService, SerializeService>();
     builder.Services.ConfigureMassTransit();
 
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-
+    
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -49,6 +48,8 @@ try
         await orderContextSeed.SeedAsync();
     }
 
+    app.UseMiddleware<ErrorWrappingMiddleware>();
+    
     // app.UseHttpsRedirection(); //production only
     app.UseRouting();
 

@@ -13,7 +13,10 @@ public class Order : BaseAuditableEventEntity, IAggregateRoot, IBaseEventEntity
     [Column(TypeName = "nvarchar(150)")]
     public string UserName { get; set; }
 
-    [Column(TypeName = "decimal(10,2)")] public decimal TotalPrice { get; set; }
+    public Guid DocumentNo { get; set; } = Guid.NewGuid();
+
+    [Column(TypeName = "decimal(10,2)")] 
+    public decimal TotalPrice { get; set; }
 
     [Required]
     [Column(TypeName = "nvarchar(50)")]
@@ -28,18 +31,22 @@ public class Order : BaseAuditableEventEntity, IAggregateRoot, IBaseEventEntity
     [Column(TypeName = "nvarchar(250)")]
     public string EmailAddress { get; set; }
 
-    [Column(TypeName = "nvarchar(max)")] public string ShippingAddress { get; set; }
-    [Column(TypeName = "nvarchar(max)")] public string InvoiceAddress { get; set; }
+    [Column(TypeName = "nvarchar(max)")] 
+    public string ShippingAddress { get; set; }
+    
+    [Column(TypeName = "nvarchar(max)")] 
+    public string InvoiceAddress { get; set; }
 
     public EOrderStatus Status { get; set; }
 
-    [NotMapped] public string FullName => FirstName + " " + LastName;
+    [NotMapped]
+    public string FullName => FirstName + " " + LastName;
 
     public Order AddedOrder()
     {
-        AddDomainEvent(new OrderCreatedEvent(userName: UserName, totalPrice: TotalPrice,
+        AddDomainEvent(new OrderCreatedEvent(id: Id, userName: UserName, emailAddress: EmailAddress, fullName: FullName, totalPrice: TotalPrice,
             shippingAddress: ShippingAddress,
-            invoiceAddress: InvoiceAddress));
+            invoiceAddress: InvoiceAddress, DocumentNo.ToString()));
         return this;
     }
     

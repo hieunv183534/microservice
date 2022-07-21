@@ -2,6 +2,7 @@ using Basket.API;
 using Basket.API.Extensions;
 using Common.Logging;
 using EventBus.MessageComponents.Consumers.Basket;
+using Infrastructure.Middlewares;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
@@ -45,6 +46,7 @@ try
             $"{builder.Environment.ApplicationName} v1"));
     }
 
+    app.UseMiddleware<ErrorWrappingMiddleware>();
     // app.UseHttpsRedirection();
 
     app.UseAuthorization();

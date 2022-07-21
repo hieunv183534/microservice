@@ -24,7 +24,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
-        var products = await _repository.GetProducts();
+        var products = await _repository.GetProductsAsync();
         var result = _mapper.Map<IEnumerable<ProductDto>>(products);
         return Ok(result);
     }
@@ -32,9 +32,8 @@ public class ProductsController : ControllerBase
     [HttpGet("{id:long}")]
     public async Task<IActionResult> GetProduct([Required] long id)
     {
-        var product = await _repository.GetProduct(id);
-        if (product == null)
-            return NotFound();
+        var product = await _repository.GetProductAsync(id);
+        if (product == null) return NotFound();
         
         var result = _mapper.Map<ProductDto>(product);
         return Ok(result);
@@ -43,12 +42,11 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto productDto)
     {
-        var productEntity = await _repository.GetProductByNo(productDto.No);
+        var productEntity = await _repository.GetProductByNoAsync(productDto.No);
         if (productEntity != null) return BadRequest($"Product No: {productDto.No} is existed.");
         
         var product = _mapper.Map<CatalogProduct>(productDto);
-        await _repository.CreateProduct(product);
-        await _repository.SaveChangesAsync();
+        await _repository.CreateProductAsync(product);
         var result = _mapper.Map<ProductDto>(product);
         return Ok(result);
     }
@@ -56,13 +54,11 @@ public class ProductsController : ControllerBase
     [HttpPut("{id:long}")]
     public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
     {
-        var product = await _repository.GetProduct(id);
-        if (product == null)
-            return NotFound();
+        var product = await _repository.GetProductAsync(id);
+        if (product == null) return NotFound();
 
         var updateProduct = _mapper.Map(productDto, product);
-        await _repository.UpdateProduct(updateProduct);
-        await _repository.SaveChangesAsync();
+        await _repository.UpdateProductAsync(updateProduct);
         var result = _mapper.Map<ProductDto>(product);
         return Ok(result);
     }
@@ -70,12 +66,10 @@ public class ProductsController : ControllerBase
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteProduct([Required] long id)
     {
-        var product = await _repository.GetProduct(id);
-        if (product == null)
-            return NotFound();
+        var product = await _repository.GetProductAsync(id);
+        if (product == null) return NotFound();
 
-        await _repository.DeleteProduct(id);
-        await _repository.SaveChangesAsync();
+        await _repository.DeleteProductAsync(id);
         return NoContent();
     }
         
@@ -86,9 +80,8 @@ public class ProductsController : ControllerBase
     [HttpGet("get-product-by-no/{productNo}")]
     public async Task<IActionResult> GetProductByNo([Required] string productNo)
     {
-        var product = await _repository.GetProductByNo(productNo);
-        if (product == null)
-            return NotFound();
+        var product = await _repository.GetProductByNoAsync(productNo);
+        if (product == null) return NotFound();
         
         var result = _mapper.Map<ProductDto>(product);
         return Ok(result);

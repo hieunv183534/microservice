@@ -14,16 +14,10 @@ public static class MediatorExtensions
 
         var domainEntities = context.ChangeTracker.Entries();
 
-        // var domainEntities = context.ChangeTracker
-        //     .Entries<IBaseEventEntity>()
-        //     .Where(x => x.Entity.DomainEvents.Any())
-        //     .Select(x => x.Entity);
-
         foreach (var item in domainEntities)
         {
             if (item.Entity is IBaseEventEntity eventEntity)
             {
-                // eventEntity.ClearDomainEvents();
                 var domainEvents = eventEntity.DomainEvents.ToList();
                 foreach (var domainEvent in domainEvents)
                 {
