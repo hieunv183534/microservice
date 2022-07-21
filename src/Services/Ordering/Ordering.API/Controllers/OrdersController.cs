@@ -22,6 +22,7 @@ public class OrdersController : ControllerBase
     private static class RouteNames
     {
         public const string GetOrders = nameof(GetOrders);
+        public const string GetOrdersPagination = nameof(GetOrdersPagination);
         public const string CreateOrder = nameof(CreateOrder);
         public const string UpdateOrder = nameof(UpdateOrder);
         public const string DeleteOrder = nameof(DeleteOrder);
@@ -29,6 +30,14 @@ public class OrdersController : ControllerBase
 
     #region CRUD
 
+    [HttpGet("", Name = RouteNames.GetOrdersPagination)]
+    [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<PagedList<OrderDto>>> GetOrdersByUserName([FromQuery] GetOrdersWithPaginationQuery query)
+    {
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+    
     [HttpGet("{username}", Name = RouteNames.GetOrders)]
     [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required] string username)

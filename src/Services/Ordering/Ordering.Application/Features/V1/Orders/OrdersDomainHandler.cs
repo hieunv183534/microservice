@@ -6,7 +6,7 @@ using Shared.Services.Email;
 
 namespace Ordering.Application.Features.V1.Orders;
 
-public class OrdersDomainHandler : 
+public class OrdersDomainHandler :
     INotificationHandler<OrderCreatedEvent>,
     INotificationHandler<OrderDeletedEvent>
 {

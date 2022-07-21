@@ -1,5 +1,4 @@
 using AutoMapper;
-using Contracts.Services;
 using MediatR;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Domain.Entities;
@@ -29,11 +28,11 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Api
     {
         _logger.Information($"BEGIN: {MethodName} - Username: {request.UserName}");
         var orderEntity = _mapper.Map<Order>(request);
-        // await _orderRepository.CreateAsync(orderEntity); //get added order it
+        // await _orderRepository.CreateAsync(orderEntity); //get added Order id
         _orderRepository.CreateOrder(orderEntity);
         orderEntity.AddedOrder();
         await _orderRepository.SaveChangesAsync();
-        _logger.Information($"Order {orderEntity.Id} - Document No: {orderEntity.DocumentNo} is successfully created.");
+        _logger.Information($"Order {orderEntity.Id} - Document No: {orderEntity.DocumentNo} was successfully created.");
 
         _logger.Information($"END: {MethodName} - Username: {request.UserName}");
         return new ApiSuccessResult<long>(orderEntity.Id);
