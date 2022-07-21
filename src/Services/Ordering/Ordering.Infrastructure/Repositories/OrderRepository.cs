@@ -21,6 +21,7 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
     {
         return await FindAll()
             .Sort(parameters.OrderBy)
+            .Search(parameters.SearchTerm)
             .PaginatedListAsync(parameters.PageNumber, parameters.PageSize);
     }
 

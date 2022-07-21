@@ -18,4 +18,16 @@ public static class OrderRepositoryExtensions
 
         return parameter.OrderBy(orderQuery);
     }
+    
+    public static IQueryable<Order> Search(this IQueryable<Order> items, string searchTerm)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+            return items;
+
+        var lowerCaseTerm = searchTerm.Trim()
+            .ToLower();
+
+        return items.Where(e => e.UserName.ToLower()
+            .Contains(lowerCaseTerm));
+    }
 }
