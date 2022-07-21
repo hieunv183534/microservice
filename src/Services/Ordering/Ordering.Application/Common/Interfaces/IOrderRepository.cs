@@ -7,6 +7,7 @@ namespace Ordering.Application.Common.Interfaces;
 
 public interface IOrderRepository : IRepositoryBaseAsync<Order, long>
 {
+    IQueryable<Order> GetOrderPaginationQueryable(GetOrderParameters parameters);
     Task<PagedList<Order>> GetOrderPagination(GetOrderParameters parameters);
     Task<IEnumerable<Order>> GetOrdersByUserNameAsync(string userName);
     void CreateOrder(Order order);

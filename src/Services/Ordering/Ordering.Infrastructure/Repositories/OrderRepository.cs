@@ -17,12 +17,22 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
     {
     }
 
+    public IQueryable<Order> GetOrderPaginationQueryable(GetOrderParameters parameters)
+    {
+        return FindAll()
+            .Sort(parameters.OrderBy)
+            .Search(parameters.SearchTerm);
+    }
+
     public async Task<PagedList<Order>> GetOrderPagination(GetOrderParameters parameters)
     {
-        return await FindAll()
-            .Sort(parameters.OrderBy)
-            .Search(parameters.SearchTerm)
+        return await GetOrderPaginationQueryable(parameters)
             .PaginatedListAsync(parameters.PageNumber, parameters.PageSize);
+        
+        // return await FindAll()
+        //     .Sort(parameters.OrderBy)
+        //     .Search(parameters.SearchTerm)
+        //     .PaginatedListAsync(parameters.PageNumber, parameters.PageSize);
     }
 
     public async Task<IEnumerable<Order>> GetOrdersByUserNameAsync(string userName) =>

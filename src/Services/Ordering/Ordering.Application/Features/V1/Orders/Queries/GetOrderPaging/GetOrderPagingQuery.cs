@@ -4,7 +4,7 @@ using Shared.SeedWork;
 
 namespace Ordering.Application.Features.V1.Orders;
 
-public class GetOrderPagingQuery : GetOrderParameters, IRequest<PagedList<OrderDto>>
+public class GetOrderPagingQuery : GetOrderParameters, IRequest<ApiResult<PagedList<OrderDto>>>
 {
    
 }

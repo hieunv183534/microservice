@@ -42,7 +42,7 @@ public class OrdersController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required] string username)
     {
-        var query = new GetOrdersQuery(username);
+        var query = new GetOrdersByUserNameQuery(username);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
