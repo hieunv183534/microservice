@@ -1,4 +1,4 @@
-using Contracts.Common.Interfaces;
+using Contracts.Domains.Interfaces;
 using Infrastructure.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

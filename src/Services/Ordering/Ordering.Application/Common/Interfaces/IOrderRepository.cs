@@ -1,4 +1,4 @@
-using Contracts.Common.Interfaces;
+using Contracts.Domains.Interfaces;
 using Ordering.Application.Features.V1.Orders;
 using Ordering.Domain.Entities;
 using Shared.SeedWork;
