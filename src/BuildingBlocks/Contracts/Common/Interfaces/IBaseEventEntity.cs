@@ -1,17 +1,16 @@
 using Contracts.Common.Events;
+using Contracts.Domains.Interfaces;
 
 namespace Contracts.Common.Interfaces;
 
-public interface IBaseEventEntity : IBaseEventEntity<long>
+public interface IBaseEventEntity
 {
-   
-}
-
-public interface IBaseEventEntity<T>
-{
-    T Id { get; set; }
     void AddDomainEvent(BaseEvent domainEvent);
     void RemoveDomainEvent(BaseEvent domainEvent);
     void ClearDomainEvents();
     IReadOnlyCollection<BaseEvent> DomainEvents { get; }
+}
+
+public interface IBaseEventEntity<T> : IEntityBase<T>, IBaseEventEntity
+{
 }

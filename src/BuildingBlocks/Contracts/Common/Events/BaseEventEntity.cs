@@ -4,10 +4,6 @@ using Contracts.Domains;
 
 namespace Contracts.Common.Events;
 
-public abstract class BaseEventEntity : BaseEventEntity<long>
-{
-}
-
 public abstract class BaseEventEntity<T> : EntityBase<T>, IBaseEventEntity<T>
 {
     private readonly List<BaseEvent> _domainEvents = new();
