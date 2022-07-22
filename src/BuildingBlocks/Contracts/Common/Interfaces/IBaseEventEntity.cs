@@ -1,3 +1,5 @@
+using Contracts.Common.Events;
+
 namespace Contracts.Common.Interfaces;
 
 public interface IBaseEventEntity : IBaseEventEntity<long>

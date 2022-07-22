@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Common.Interfaces;
 using Contracts.Domains;
 
-namespace Contracts.Common;
+namespace Contracts.Common.Events;
 
 public abstract class BaseEventEntity : BaseEventEntity<long>
 {

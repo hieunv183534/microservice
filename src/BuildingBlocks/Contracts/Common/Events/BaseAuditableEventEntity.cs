@@ -1,6 +1,6 @@
 using Contracts.Domains.Interfaces;
 
-namespace Contracts.Common;
+namespace Contracts.Common.Events;
 
 public abstract class BaseAuditableEventEntity : BaseAuditableEventEntity<long>
 {

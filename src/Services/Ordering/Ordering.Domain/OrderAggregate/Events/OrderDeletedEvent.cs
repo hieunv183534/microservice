@@ -1,4 +1,5 @@
 using Contracts.Common;
+using Contracts.Common.Events;
 
 namespace Ordering.Domain.OrderAggregate.Events;
 
