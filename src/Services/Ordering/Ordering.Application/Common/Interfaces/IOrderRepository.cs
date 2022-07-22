@@ -1,4 +1,4 @@
-using Contracts.Common.Interfaces;
+using Contracts.Domains.Interfaces;
 using Ordering.Domain.Entities;
 
 namespace Ordering.Application.Common.Interfaces;

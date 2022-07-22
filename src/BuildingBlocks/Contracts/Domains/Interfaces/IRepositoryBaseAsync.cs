@@ -4,7 +4,7 @@ using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Contracts.Common.Interfaces;
+namespace Contracts.Domains.Interfaces;
 
 public interface IRepositoryQueryBase<T, in K> where T : EntityBase<K>
 {
