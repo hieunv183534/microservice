@@ -4,7 +4,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Shared.SeedWork;
 
-namespace Infrastructure.Mappings;
+namespace Infrastructure.Extensions;
 
 public static class AutoMapperExtension
 {

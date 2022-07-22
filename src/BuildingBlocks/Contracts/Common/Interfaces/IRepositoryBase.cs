@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Contracts.Domain.SeedWork;
+using Contracts.Common.SeedWork;
 using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -23,7 +23,7 @@ public interface IRepositoryQueryBase<T, K, TContext> : IRepositoryQueryBase<T, 
 {
 }
 
-public interface IRepositoryBaseAsync<T, K> : IAggregateRoot, IRepositoryQueryBase<T, K>
+public interface IRepositoryBase<T, K> : IAggregateRoot, IRepositoryQueryBase<T, K>
     where T : EntityBase<K>
 {
     void Create(T entity);
@@ -44,7 +44,7 @@ public interface IRepositoryBaseAsync<T, K> : IAggregateRoot, IRepositoryQueryBa
     Task RollbackTransactionAsync();
 }
 
-public interface IRepositoryBaseAsync<T, K, TContext> : IRepositoryBaseAsync<T, K>
+public interface IRepositoryBase<T, K, TContext> : IRepositoryBase<T, K>
     where T : EntityBase<K>
     where TContext : DbContext
 {

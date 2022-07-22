@@ -5,7 +5,7 @@ using Shared.SeedWork;
 
 namespace Ordering.Application.Common.Interfaces;
 
-public interface IOrderRepository : IRepositoryBaseAsync<Order, long>
+public interface IOrderRepository : IRepositoryBase<Order, long>
 {
     IQueryable<Order> GetOrderPaginationQueryable(GetOrderParameters parameters);
     Task<PagedList<Order>> GetOrderPagination(GetOrderParameters parameters);

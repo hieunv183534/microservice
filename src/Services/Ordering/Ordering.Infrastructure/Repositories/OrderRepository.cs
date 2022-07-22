@@ -1,6 +1,6 @@
 using Contracts.Common.Interfaces;
 using Infrastructure.Common;
-using Infrastructure.Mappings;
+using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Application.Features.V1.Orders;

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Common;
 using Contracts.Common.Interfaces;
-using Contracts.Domain.SeedWork;
+using Contracts.Common.SeedWork;
 using Ordering.Domain.OrderAggregate.Events;
 
 namespace Ordering.Domain.Entities;

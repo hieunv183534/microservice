@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Infrastructure.Common;
 
 public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext>,
-    IRepositoryBaseAsync<T, K, TContext> 
+    IRepositoryBase<T, K, TContext> 
     where T : EntityBase<K>
     where TContext : DbContext
 {
@@ -72,7 +72,7 @@ public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext
 
     public async Task UpdateListAsync(IEnumerable<T> entities)
     {
-        _dbContext.Set<T>().AddRangeAsync(entities);
+        await _dbContext.Set<T>().AddRangeAsync(entities);
         await SaveChangesAsync();
     }
 

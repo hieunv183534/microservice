@@ -1,4 +1,4 @@
-namespace Contracts.Domain.SeedWork;
+namespace Contracts.Common.SeedWork;
 
 public interface IAggregateRoot
 {

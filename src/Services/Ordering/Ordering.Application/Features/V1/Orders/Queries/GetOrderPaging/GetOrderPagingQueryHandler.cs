@@ -1,6 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Infrastructure.Mappings;
+using Infrastructure.Extensions;
 using MediatR;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Application.Common.Models;
