@@ -1,8 +1,5 @@
-using EventBus.Messages;
+namespace EventBus.Messages.IntegrationEvents.Events;
 
-namespace EventBus.MessageComponents.Consumers.Basket;
-
-/// <inheritdoc cref="EventBus.Messages.Events.IntegrationBaseEvent" />
 public record BasketCheckoutEvent : IntegrationBaseEvent, IBasketCheckoutEvent
 {
     public string UserName { get; set; }
@@ -12,5 +9,4 @@ public record BasketCheckoutEvent : IntegrationBaseEvent, IBasketCheckoutEvent
     public string EmailAddress { get; set; }
     public string ShippingAddress { get; set; }
     public string InvoiceAddress { get; set; }
-   
 }
