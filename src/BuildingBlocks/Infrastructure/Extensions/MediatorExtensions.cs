@@ -1,8 +1,7 @@
-using Contracts.Domain.SeedWork;
+using Contracts.Common.Interfaces;
 using Infrastructure.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace Infrastructure.Extensions;
@@ -11,7 +10,7 @@ public static class MediatorExtensions
 {
     public static async Task DispatchDomainEventAsync(this IMediator mediator, DbContext context, ILogger logger)
     {
-        var domainEntities = context.ChangeTracker.Entries<IAggregateRoot>()
+        var domainEntities = context.ChangeTracker.Entries<IBaseEventEntity>()
             .Select(x => x.Entity)
             .Where(x => x.DomainEvents.Any())
             .ToList();

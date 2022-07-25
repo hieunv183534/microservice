@@ -23,7 +23,7 @@ public interface IRepositoryQueryBase<T, K, TContext> : IRepositoryQueryBase<T, 
 {
 }
 
-public interface IRepositoryBase<T, K> : IAggregateRoot, IRepositoryQueryBase<T, K>
+public interface IRepositoryBase<T, K> : IRepositoryQueryBase<T, K>
     where T : EntityBase<K>
 {
     void Create(T entity);

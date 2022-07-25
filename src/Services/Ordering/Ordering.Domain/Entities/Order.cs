@@ -2,12 +2,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Common.Events;
 using Contracts.Common.Interfaces;
-using Contracts.Common.SeedWork;
 using Ordering.Domain.OrderAggregate.Events;
 
 namespace Ordering.Domain.Entities;
 
-public class Order : BaseAuditableEventEntity<long>, IAggregateRoot, IBaseEventEntity
+public class Order : BaseAuditableEventEntity<long>, IBaseEventEntity
 {
     [Required]
     [Column(TypeName = "nvarchar(150)")]
