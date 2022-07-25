@@ -1,9 +1,8 @@
-using EventBus.MessageComponents.Consumers.Basket;
 using Infrastructure.Configurations;
 using Infrastructure.Extensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Ordering.API.EventBusConsumer;
+using Ordering.API.Application.IntegrationEvents.EventsHandler;
 using Shared.Configurations;
 
 namespace Ordering.API.Extensions;
@@ -34,7 +33,7 @@ public static class ServiceExtensions
         services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
         services.AddMassTransit(config =>
         {
-            config.AddConsumersFromNamespaceContaining<BasketCheckoutConsumer>();
+            config.AddConsumersFromNamespaceContaining<BasketCheckoutEventHandler>();
             config.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(mqConnection);
@@ -49,6 +48,6 @@ public static class ServiceExtensions
             });
         });
 
-        services.AddScoped<IBasketCheckoutConsumer, BasketCheckoutConsumer>();
+        services.AddScoped<BasketCheckoutEventHandler>();
     }
 }

@@ -14,4 +14,8 @@
       <ProjectReference Include="..\EventBus.Messages\EventBus.Messages.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Consumers\Basket\Interfaces" />
+    </ItemGroup>
+
 </Project>

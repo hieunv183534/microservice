@@ -1,5 +1,5 @@
 using AutoMapper;
-using EventBus.MessageComponents.Consumers.Basket;
+using EventBus.Messages.IntegrationEvents.Events;
 using MediatR;
 using Ordering.Application.Common.Mappings;
 using Ordering.Domain.Entities;
@@ -15,6 +15,6 @@ public class CreateOrderCommand : CreateOrUpdateCommand, IRequest<ApiResult<long
     public void Mapping(Profile profile)
     {
         profile.CreateMap<CreateOrderCommand, Order>();
-        profile.CreateMap<CreateOrderCommand, BasketCheckoutEvent>().ReverseMap();
+        profile.CreateMap<BasketCheckoutEvent, CreateOrderCommand>();
     }
 }

@@ -1,10 +1,7 @@
 using Basket.API;
 using Basket.API.Extensions;
 using Common.Logging;
-using EventBus.MessageComponents.Consumers.Basket;
 using Infrastructure.Middlewares;
-using MassTransit;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
