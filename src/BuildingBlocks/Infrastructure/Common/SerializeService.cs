@@ -13,6 +13,7 @@ public class SerializeService : ISerializeService
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             NullValueHandling = NullValueHandling.Ignore,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Converters = new List<JsonConverter>
             {
                 new StringEnumConverter
