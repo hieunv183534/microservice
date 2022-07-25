@@ -7,7 +7,7 @@ using Ordering.Domain.OrderAggregate.Events;
 
 namespace Ordering.Domain.Entities;
 
-public class Order : BaseAuditableEventEntity, IAggregateRoot, IBaseEventEntity
+public class Order : BaseAuditableEventEntity<long>, IAggregateRoot
 {
     [Required]
     [Column(TypeName = "nvarchar(150)")]

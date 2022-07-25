@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Contracts.Common.Interfaces;
+using Contracts.Domain.SeedWork;
 using Contracts.Domains;
 
 namespace Contracts.Common;
 
-public abstract class BaseEventEntity : BaseEventEntity<long>
+public abstract class AggregateRoot : AggregateRoot<long>
 {
 }
 
-public abstract class BaseEventEntity<T> : EntityBase<T>, IBaseEventEntity<T>
+public abstract class AggregateRoot<T> : EntityBase<T>, IAggregateRoot<T>
 {
     private readonly List<BaseEvent> _domainEvents = new();
 

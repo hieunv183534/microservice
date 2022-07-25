@@ -44,8 +44,8 @@ public class OrderContext : DbContext
         // B) Right AFTER committing data (EF SaveChanges) into the DB will make multiple transactions.
         // You will need to handle eventual consistency and compensatory actions in case of failures in any of the Handlers.
 
-        await _mediator.DispatchDomainEventAsync(this, _logger);
         var result = await base.SaveChangesAsync(cancellationToken);
+        await _mediator.DispatchDomainEventAsync(this, _logger);
         
         return result;
     }
