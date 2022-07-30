@@ -1,17 +1,13 @@
 using Contracts.Domains.Interfaces;
-using Contracts.Configurations;
 using Contracts.Services;
 using Infrastructure.Common;
-using Infrastructure.Configurations;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Infrastructure.Persistence;
-using Ordering.Infrastructure.Persistence.Interceptors;
 using Ordering.Infrastructure.Repositories;
-using Shared.Services.Email;
 
 namespace Ordering.Infrastructure;
 
@@ -19,7 +15,6 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<EntitySaveChangesInterceptor>();
         services.AddDbContext<OrderContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"),
