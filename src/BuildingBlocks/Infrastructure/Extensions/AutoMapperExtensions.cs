@@ -20,10 +20,4 @@ public static class AutoMapperExtension
                 expression.ForMember(property.Name, opt => opt.Ignore());
         return expression;
     }
-    
-    public static Task<PagedList<TDestination>> PaginatedListAsync<TDestination>(this IQueryable<TDestination> queryable, int pageNumber, int pageSize) where TDestination : class
-        => PagedList<TDestination>.ToPagedList(queryable.AsNoTracking(), pageNumber, pageSize);
-
-    public static Task<List<TDestination>> ProjectToListAsync<TDestination>(this IQueryable queryable, IConfigurationProvider configuration) where TDestination : class
-        => queryable.ProjectTo<TDestination>(configuration).AsNoTracking().ToListAsync();
 }

@@ -20,7 +20,7 @@ services:
   #infrastructure section
   rabbitmq:
     image: rabbitmq:3-management-alpine
-
+  
   pgadmin:
     image: dpage/pgadmin4
 
@@ -46,17 +46,17 @@ services:
       context: .
       dockerfile: Services/Customer.API/Dockerfile
   
-#  basket.api:
-#    image: ${DOCKER_REGISTRY-}basket-api:${PLATFORM:-linux}-${TAG:-latest}
-#    build:
-#      context: .
-#      dockerfile: Services/Basket.API/Dockerfile
-#  
-#  ordering.api:
-#    image: ${DOCKER_REGISTRY-}ordering-api:${PLATFORM:-linux}-${TAG:-latest}
-#    build:
-#      context: .
-#      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basket-api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Basket.API/Dockerfile
+
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}ordering-api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
 
     
 #network section

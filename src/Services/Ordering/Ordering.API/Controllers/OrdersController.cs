@@ -22,22 +22,13 @@ public class OrdersController : ControllerBase
     private static class RouteNames
     {
         public const string GetOrders = nameof(GetOrders);
-        public const string GetOrdersPagination = nameof(GetOrdersPagination);
-        public const string CreateOrder = nameof(CreateOrder);
+        // public const string CreateOrder = nameof(CreateOrder);
         public const string UpdateOrder = nameof(UpdateOrder);
         public const string DeleteOrder = nameof(DeleteOrder);
     }
 
     #region CRUD
 
-    [HttpGet("", Name = RouteNames.GetOrdersPagination)]
-    [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<PagedList<OrderDto>>> GetOrdersPagingQuery([FromQuery] GetOrderPagingQuery query)
-    {
-        var result = await _mediator.Send(query);
-        return Ok(result);
-    }
-    
     [HttpGet("{username}", Name = RouteNames.GetOrders)]
     [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required] string username)
@@ -47,14 +38,14 @@ public class OrdersController : ControllerBase
         return Ok(result);
     }
     
-    [HttpPost(Name = RouteNames.CreateOrder)]
-    [ProducesResponseType(typeof(ApiResult<long>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ApiResult<long>>> CreateOrder([FromBody]CreateOrderCommand command)
-    {
-        var result = await _mediator.Send(command);
-        return Ok(result);
-    }
-    
+    // [HttpPost(Name = RouteNames.CreateOrder)]
+    // [ProducesResponseType(typeof(ApiResult<long>), (int)HttpStatusCode.OK)]
+    // public async Task<ActionResult<ApiResult<long>>> CreateOrder([FromBody]CreateOrderCommand command)
+    // {
+    //     var result = await _mediator.Send(command);
+    //     return Ok(result);
+    // }
+    //
     [HttpPut("{id:long}",Name = RouteNames.UpdateOrder)]
     [ProducesResponseType(typeof(ApiResult<OrderDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<OrderDto>> UpdateOrder([Required]long id, [FromBody]UpdateOrderCommand command)

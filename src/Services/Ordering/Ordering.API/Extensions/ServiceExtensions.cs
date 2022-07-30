@@ -1,3 +1,4 @@
+using EventBus.Messages.IntegrationEvents.Events;
 using Infrastructure.Configurations;
 using Infrastructure.Extensions;
 using MassTransit;
@@ -28,7 +29,7 @@ public static class ServiceExtensions
         var settings = services.GetOptions<EventBusSettings>("EventBusSettings");
         if (settings == null || string.IsNullOrEmpty(settings.HostAddress))
             throw new ArgumentNullException("EventBusSetting is not configured");
-
+        
         var mqConnection = new Uri(settings.HostAddress);
         services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
         services.AddMassTransit(config =>
@@ -37,17 +38,13 @@ public static class ServiceExtensions
             config.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(mqConnection);
-                // cfg.ReceiveEndpoint("basket-checkout-queue",
-                //     c =>
-                //     {
-                //         c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
-                //     });
-
-                //Auto Configure the endpoints for all defined consumer, saga, and activity types
+                // cfg.ReceiveEndpoint("basket-checkout-queue", c =>
+                // {
+                //     c.ConfigureConsumer<BasketCheckoutEventHandler>(ctx);
+                // });
+                
                 cfg.ConfigureEndpoints(ctx);
             });
         });
-
-        services.AddScoped<BasketCheckoutEventHandler>();
     }
 }
