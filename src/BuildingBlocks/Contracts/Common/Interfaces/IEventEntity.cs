@@ -3,14 +3,14 @@ using Contracts.Domains.Interfaces;
 
 namespace Contracts.Common.Interfaces;
 
-public interface IBaseEventEntity
+public interface IEventEntity
 {
     void AddDomainEvent(BaseEvent domainEvent);
     void RemoveDomainEvent(BaseEvent domainEvent);
     void ClearDomainEvents();
-    IReadOnlyCollection<BaseEvent> DomainEvents { get; }
+    IReadOnlyCollection<BaseEvent> DomainEvents();
 }
 
-public interface IBaseEventEntity<T> : IEntityBase<T>, IBaseEventEntity
+public interface IEventEntity<T> : IEntityBase<T>, IEventEntity
 {
 }

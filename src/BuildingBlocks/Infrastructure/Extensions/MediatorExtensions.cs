@@ -1,26 +1,17 @@
-using Contracts.Common.Interfaces;
+using Contracts.Common.Events;
 using Infrastructure.Common;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Infrastructure.Extensions;
 
 public static class MediatorExtensions
 {
-    public static async Task DispatchDomainEventAsync(this IMediator mediator, DbContext context, ILogger logger)
+    
+    public static async Task DispatchDomainEventAsync(this IMediator mediator,
+        List<BaseEvent> domainEvents, 
+        ILogger logger)
     {
-        var domainEntities = context.ChangeTracker.Entries<IBaseEventEntity>()
-            .Select(x => x.Entity)
-            .Where(x => x.DomainEvents.Any())
-            .ToList();
-        
-        var domainEvents = domainEntities
-            .SelectMany(x => x.DomainEvents)
-            .ToList();
-        
-        domainEntities.ForEach(entity => entity.ClearDomainEvents());
-
         foreach (var domainEvent in domainEvents)
         {
             await mediator.Publish(domainEvent);

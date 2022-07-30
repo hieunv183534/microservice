@@ -6,7 +6,7 @@ using Ordering.Domain.OrderAggregate.Events;
 
 namespace Ordering.Domain.Entities;
 
-public class Order : BaseAuditableEventEntity<long>, IBaseEventEntity
+public class Order : AuditableEventEntity<long>, IEventEntity
 {
     [Required]
     [Column(TypeName = "nvarchar(150)")]
@@ -40,18 +40,19 @@ public class Order : BaseAuditableEventEntity<long>, IBaseEventEntity
 
     [NotMapped]
     public string FullName => FirstName + " " + LastName;
-
+    
     public Order AddedOrder()
     {
-        AddDomainEvent(new OrderCreatedEvent(id: Id, userName: UserName, emailAddress: EmailAddress, fullName: FullName, totalPrice: TotalPrice,
-            shippingAddress: ShippingAddress,
-            invoiceAddress: InvoiceAddress, DocumentNo.ToString()));
+        AddDomainEvent(new OrderCreatedEvent(Id, UserName, 
+            TotalPrice, DocumentNo.ToString(), 
+            EmailAddress, ShippingAddress, 
+            InvoiceAddress, FullName));
         return this;
     }
-    
+
     public Order DeletedOrder()
     {
-        AddDomainEvent(new OrderDeletedEvent(id: Id));
+        AddDomainEvent(new OrderDeletedEvent(Id));
         return this;
     }
 }

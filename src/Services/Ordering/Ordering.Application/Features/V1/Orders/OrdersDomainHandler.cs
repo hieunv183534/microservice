@@ -6,13 +6,12 @@ using Shared.Services.Email;
 
 namespace Ordering.Application.Features.V1.Orders;
 
-public class OrdersDomainHandler :
+public class OrdersDomainHandler : 
     INotificationHandler<OrderCreatedEvent>,
     INotificationHandler<OrderDeletedEvent>
 {
     private readonly ILogger _logger;
     private readonly ISmtpEmailService _emailService;
-
     public OrdersDomainHandler(ILogger logger, ISmtpEmailService emailService)
     {
         _logger = logger;

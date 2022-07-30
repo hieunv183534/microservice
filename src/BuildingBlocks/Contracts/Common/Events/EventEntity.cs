@@ -1,16 +1,12 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Common.Interfaces;
 using Contracts.Domains;
 
 namespace Contracts.Common.Events;
 
-public abstract class BaseEventEntity<T> : EntityBase<T>, IBaseEventEntity<T>
+public class EventEntity<T> : EntityBase<T>, IEventEntity<T>
 {
     private readonly List<BaseEvent> _domainEvents = new();
-
-    [NotMapped]
-    public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
-
+    
     public void AddDomainEvent(BaseEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
@@ -25,4 +21,6 @@ public abstract class BaseEventEntity<T> : EntityBase<T>, IBaseEventEntity<T>
     {
         _domainEvents.Clear();
     }
+
+    public IReadOnlyCollection<BaseEvent> DomainEvents() => _domainEvents.AsReadOnly();
 }

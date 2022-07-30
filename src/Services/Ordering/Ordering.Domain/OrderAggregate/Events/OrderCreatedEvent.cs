@@ -6,24 +6,24 @@ public class OrderCreatedEvent : BaseEvent
 {
     public long Id { get; private set; }
     public string UserName { get; private set; }
-    
     public string DocumentNo { get; private set; }
     public string EmailAddress { get; private set; }
     public decimal TotalPrice { get; private set; }
     public string ShippingAddress { get; private set; }
     public string InvoiceAddress { get; private set; }
-    public string FullName { get; private set; }
+    
+    public string FullName { get; set; }
 
-    public OrderCreatedEvent(long id, string userName, string emailAddress, string fullName, decimal totalPrice, 
-        string shippingAddress, string invoiceAddress, string documentNo)
+    public OrderCreatedEvent(long id, string userName, decimal totalPrice, string documentNo, string emailAddress, string shippingAddress, string invoiceAddress, 
+        string fullName)
     {
         Id = id;
-        UserName = userName;
-        EmailAddress = emailAddress;
-        FullName = fullName;
         TotalPrice = totalPrice;
+        UserName = userName;
+        DocumentNo = documentNo;
+        EmailAddress = emailAddress;
         ShippingAddress = shippingAddress;
         InvoiceAddress = invoiceAddress;
-        DocumentNo = documentNo;
+        FullName = fullName;
     }
 }
