@@ -42,7 +42,6 @@ public static class ServiceExtensions
     {
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
-        services.AddScoped<IInventoryContext, InventoryContext>();
         services.AddScoped<IInventoryRepository, InventoryRepository>();
     }
 }

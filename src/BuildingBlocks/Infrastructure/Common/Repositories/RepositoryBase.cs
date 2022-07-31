@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Common;
+public class RepositoryBase<T, K> : RepositoryQueryBase<T,K> where T : EntityBase<K>
+{
+}
 
 public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext>,
     IRepositoryBase<T, K, TContext> 
