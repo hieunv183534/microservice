@@ -9,5 +9,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<InventoryEntry, InventoryEntryDto>();
+        CreateMap<PurchaseItemDto, InventoryEntry>();
     }
 }

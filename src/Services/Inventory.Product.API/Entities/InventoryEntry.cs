@@ -8,6 +8,15 @@ namespace Inventory.Product.API.Entities;
 [BsonCollection("InventoryEntries")]
 public class InventoryEntry : MongoEntity
 {
+    public InventoryEntry()
+    {
+        DocumentType = EDocumentType.Purchase;
+        DocumentNo = Guid.NewGuid().ToString();
+        ExternalDocumentNo = Guid.NewGuid().ToString();
+    }
+
+    public InventoryEntry(string id) => (Id) = id;
+    
     [BsonElement("documentType")]
     public EDocumentType DocumentType { get; set; }
     
