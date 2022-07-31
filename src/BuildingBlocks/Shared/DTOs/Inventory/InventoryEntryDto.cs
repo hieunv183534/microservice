@@ -2,7 +2,7 @@ using Shared.Enums.Inventory;
 
 namespace Shared.DTOs.Inventory;
 
-public class InventoryEntryDto
+public record InventoryEntryDto
 {
     public string Id { get; set; }
     

@@ -12,7 +12,7 @@ public class InventoryContextSeed
     {
         var databaseName = settings.DatabaseName;
         var database = mongoClient.GetDatabase(databaseName);
-        var inventoryCollection = database.GetCollection<InventoryEntry>("InventoryEntry");
+        var inventoryCollection = database.GetCollection<InventoryEntry>("InventoryEntries");
         if (await inventoryCollection.EstimatedDocumentCountAsync() == 0)
         {
             await inventoryCollection.InsertManyAsync(GetPreconfiguredInventories());
