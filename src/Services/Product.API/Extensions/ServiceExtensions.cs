@@ -6,6 +6,7 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Product.API.Persistence;
 using Product.API.Repositories;
 using Product.API.Repositories.Interfaces;
+using Shared.Configurations;
 
 namespace Product.API.Extensions;
 
@@ -27,9 +28,11 @@ public static class ServiceExtensions
 
     private static IServiceCollection ConfigureProductDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnectionString");
-        var builder = new MySqlConnectionStringBuilder(connectionString);
+        var databaseSettings = configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
+        if (databaseSettings == null || string.IsNullOrEmpty(databaseSettings.ConnectionString))
+            throw new ArgumentNullException("Connection string is not configured.");
         
+        var builder = new MySqlConnectionStringBuilder(databaseSettings.ConnectionString);
         services.AddDbContext<ProductContext>(m => m.UseMySql(builder.ConnectionString, 
             ServerVersion.AutoDetect(builder.ConnectionString), e =>
         {
@@ -44,7 +47,6 @@ public static class ServiceExtensions
     {
         return services.AddScoped(typeof(IRepositoryBase<,,>), typeof(RepositoryBase<,,>))
                 .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
-                .AddScoped<IProductRepository, ProductRepository>()
-            ;
+                .AddScoped<IProductRepository, ProductRepository>();
     }
 }
