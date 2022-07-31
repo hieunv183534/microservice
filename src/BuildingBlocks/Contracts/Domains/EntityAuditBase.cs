@@ -1,6 +1,6 @@
 namespace Contracts.Domains.Interfaces;
 
-public abstract class EntityAuditBase<T> : EntityBase<T>, IAuditable
+public abstract class EntityAuditBase<T> : EntityBase<T>, IEntityAuditBase<T>
 {
     public DateTimeOffset CreatedDate { get; set; }
     
