@@ -27,7 +27,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetInventoryByItemNo([Required]string itemNo)
     {
-        var entities = await _repository.GetInventories(itemNo);
+        var entities = await _repository.GetProductInventories(itemNo);
         var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
         return Ok(result);
     }

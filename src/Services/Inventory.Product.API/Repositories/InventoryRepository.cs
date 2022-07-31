@@ -5,22 +5,18 @@ using MongoDB.Driver;
 
 namespace Inventory.Product.API.Repositories;
 
-public class InventoryRepository :  IInventoryRepository
+public class InventoryRepository : MongoDbRepository, IInventoryRepository
 {
-    // public InventoryRepository(IMongoClient client, DatabaseSettings settings) : base(client, settings)
-    // {
-    // }
-
-    // public async Task<IEnumerable<InventoryEntry>> GetInventories(string itemNo)
-    // {
-    //     var result = await GetCollection<InventoryEntry>()
-    //         .Find(x => x.ItemNo.Equals(itemNo))
-    //         .ToListAsync();
-    //
-    //     return result;
-    // }
-    public Task<IEnumerable<InventoryEntry>> GetInventories(string itemNo)
+    public InventoryRepository(IMongoClient client, DatabaseSettings settings) : base(client, settings)
     {
-        throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<InventoryEntry>> GetProductInventories(string itemNo)
+    {
+        var result = await GetCollection<InventoryEntry>()
+            .Find(x => x.ItemNo.Equals(itemNo))
+            .ToListAsync();
+
+        return result;
     }
 }

@@ -4,5 +4,5 @@ namespace Inventory.Product.API.Repositories.Interfaces;
 
 public interface IInventoryRepository
 {
-    Task<IEnumerable<InventoryEntry>> GetInventories(string itemNo);
+    Task<IEnumerable<InventoryEntry>> GetProductInventories(string itemNo);
 }
