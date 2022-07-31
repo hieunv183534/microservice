@@ -9,6 +9,7 @@ using Customer.API.Services.Interfaces;
 using Infrastructure.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Shared.Configurations;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -28,9 +29,13 @@ try
     builder.Services.AddSwaggerGen();
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
+    var databaseSettings = builder.Configuration.GetSection(nameof(DatabaseSettings))
+        .Get<DatabaseSettings>();
+    if (databaseSettings == null || string.IsNullOrEmpty(databaseSettings.ConnectionString))
+        throw new ArgumentNullException("Connection string is not configured.");
+
     builder.Services.AddDbContext<CustomerContext>(
-        options => options.UseNpgsql(connectionString));
+        options => options.UseNpgsql(databaseSettings.ConnectionString));
     builder.Services.AddScoped<ICustomerRepository, CustomerRepository>()
         .AddScoped<ICustomerService, CustomerService>();
 
