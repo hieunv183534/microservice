@@ -21,7 +21,7 @@ try
     builder.Host.AddAppConfigurations();
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddApplicationServices();
-    builder.Services.AddInfrastructureServices(builder.Configuration);
+    builder.Services.AddInfrastructureServices();
     builder.Services.ConfigureMassTransit();
 
     builder.Services.AddControllers();
