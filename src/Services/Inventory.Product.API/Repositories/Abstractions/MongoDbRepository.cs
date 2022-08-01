@@ -18,11 +18,11 @@ public class MongoDbRepository<T> : IMongoDbRepositoryBase<T> where T : MongoEnt
     {
         return Database
             .WithReadPreference(readPreference ?? ReadPreference.Primary)
-            .GetCollection<T>(GetCollectionName<T>());
+            .GetCollection<T>(GetCollectionName());
     }
 
     protected virtual IMongoCollection<T> Collection =>
-        Database.GetCollection<T>(GetCollectionName<T>());
+        Database.GetCollection<T>(GetCollectionName());
 
     public Task CreateAsync(T entity) => Collection.InsertOneAsync(entity);
 
@@ -39,7 +39,7 @@ public class MongoDbRepository<T> : IMongoDbRepositoryBase<T> where T : MongoEnt
 
     public Task DeleteAsync(string id) => Collection.DeleteOneAsync(x => x.Id.Equals(id));
 
-    private static string GetCollectionName<T>()
+    private static string GetCollectionName()
     {
         return (typeof(T).GetCustomAttributes(typeof(BsonCollectionAttribute), true).FirstOrDefault() as
             BsonCollectionAttribute)?.CollectionName;
