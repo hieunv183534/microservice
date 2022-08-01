@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using Inventory.Product.API.Repositories.Interfaces;
+using Inventory.Product.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs.Inventory;
 
@@ -10,11 +10,11 @@ namespace Inventory.Product.API.Controllers;
 [Route("api/[controller]")]
 public class InventoryController : ControllerBase
 {
-    private readonly IInventoryRepository _repository;
+    private readonly IInventoryService _inventoryService;
 
-    public InventoryController(IInventoryRepository repository)
+    public InventoryController(IInventoryService inventoryService)
     {
-        _repository = repository;
+        _inventoryService = inventoryService;
     }
     
     [Route("items/{itemNo}", Name = "GetAllByItemNo")]
@@ -22,7 +22,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetAllByItemNo([Required]string itemNo)
     {
-        var result = await _repository.GetAllByItemNoAsync(itemNo);
+        var result = await _inventoryService.GetAllByItemNoAsync(itemNo);
         return Ok(result);
     }
     
@@ -31,7 +31,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetAllByItemNoPagingAsync([Required]string itemNo, [FromQuery] GetInventoryPagingQuery query)
     {
-        var result = await _repository
+        var result = await _inventoryService
             .GetAllByItemNoPagingAsync(itemNo, query);
         return Ok(result);
     }
@@ -42,7 +42,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetInventoryById([Required] string id)
     {
-        var result = await _repository.GetAllByIdAsync(id);
+        var result = await _inventoryService.GetAllByIdAsync(id);
         if (result == null) return NotFound();
         
         return Ok(result);
@@ -52,7 +52,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<InventoryEntryDto>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseItemDto model)
     {
-        var result = await _repository.PurchaseItemAsync(itemNo, model);
+        var result = await _inventoryService.PurchaseItemAsync(itemNo, model);
         return Ok(result);
     }
     
@@ -62,9 +62,9 @@ public class InventoryController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteById([Required] string id)
     {
-        var entity = await _repository.GetAllByIdAsync(id);
+        var entity = await _inventoryService.GetAllByIdAsync(id);
         if (entity == null) return NotFound();
-        await _repository.DeleteAsync(id);
+        await _inventoryService.DeleteAsync(id);
         return NoContent();
     }
 }

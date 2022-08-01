@@ -1,7 +1,6 @@
 using Infrastructure.Extensions;
-using Inventory.Product.API.Repositories;
-using Inventory.Product.API.Repositories.Abstractions;
-using Inventory.Product.API.Repositories.Interfaces;
+using Inventory.Product.API.Services;
+using Inventory.Product.API.Services.Interfaces;
 using MongoDB.Driver;
 
 namespace Inventory.Product.API.Extensions;
@@ -41,6 +40,6 @@ public static class ServiceExtensions
     {
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
-        services.AddScoped<IInventoryRepository, InventoryRepository>();
+        services.AddScoped<IInventoryService, InventoryService>();
     }
 }

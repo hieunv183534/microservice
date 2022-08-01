@@ -2,9 +2,9 @@ using Inventory.Product.API.Entities;
 using Inventory.Product.API.Repositories.Abstractions;
 using Shared.DTOs.Inventory;
 
-namespace Inventory.Product.API.Repositories.Interfaces;
+namespace Inventory.Product.API.Services.Interfaces;
 
-public interface IInventoryRepository : IMongoDbRepositoryBase<InventoryEntry>
+public interface IInventoryService : IMongoDbRepositoryBase<InventoryEntry>
 {
     Task<IEnumerable<InventoryEntryDto>> GetAllByItemNoAsync(string itemNo);
     Task<IEnumerable<InventoryEntryDto>> GetAllByItemNoPagingAsync(string itemNo, GetInventoryPagingQuery query);

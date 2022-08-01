@@ -34,7 +34,7 @@ try
 
     app.UseAuthorization();
 
-    app.MapControllers();
+    app.MapDefaultControllerRoute();
 
     app.MigrateDatabase()
         .Run();
