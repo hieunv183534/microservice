@@ -12,7 +12,7 @@ public static class HostExtensions
         var services = scope.ServiceProvider;
         var settings = services.GetService<DatabaseSettings>();
         var mongoClient = services.GetRequiredService<IMongoClient>();
-        new InventoryContextSeed()
+        new InventoryDbSeed()
             .SeedDataAsync(mongoClient, settings)
             .Wait();
         return host;

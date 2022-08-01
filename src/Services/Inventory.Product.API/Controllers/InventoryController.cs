@@ -29,7 +29,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetInventoryByItemNo([Required]string itemNo)
     {
-        var entities = await _mongoDbRepository.GetProductInventories(itemNo);
+        var entities = await _mongoDbRepository.GetAllByItemNoAsync(itemNo);
         var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
         return Ok(result);
     }
@@ -39,7 +39,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetInventoryById([Required] string id)
     {
-        var entity = await _mongoDbRepository.GetProductInventoriesByIdAsync(id);
+        var entity = await _mongoDbRepository.GetAllByIdAsync(id);
         var result = _mapper.Map<InventoryEntryDto>(entity);
         return Ok(result);
     }

@@ -1,12 +1,9 @@
-using Contracts.Domains;
 using Inventory.Product.API.Entities.Abstraction;
 using Inventory.Product.API.Extensions;
-using Inventory.Product.API.Repositories.Interfaces;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace Inventory.Product.API.Repositories;
+namespace Inventory.Product.API.Repositories.Abstractions;
 
 public class MongoDbRepository<T> : IMongoDbRepositoryBase<T> where T : MongoEntity
 {

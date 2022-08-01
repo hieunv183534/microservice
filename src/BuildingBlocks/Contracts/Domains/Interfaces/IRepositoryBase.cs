@@ -1,6 +1,4 @@
 using System.Linq.Expressions;
-using Contracts.Common.SeedWork;
-using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 

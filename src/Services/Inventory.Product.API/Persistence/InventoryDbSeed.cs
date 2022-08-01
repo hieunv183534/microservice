@@ -6,7 +6,7 @@ using Shared.Enums.Inventory;
 
 namespace Inventory.Product.API.Persistence;
 
-public class InventoryContextSeed
+public class InventoryDbSeed
 {
     public async Task SeedDataAsync(IMongoClient mongoClient, DatabaseSettings settings)
     {

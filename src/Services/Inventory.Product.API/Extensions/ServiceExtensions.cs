@@ -1,5 +1,6 @@
 using Infrastructure.Extensions;
 using Inventory.Product.API.Repositories;
+using Inventory.Product.API.Repositories.Abstractions;
 using Inventory.Product.API.Repositories.Interfaces;
 using MongoDB.Driver;
 
