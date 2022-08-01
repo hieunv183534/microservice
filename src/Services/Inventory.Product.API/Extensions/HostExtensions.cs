@@ -11,6 +11,9 @@ public static class HostExtensions
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;
         var settings = services.GetService<DatabaseSettings>();
+        if (settings == null || string.IsNullOrEmpty(settings.ConnectionString))
+            throw new ArgumentNullException("DatabaseSettings is not configured");
+        
         var mongoClient = services.GetRequiredService<IMongoClient>();
         new InventoryDbSeed()
             .SeedDataAsync(mongoClient, settings)

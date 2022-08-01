@@ -41,6 +41,6 @@ public static class ServiceExtensions
     {
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
-        services.AddScoped<IInventoryMongoDbRepository, InventoryMongoDbRepository>();
+        services.AddScoped<IInventoryRepository, InventoryRepository>();
     }
 }

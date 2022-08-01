@@ -1,83 +1,70 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using AutoMapper;
-using Inventory.Product.API.Entities;
 using Inventory.Product.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using Shared.DTOs.Inventory;
-using Shared.Enums.Inventory;
 
 namespace Inventory.Product.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class InventoryController : ControllerBase
 {
-    private readonly IInventoryMongoDbRepository _mongoDbRepository;
-    private readonly IMapper _mapper;
+    private readonly IInventoryRepository _repository;
 
-    public InventoryController(IInventoryMongoDbRepository mongoDbRepository, IMapper mapper)
+    public InventoryController(IInventoryRepository repository)
     {
-        _mongoDbRepository = mongoDbRepository;
-        _mapper = mapper;
+        _repository = repository;
     }
     
     [Route("items/{itemNo}", Name = "GetAllByItemNo")]
     [HttpGet]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetAllByItemNo([Required]string itemNo)
+    [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetAllByItemNo([Required]string itemNo)
     {
-        var entities = await _mongoDbRepository.GetAllByItemNoAsync(itemNo);
-        var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
+        var result = await _repository.GetAllByItemNoAsync(itemNo);
         return Ok(result);
     }
     
     [Route("items/{itemNo}/paging", Name = "GetAllByItemNoPagingAsync")]
     [HttpGet]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetAllByItemNoPagingAsync([Required]string itemNo, [FromQuery] GetInventoryPagingQuery query)
+    [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetAllByItemNoPagingAsync([Required]string itemNo, [FromQuery] GetInventoryPagingQuery query)
     {
-        var entities = await _mongoDbRepository
+        var result = await _repository
             .GetAllByItemNoPagingAsync(itemNo, query);
-        var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
         return Ok(result);
     }
     
     [Route("{id}", Name = "GetInventoryById")]
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetInventoryById([Required] string id)
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetInventoryById([Required] string id)
     {
-        var entity = await _mongoDbRepository.GetAllByIdAsync(id);
-        var result = _mapper.Map<InventoryEntryDto>(entity);
+        var result = await _repository.GetAllByIdAsync(id);
+        if (result == null) return NotFound();
+        
         return Ok(result);
     }
     
     [HttpPost("purchase/{itemNo}", Name = "PurchaseOrder")]
-    [ProducesResponseType(typeof(InventoryEntry), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<InventoryEntry>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseItemDto entryDto)
+    [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<InventoryEntryDto>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseItemDto model)
     {
-        var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
-        {
-            ItemNo = itemNo,
-            Quantity = entryDto.Quantity,
-            DocumentType = entryDto.DocumentType,
-        };
-        var entity = _mapper.Map<InventoryEntry>(itemToAdd);
-        await _mongoDbRepository.CreateAsync(entity);
-        var result = _mapper.Map<InventoryEntryDto>(entity);
+        var result = await _repository.PurchaseItemAsync(itemNo, model);
         return Ok(result);
     }
     
     [Route("{id}", Name = "DeleteById")]
     [HttpDelete]
-    [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteById([Required] string id)
     {
-        await _mongoDbRepository.DeleteAsync(id);
+        var entity = await _repository.GetAllByIdAsync(id);
+        if (entity == null) return NotFound();
+        await _repository.DeleteAsync(id);
         return NoContent();
     }
 }

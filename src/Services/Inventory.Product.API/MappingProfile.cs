@@ -8,7 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<InventoryEntry, InventoryEntryDto>();
+        CreateMap<InventoryEntry, InventoryEntryDto>().ReverseMap();
         CreateMap<PurchaseItemDto, InventoryEntry>();
     }
 }
