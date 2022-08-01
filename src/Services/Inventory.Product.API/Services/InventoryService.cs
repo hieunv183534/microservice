@@ -1,4 +1,5 @@
 using AutoMapper;
+using Infrastructure.Extensions;
 using Inventory.Product.API.Entities;
 using Inventory.Product.API.Extensions;
 using Inventory.Product.API.Repositories.Abstractions;
@@ -28,23 +29,23 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         return result;
     }
 
-    public async Task<IEnumerable<InventoryEntryDto>> GetAllByItemNoPagingAsync(string itemNo, GetInventoryPagingQuery query)
+    public async Task<PagedList<InventoryEntryDto>> GetAllByItemNoPagingAsync(GetInventoryPagingQuery query)
     {
-        FilterDefinition<InventoryEntry> filter = Builders<InventoryEntry>.Filter.Empty;
-        if (!string.IsNullOrEmpty(query.SearchKeyword))
-            filter = Builders<InventoryEntry>.Filter.Eq(s => s.DocumentNo, query.SearchKeyword);
+        var filterSearchTerm = Builders<InventoryEntry>.Filter.Empty;
+        var filterItemNo = Builders<InventoryEntry>.Filter.Eq(s => s.ItemNo, query.ItemNo());
+        if (!string.IsNullOrEmpty(query.SearchTerm))
+            filterSearchTerm = Builders<InventoryEntry>.Filter.Eq(s => s.DocumentNo, query.SearchTerm);
 
-        var totalRow = await Collection.Find(filter).CountDocumentsAsync();
-        var entities = await Collection.Find(filter)
-            .Skip((query.PageIndex - 1) * query.PageSize)
-            .Limit(query.PageSize)
-            .ToListAsync();
-        var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
-        
+        var andFilter = filterItemNo & filterSearchTerm; 
+       
+        var pagedList = await Collection.PaginatedListAsync(andFilter, pageIndex: query.PageIndex, pageNumber: query.PageSize);        
+        var items = _mapper.Map<IEnumerable<InventoryEntryDto>>(pagedList);
+        var result = new PagedList<InventoryEntryDto>(items, pagedList.GetMetaData().TotalItems, query.PageIndex,
+            query.PageSize);
         return result;
     }
 
-    public async Task<InventoryEntryDto> GetAllByIdAsync(string id)
+    public async Task<InventoryEntryDto> GetByIdAsync(string id)
     {
         FilterDefinition<InventoryEntry> filter = Builders<InventoryEntry>.Filter.Eq(s => s.Id, id);
         var entity = await FindAll().Find(filter).FirstOrDefaultAsync();

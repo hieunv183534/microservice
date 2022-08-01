@@ -31,8 +31,8 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetAllByItemNoPagingAsync([Required]string itemNo, [FromQuery] GetInventoryPagingQuery query)
     {
-        var result = await _inventoryService
-            .GetAllByItemNoPagingAsync(itemNo, query);
+        query.SetItemNo(itemNo);
+        var result = await _inventoryService.GetAllByItemNoPagingAsync(query);
         return Ok(result);
     }
     
@@ -42,7 +42,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<InventoryEntryDto>>> GetInventoryById([Required] string id)
     {
-        var result = await _inventoryService.GetAllByIdAsync(id);
+        var result = await _inventoryService.GetByIdAsync(id);
         if (result == null) return NotFound();
         
         return Ok(result);
@@ -62,7 +62,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteById([Required] string id)
     {
-        var entity = await _inventoryService.GetAllByIdAsync(id);
+        var entity = await _inventoryService.GetByIdAsync(id);
         if (entity == null) return NotFound();
         await _inventoryService.DeleteAsync(id);
         return NoContent();

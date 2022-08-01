@@ -1,8 +1,19 @@
+using Shared.SeedWork;
+
 namespace Shared.DTOs.Inventory;
 
-public record GetInventoryPagingQuery
+public class GetInventoryPagingQuery : PagingRequestParameters
 {
-    public string? SearchKeyword { get; set; }
-    public int PageIndex { get; set; }
-    public int PageSize { get; set; }
+    public string ItemNo() => _itemNo;
+
+    private string _itemNo;
+
+    public GetInventoryPagingQuery()
+    {
+        OrderBy = "CreatedDate";
+    }
+
+    public void SetItemNo(string itemNo) => _itemNo = itemNo;
+    
+    public string? SearchTerm { get; set; }
 }

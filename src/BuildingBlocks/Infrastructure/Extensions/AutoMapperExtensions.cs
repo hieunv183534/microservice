@@ -1,6 +1,7 @@
 using System.Reflection;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Infrastructure.Common.Models;
 using Microsoft.EntityFrameworkCore;
 using Shared.SeedWork;
 
@@ -20,4 +21,8 @@ public static class AutoMapperExtension
                 expression.ForMember(property.Name, opt => opt.Ignore());
         return expression;
     }
+    
+    public static Task<PagedList<TDestination>> PaginatedListAsync<TDestination>(this IQueryable<TDestination> queryable, int pageIndex, int pageSize) where TDestination : class
+        => PagedList<TDestination>.ToPagedList(queryable, pageIndex, pageSize);
+
 }
