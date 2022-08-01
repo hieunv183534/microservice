@@ -23,13 +23,25 @@ public class InventoryController : ControllerBase
         _mapper = mapper;
     }
     
-    [Route("items/{itemNo}", Name = "GetInventoryByItemNo")]
+    [Route("items/{itemNo}", Name = "GetAllByItemNo")]
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetInventoryByItemNo([Required]string itemNo)
+    public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetAllByItemNo([Required]string itemNo)
     {
         var entities = await _mongoDbRepository.GetAllByItemNoAsync(itemNo);
+        var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
+        return Ok(result);
+    }
+    
+    [Route("items/{itemNo}/paging", Name = "GetAllByItemNoPagingAsync")]
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<InventoryEntry>>> GetAllByItemNoPagingAsync([Required]string itemNo, [FromQuery] GetInventoryPagingQuery query)
+    {
+        var entities = await _mongoDbRepository
+            .GetAllByItemNoPagingAsync(itemNo, query);
         var result = _mapper.Map<IEnumerable<InventoryEntryDto>>(entities);
         return Ok(result);
     }
@@ -58,5 +70,14 @@ public class InventoryController : ControllerBase
         await _mongoDbRepository.CreateAsync(entity);
         var result = _mapper.Map<InventoryEntryDto>(entity);
         return Ok(result);
+    }
+    
+    [Route("{id}", Name = "DeleteById")]
+    [HttpDelete]
+    [ProducesResponseType(typeof(IEnumerable<InventoryEntry>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> DeleteById([Required] string id)
+    {
+        await _mongoDbRepository.DeleteAsync(id);
+        return NoContent();
     }
 }
