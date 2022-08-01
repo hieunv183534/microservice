@@ -8,11 +8,6 @@ public class GetInventoryPagingQuery : PagingRequestParameters
 
     private string _itemNo;
 
-    public GetInventoryPagingQuery()
-    {
-        OrderBy = "CreatedDate";
-    }
-
     public void SetItemNo(string itemNo) => _itemNo = itemNo;
     
     public string? SearchTerm { get; set; }

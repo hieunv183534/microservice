@@ -54,7 +54,7 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         return result;
     }
 
-    public async Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseItemDto model)
+    public async Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseProductDto model)
     {
         var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
         {

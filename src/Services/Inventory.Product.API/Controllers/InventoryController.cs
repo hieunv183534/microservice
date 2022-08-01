@@ -50,7 +50,7 @@ public class InventoryController : ControllerBase
     
     [HttpPost("purchase/{itemNo}", Name = "PurchaseOrder")]
     [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<InventoryEntryDto>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseItemDto model)
+    public async Task<ActionResult<InventoryEntryDto>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseProductDto model)
     {
         var result = await _inventoryService.PurchaseItemAsync(itemNo, model);
         return Ok(result);

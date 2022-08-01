@@ -2,7 +2,7 @@ using Shared.Enums.Inventory;
 
 namespace Shared.DTOs.Inventory;
 
-public record PurchaseItemDto
+public record PurchaseProductDto
 {
     public EDocumentType DocumentType => EDocumentType.Purchase;
     
