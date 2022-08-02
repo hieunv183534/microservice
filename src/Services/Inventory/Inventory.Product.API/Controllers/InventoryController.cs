@@ -52,6 +52,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<InventoryEntryDto>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseProductDto model)
     {
+        model.SetItemNo(itemNo);
         var result = await _inventoryService.PurchaseItemAsync(itemNo, model);
         return Ok(result);
     }

@@ -1,4 +1,6 @@
 using Infrastructure.Extensions;
+using Inventory.Product.Grpc.Repositories;
+using Inventory.Product.Grpc.Repositories.Interfaces;
 using MongoDB.Driver;
 using Shared.Configurations;
 
@@ -37,5 +39,6 @@ public static class ServiceExtensions
 
     public static void AddInfrastructureServices(this IServiceCollection services)
     {
+        services.AddScoped<IInventoryRepository, InventoryRepository>();
     }
 }
