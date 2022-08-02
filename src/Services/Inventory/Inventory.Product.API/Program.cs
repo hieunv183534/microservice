@@ -1,7 +1,5 @@
 using Common.Logging;
 using Inventory.Product.API.Extensions;
-using Inventory.Product.API.Persistence;
-using MongoDB.Driver;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

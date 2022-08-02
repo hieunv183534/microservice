@@ -1,11 +1,12 @@
 using AutoMapper;
+using Infrastructure.Common;
 using Infrastructure.Extensions;
 using Inventory.Product.API.Entities;
 using Inventory.Product.API.Extensions;
-using Inventory.Product.API.Repositories.Abstractions;
 using Inventory.Product.API.Services.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Shared.Configurations;
 using Shared.DTOs.Inventory;
 
 namespace Inventory.Product.API.Services;
@@ -14,7 +15,7 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
 {
     private readonly IMapper _mapper;
 
-    public InventoryService(IMongoClient client, DatabaseSettings settings, IMapper mapper) : base(client, settings)
+    public InventoryService(IMongoClient client, MongoDbSettings settings, IMapper mapper) : base(client, settings)
     {
         _mapper = mapper;
     }
