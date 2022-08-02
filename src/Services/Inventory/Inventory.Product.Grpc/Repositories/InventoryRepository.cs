@@ -12,8 +12,9 @@ public class InventoryRepository : MongoDbRepository<InventoryEntry>, IInventory
     {
     }
 
-    public Task<int> GetStockQuantity(string itemNo)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<int> GetStockQuantity(string itemNo) 
+        => Collection.AsQueryable()
+            .Where(x => x.ItemNo.Equals(itemNo))
+            .Sum(x => x.Quantity);
+
 }
