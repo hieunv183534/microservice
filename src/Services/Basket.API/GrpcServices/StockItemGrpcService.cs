@@ -1,6 +1,6 @@
 namespace Basket.API.GrpcServices;
 
-using Inventory.Product.Grpc.Protos;
+using Inventory.Grpc.Protos;
 
 public class StockItemGrpcService
 {
