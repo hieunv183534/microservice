@@ -35,6 +35,8 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Customer API: http://localhost:6003/api/customers
 - Basket API: http://localhost:6004/api/baskets
 - Order API: http://localhost:6005/api/v1/orders
+- Inventory API: http://localhost:6006/api/inventory
+- Inventory GRPC: http://localhost:6007
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
 - Portainer: http://localhost:9000 - username: admin ; pass: admin1234
@@ -50,6 +52,8 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Customer API: http://localhost:5003/api/customers
 - Basket API: http://localhost:5004/api/baskets
 - Order API: http://localhost:5005/api/v1/orders
+- Inventory API: http://localhost:5006/api/inventory
+- Inventory GRPC: http://localhost:5007
 ---
 ## Application URLs - PRODUCTION Environment:
 
@@ -60,8 +64,12 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 
 - https://dotnet.microsoft.com/download/dotnet/6.0
 - https://visualstudio.microsoft.com/
+- https://www.jetbrains.com/rider/
 
 ## References URLS
+- https://docs.microsoft.com/en-us/aspnet/core/tutorials/grpc/grpc-start?view=aspnetcore-6.0&tabs=visual-studio
+- https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0
+- https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-6.0&tabs=visual-studio
 
 ## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
