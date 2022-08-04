@@ -35,13 +35,12 @@ public static class ServiceExtensions
         services.AddScoped<IBasketRepository, BasketRepository>()
             .AddTransient<ISerializeService, SerializeService>();
 
-    public static IServiceCollection ConfigureGrpcService(this IServiceCollection services)
+    public static void ConfigureGrpcService(this IServiceCollection services)
     {
         var settings = services.GetOptions<GrpcSettings>(nameof(GrpcSettings));
         services.AddGrpcClient<StockProtoService.StockProtoServiceClient>(x => 
             x.Address = new Uri(settings.StockUrl));
         services.AddScoped<StockItemGrpcService>();
-        return services;
     }
 
     public static void ConfigureRedis(this IServiceCollection services)

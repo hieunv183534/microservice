@@ -1,4 +1,6 @@
+using Common.Logging;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Product.API.Extensions;
 
@@ -12,7 +14,7 @@ public static class HostExtensions
             config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
-        });
+        }).UseSerilog(Serilogger.Configure);
     }
     
     public static IHost MigrateDatabase<TContext>(this IHost host, Action<TContext, IServiceProvider> seeder)

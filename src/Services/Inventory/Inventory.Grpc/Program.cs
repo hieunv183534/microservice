@@ -10,7 +10,7 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
-
+    builder.Host.AddAppConfigurations();
 // Add services to the container.
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.ConfigureMongoDbClient();

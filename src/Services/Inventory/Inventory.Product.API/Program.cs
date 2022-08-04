@@ -10,6 +10,7 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 try
 {
     // Add services to the container.
+    builder.Host.AddAppConfigurations();
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
