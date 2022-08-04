@@ -1,3 +1,4 @@
+using Ocelot.Middleware;
 using OcelotApiGw.Extensions;
 using Serilog;
 
@@ -17,8 +18,12 @@ try
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.ConfigureCors(builder.Configuration);
+    builder.Services.ConfigureOcelot(builder.Configuration);
 
     var app = builder.Build();
+    
+    app.MapGet("/ping", () => $"Welcome to {builder.Environment.ApplicationName}!");
 
 // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -27,12 +32,14 @@ try
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
-
+    app.UseCors("CorsPolicy");
+    // app.UseHttpsRedirection();
+    
     app.UseAuthorization();
 
     app.MapControllers();
 
+    await app.UseOcelot();
     app.Run();
 }
 catch (Exception ex)

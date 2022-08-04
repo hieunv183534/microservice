@@ -1,16 +1,9 @@
-using Common.Logging;
 using Customer.API;
 using Customer.API.Controllers;
 using Customer.API.Extensions;
 using Customer.API.Persistence;
-using Customer.API.Repositories;
-using Customer.API.Repositories.Interfaces;
-using Customer.API.Services;
-using Customer.API.Services.Interfaces;
 using Infrastructure.Middlewares;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Shared.Configurations;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
