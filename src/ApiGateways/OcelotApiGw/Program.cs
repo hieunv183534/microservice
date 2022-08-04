@@ -1,3 +1,4 @@
+using Infrastructure.Middlewares;
 using Ocelot.Middleware;
 using OcelotApiGw.Extensions;
 using Serilog;
@@ -9,36 +10,52 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateBuilder(args);
 
 Log.Information($"Start {builder.Environment.ApplicationName} up");
+
 try
 {
     builder.Host.AddAppConfigurations();
-// Add services to the container.
-    
+    // Add services to the container.
     builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.ConfigureCors(builder.Configuration);
     builder.Services.ConfigureOcelot(builder.Configuration);
 
-    var app = builder.Build();
-    
-    app.MapGet("/ping", () => $"Welcome to {builder.Environment.ApplicationName}!");
+    builder.Services.ConfigureCors(builder.Configuration);
 
-// Configure the HTTP request pipeline.
+    var app = builder.Build();
+
+    // app.MapGet("/", () => $"Welcome to {builder.Environment.ApplicationName}!");
+
+    // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c =>
+        {
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                $"{builder.Environment.ApplicationName} v1"));
+        });
     }
 
     app.UseCors("CorsPolicy");
-    // app.UseHttpsRedirection();
-    
+
+    app.UseMiddleware<ErrorWrappingMiddleware>();
+
+    // app.UseHttpsRedirection(); //production only
+
     app.UseAuthorization();
 
-    app.MapControllers();
+    app.UseRouting();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapGet("/", async context =>
+            {
+                await context.Response.WriteAsync($"Hello TEDU members! This is {builder.Environment.ApplicationName}");
+            });
+    });
 
+    app.MapControllers();
     await app.UseOcelot();
     app.Run();
 }
