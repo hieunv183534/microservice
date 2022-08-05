@@ -3,11 +3,11 @@
     "BaseUrl": "http://localhost:5000"
   },
   "Routes": [
-//      http://localhost:5003/api/customers/customer1
+    // Customer api
     {
       "UpstreamPathTemplate": "/api/customers/{username}",
       "UpstreamHttpMethod": [
-        "Get"
+        "GET"
       ],
       "DownstreamPathTemplate": "/api/customers/{username}",
       "DownstreamScheme": "http",

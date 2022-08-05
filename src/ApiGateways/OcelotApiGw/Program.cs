@@ -20,7 +20,6 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.ConfigureOcelot(builder.Configuration);
-
     builder.Services.ConfigureCors(builder.Configuration);
 
     var app = builder.Build();
