@@ -8,26 +8,31 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.47.0"/>
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.5"/>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Google.Protobuf" Version="3.21.4" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.47.0" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.47.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.47.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj"/>
-        <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj"/>
-        <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus.Messages\EventBus.Messages.csproj"/>
-        <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
+        <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
+        <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus.Messages\EventBus.Messages.csproj" />
+        <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\Inventory\Inventory.Grpc\Protos\stock.proto">
-            <Link>Protos\stock.proto</Link>
-            <GrpcServices>Client</GrpcServices>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Protobuf>
+      <None Remove="Protos\stockItem.proto" />
+      <Protobuf Include="Protos\stockItem.proto" GrpcServices="Client">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Protobuf>
     </ItemGroup>
 
 </Project>
