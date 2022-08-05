@@ -3,7 +3,7 @@
     "BaseUrl": "http://localhost:5000"
   },
   "Routes": [
-    // Product api : http://localhost:6002/api/products
+    // Product api : http://localhost:5002/api/products
     {
       "UpstreamPathTemplate": "/api/products",
       "UpstreamHttpMethod": [
@@ -49,7 +49,7 @@
         }
       ]
     },
-    // Customer api
+    // Customer api : http://localhost:5003/api/customers
     {
       "UpstreamPathTemplate": "/api/customers/{username}",
       "UpstreamHttpMethod": [
@@ -105,6 +105,37 @@
         {
           "Host": "localhost",
           "Port": 5004
+        }
+      ]
+    },
+    // Order api: http://localhost:5005/api/{version}/orders
+    {
+      "UpstreamPathTemplate": "/api/{version}/orders/{any}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders/{any}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/{version}/orders",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
         }
       ]
     }
