@@ -1,16 +1,16 @@
 namespace Basket.API.GrpcServices;
 
-using Inventory.Grpc.Protos;
+using Inventory.Grpc.Client;
 
 public class StockItemGrpcService
 {
     private readonly StockProtoService.StockProtoServiceClient _stockProtoService;
-
+    
     public StockItemGrpcService(StockProtoService.StockProtoServiceClient stockProtoService)
     {
         _stockProtoService = stockProtoService ?? throw new ArgumentNullException(nameof(stockProtoService));
     }
-
+    
     public async Task<StockModel> GetStock(string itemNo)
     {
         try

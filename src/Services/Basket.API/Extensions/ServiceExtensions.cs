@@ -5,10 +5,10 @@ using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
-using Inventory.Grpc.Protos;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
+using Inventory.Grpc.Client;
 
 namespace Basket.API.Extensions;
 
