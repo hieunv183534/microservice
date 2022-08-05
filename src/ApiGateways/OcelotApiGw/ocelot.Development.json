@@ -138,6 +138,63 @@
           "Port": 5005
         }
       ]
+    },
+    // Inventory API : http://localhost:5006/inventory
+    {
+      "UpstreamPathTemplate": "/api/inventory/items/{any}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/items/{any}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/inventory/items/{any}/paging",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/items/{any}/paging",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/inventory/{any}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/{any}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/inventory/purchase/{any}",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/purchase/{any}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ]
     }
   ]
 }
