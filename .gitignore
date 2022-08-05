@@ -100,3 +100,4 @@ bld/
 
 **/appsettings.Development.json
 .idea/.idea.OctoQual/.idea
+**/~$*.xlsx

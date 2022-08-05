@@ -71,7 +71,7 @@ public class BasketsController : ControllerBase
     public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
     {
         var basket = await _basketRepository.GetBasketByUserName(basketCheckout.UserName);
-        if (basket == null) return NotFound();
+        if (basket == null || !basket.Items.Any()) return NotFound();
         
         //publish checkout event to EventBus Message
         var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
