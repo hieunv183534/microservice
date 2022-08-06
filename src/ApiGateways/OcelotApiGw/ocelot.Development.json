@@ -20,13 +20,12 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/api/products/{any}",
+      "UpstreamPathTemplate": "/api/products",
       "UpstreamHttpMethod": [
-        "GET",
         "PUT",
         "DELETE"
       ],
-      "DownstreamPathTemplate": "/api/products/{any}",
+      "DownstreamPathTemplate": "/api/products",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
