@@ -15,6 +15,7 @@ try
 {
     builder.Host.AddAppConfigurations();
     // Add services to the container.
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -42,10 +43,9 @@ try
     app.UseMiddleware<ErrorWrappingMiddleware>();
 
     // app.UseHttpsRedirection(); //production only
-
-    app.UseAuthorization();
-
+    app.UseAuthentication();
     app.UseRouting();
+    app.UseAuthorization();
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapGet("/", async context =>

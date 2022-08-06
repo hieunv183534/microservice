@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs.Identity;
 
-namespace Product.API.Controllers;
+namespace OcelotApiGw.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class TokensController : ControllerBase
+public sealed class TokenController : ControllerBase
 {
     private readonly ITokenService _tokenService;
 
-    public TokensController(ITokenService tokenService)
+    public TokenController(ITokenService tokenService)
     {
         _tokenService = tokenService;
     }

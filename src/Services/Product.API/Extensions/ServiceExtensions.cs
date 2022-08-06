@@ -1,9 +1,7 @@
 using System.Text;
 using Contracts.Domains.Interfaces;
-using Contracts.Identity;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -94,8 +92,8 @@ public static class ServiceExtensions
     private static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
         return services.AddScoped(typeof(IRepositoryBase<,,>), typeof(RepositoryBase<,,>))
-                .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
-                .AddScoped<IProductRepository, ProductRepository>()
-                .AddTransient<ITokenService, TokenService>();
+            .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
+            .AddScoped<IProductRepository, ProductRepository>();
+
     }
 }
