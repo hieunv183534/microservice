@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Product.API.Entities;
 using Product.API.Repositories.Interfaces;
@@ -30,6 +31,7 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet("{id:long}")]
+    [Authorize]
     public async Task<IActionResult> GetProduct([Required] long id)
     {
         var product = await _repository.GetProductAsync(id);

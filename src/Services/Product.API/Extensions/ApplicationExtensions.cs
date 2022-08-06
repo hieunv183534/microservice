@@ -9,9 +9,9 @@ public static class ApplicationExtensions
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API"));
         app.UseMiddleware<ErrorWrappingMiddleware>();
+        app.UseAuthentication();
         app.UseRouting();
         // app.UseHttpsRedirection(); //for production only
-
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
