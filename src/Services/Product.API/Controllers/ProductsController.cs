@@ -31,7 +31,6 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet("{id:long}")]
-    [Authorize]
     public async Task<IActionResult> GetProduct([Required] long id)
     {
         var product = await _repository.GetProductAsync(id);
@@ -42,6 +41,7 @@ public class ProductsController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto productDto)
     {
         var productEntity = await _repository.GetProductByNoAsync(productDto.No);
@@ -54,6 +54,7 @@ public class ProductsController : ControllerBase
     }
     
     [HttpPut("{id:long}")]
+    [Authorize]
     public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
     {
         var product = await _repository.GetProductAsync(id);
@@ -66,6 +67,7 @@ public class ProductsController : ControllerBase
     }
     
     [HttpDelete("{id:long}")]
+    [Authorize]
     public async Task<IActionResult> DeleteProduct([Required] long id)
     {
         var product = await _repository.GetProductAsync(id);

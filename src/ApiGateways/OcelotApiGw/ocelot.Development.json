@@ -5,12 +5,13 @@
   "Routes": [
     // Product api : http://localhost:5002/api/products
     {
-      "UpstreamPathTemplate": "/api/products",
+      "UpstreamPathTemplate": "/api/products/{any}",
       "UpstreamHttpMethod": [
         "GET",
-        "POST"
+        "PUT",
+        "DELETE"
       ],
-      "DownstreamPathTemplate": "/api/products",
+      "DownstreamPathTemplate": "/api/products/{any}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -22,8 +23,8 @@
     {
       "UpstreamPathTemplate": "/api/products",
       "UpstreamHttpMethod": [
-        "PUT",
-        "DELETE"
+        "GET",
+        "POST"
       ],
       "DownstreamPathTemplate": "/api/products",
       "DownstreamScheme": "http",

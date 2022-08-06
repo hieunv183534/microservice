@@ -1,4 +1,8 @@
+using System.Text;
 using Ocelot.DependencyInjection;
+using Shared.Configurations;
+using Infrastructure.Extensions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace OcelotApiGw.Extensions;
 
