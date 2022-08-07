@@ -68,7 +68,14 @@
             "Host": "localhost",
             "Port": 5002
           }
-        ]
+        ],
+        "RateLimitOptions": {
+          "ClientWhitelist": [], // the client in this array will not be affected by the rate limiting
+          "EnableRateLimiting": true,
+          "Period": "1s", // 1s, 5m, 1h, 1d
+          "PeriodTimespan": 1, // retry after a certain number of seconds
+          "Limit": 1 // the maximum number of requests that a client can make in a defined period.
+        }
       },
       {
         "UpstreamPathTemplate": "/products/get-product-by-no/{any}",
