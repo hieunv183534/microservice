@@ -7,20 +7,20 @@ namespace OcelotApiGw.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class TokenController : ControllerBase
+public class TokenController : ControllerBase
 {
     private readonly ITokenService _tokenService;
-
+    
     public TokenController(ITokenService tokenService)
     {
         _tokenService = tokenService;
     }
-    
-    [HttpPost]
+
+    [HttpGet]
     [AllowAnonymous]
     public IActionResult GetToken()
     {
-        var token = _tokenService.GetToken(new TokenRequest());
-        return Ok(token);
+        var result = _tokenService.GetToken(new TokenRequest());
+        return Ok(result);
     }
 }

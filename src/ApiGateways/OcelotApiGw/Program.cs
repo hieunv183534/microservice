@@ -1,3 +1,4 @@
+using Common.Logging;
 using Infrastructure.Middlewares;
 using Ocelot.Middleware;
 using OcelotApiGw.Extensions;
@@ -13,11 +14,11 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+// Add services to the container.
     builder.Host.AddAppConfigurations();
-    // Add services to the container.
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddControllers();
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.ConfigureOcelot(builder.Configuration);
@@ -25,33 +26,27 @@ try
 
     var app = builder.Build();
 
-    // app.MapGet("/", () => $"Welcome to {builder.Environment.ApplicationName}!");
-
-    // Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                $"{builder.Environment.ApplicationName} v1"));
-        });
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
+            $"{builder.Environment.ApplicationName} v1"));
     }
 
     app.UseCors("CorsPolicy");
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
-
-    // app.UseHttpsRedirection(); //production only
     app.UseAuthentication();
     app.UseRouting();
+    // app.UseHttpsRedirection();
     app.UseAuthorization();
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapGet("/", async context =>
-            {
-                await context.Response.WriteAsync($"Hello TEDU members! This is {builder.Environment.ApplicationName}");
-            });
+        {
+            await context.Response.WriteAsync($"Hello TEDU members! This is {builder.Environment.ApplicationName}");
+        });
     });
 
     app.MapControllers();

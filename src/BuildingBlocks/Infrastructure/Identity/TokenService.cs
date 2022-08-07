@@ -22,24 +22,23 @@ public class TokenService : ITokenService
         var result = new TokenResponse(token);
         return result;
     }
+
+    private string GenerateJwt() => GenerateEncryptedToken(GetSigningCredential());
     
-    private string GenerateJwt()
-    {
-        return GenerateEncryptedToken(GetSigningCredentials());
-    }
-    
+
     private string GenerateEncryptedToken(SigningCredentials signingCredentials)
     {
         var token = new JwtSecurityToken(
-            // expires: DateTime.UtcNow.AddMinutes(30),
+            // expires: DateTime.Now.AddMinutes(30)
             signingCredentials: signingCredentials);
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
     }
-    
-    private SigningCredentials GetSigningCredentials()
+
+    private SigningCredentials GetSigningCredential()
     {
         byte[] secret = Encoding.UTF8.GetBytes(_jwtSettings.Key);
-        return new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256);
+        return new SigningCredentials(new SymmetricSecurityKey(secret), 
+            SecurityAlgorithms.HmacSha256);
     }
 }
