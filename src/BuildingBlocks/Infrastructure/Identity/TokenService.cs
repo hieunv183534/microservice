@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper.Execution;
 using Contracts.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Configurations;

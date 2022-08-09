@@ -21,18 +21,10 @@ public class ProductsController : ControllerBase
         _mapper = mapper;
     }
 
-    // private static int count = 0;
-    
     #region CRUD
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
-        // count++;
-        // Console.WriteLine($"get... {count}");
-        // if (count < 3)
-        // {
-        //     Thread.Sleep(5000);
-        // }
         var products = await _repository.GetProductsAsync();
         var result = _mapper.Map<IEnumerable<ProductDto>>(products);
         return Ok(result);
