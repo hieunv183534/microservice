@@ -20,6 +20,7 @@ public static class ServiceExtensions
         var eventBusSettings = configuration.GetSection(nameof(EventBusSettings))
             .Get<EventBusSettings>();
         services.AddSingleton(eventBusSettings);
+        
         var cacheSettings = configuration.GetSection(nameof(CacheSettings))
             .Get<CacheSettings>();
         services.AddSingleton(cacheSettings);

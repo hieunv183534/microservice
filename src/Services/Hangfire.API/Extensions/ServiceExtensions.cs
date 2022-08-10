@@ -1,4 +1,3 @@
-using Shared.Configurations;
 using Shared.Configurations.HangFire;
 
 namespace Hangfire.API.Extensions;
@@ -14,5 +13,4 @@ public static class ServiceExtensions
 
         return services;
     }
-
 }
