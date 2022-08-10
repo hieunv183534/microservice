@@ -14,13 +14,13 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
-// Add services to the container.
+    // Add services to the container.
     builder.Host.AddAppConfigurations();
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    // builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen();
     builder.Services.ConfigureOcelot(builder.Configuration);
     builder.Services.ConfigureCors(builder.Configuration);
 
@@ -37,13 +37,13 @@ try
     app.UseCors("CorsPolicy");
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
-    app.UseAuthentication();
+    // app.UseAuthentication();
     app.UseRouting();
     // app.UseHttpsRedirection();
-    app.UseAuthorization();
+    // app.UseAuthorization();
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapGet("/", context =>
+        endpoints.MapGet("/",  context =>
         {
             // await context.Response.WriteAsync($"Hello TEDU members! This is {builder.Environment.ApplicationName}");
             context.Response.Redirect("swagger/index.html");
@@ -53,6 +53,7 @@ try
 
     app.UseSwaggerForOcelotUI(
         opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
+   
     await app.UseOcelot();
     app.Run();
 }

@@ -38,7 +38,7 @@ public static class ServiceExtensions
         services.ConfigureProductDbContext(configuration);
         services.AddInfrastructureServices();
         services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-        services.AddJwtAuthentication();
+        // services.AddJwtAuthentication();
         
         return services;
     }
