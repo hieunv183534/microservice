@@ -1,13 +1,17 @@
-using Common.Logging;
+using Hangfire.API.Extensions;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(Serilogger.Configure);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-Log.Information("Start Hangfire API up");
+var builder = WebApplication.CreateBuilder(args);
+
+Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    builder.Host.AddAppConfigurations();
     // Add services to the container.
 
     builder.Services.AddControllers();
@@ -34,10 +38,13 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Unhandled exception");
+    string type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal)) throw;
+
+    Log.Fatal(ex, $"Unhandled exception: {ex.Message}");
 }
 finally
 {
-    Log.Information("Shut down Hangfire API complete");
+    Log.Information($"Shutdown {builder.Environment.ApplicationName} complete");
     Log.CloseAndFlush();
 }
