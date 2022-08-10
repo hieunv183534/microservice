@@ -11,7 +11,6 @@ Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(Serilogger.Configure);
 
 Log.Information($"Start {builder.Environment.ApplicationName} up");
 
