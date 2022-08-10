@@ -6,11 +6,22 @@ using Customer.API.Services.Interfaces;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Shared.Configurations;
+using Shared.Configurations.HangFire;
 
 namespace Customer.API.Extensions;
 
 public static class ServiceExtensions
 {
+    internal static IServiceCollection AddConfigurationSettings(this IServiceCollection services, 
+        IConfiguration configuration)
+    {
+        var hangfireSettings = configuration.GetSection(nameof(HangFireSettings))
+            .Get<HangFireSettings>();
+        services.AddSingleton(hangfireSettings);
+
+        return services;
+    }
+    
     public static void ConfigureCustomerContext(this IServiceCollection services)
     {
         var databaseSettings = services.GetOptions<DatabaseSettings>(nameof(DatabaseSettings));

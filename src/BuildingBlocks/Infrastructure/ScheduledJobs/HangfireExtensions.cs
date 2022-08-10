@@ -5,7 +5,9 @@ using Hangfire.Console.Extensions;
 using Hangfire.Mongo;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
+using Hangfire.PostgreSql;
 using Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -22,18 +24,20 @@ public static class HangfireExtensions
             string.IsNullOrEmpty(settings.Storage.ConnectionString))
             throw new Exception("HangFireSettings is not configured properly!");
 
-        services.ConfigureHangfireService(settings);
-        services.AddHangfireConsoleExtensions();
-
+        services.ConfigureHangfireService();
         // Add the processing server as IHostedService
         services.AddHangfireServer(serverOptions => { serverOptions.ServerName = settings.ServerName; });
 
         return services;
     }
 
-    public static IServiceCollection ConfigureHangfireService(this IServiceCollection services,
-        HangFireSettings settings)
+    public static IServiceCollection ConfigureHangfireService(this IServiceCollection services)
     {
+        var settings = services.GetOptions<HangFireSettings>("HangFireSettings");
+        if (settings == null || settings.Storage == null ||
+            string.IsNullOrEmpty(settings.Storage.ConnectionString))
+            throw new Exception("HangFireSettings is not configured properly!");
+        
         if (string.IsNullOrEmpty(settings.Storage.DBProvider))
             throw new Exception("HangFire DBProvider is not configured.");
 
@@ -78,6 +82,12 @@ public static class HangfireExtensions
                     };
                     config.UseSerializerSettings(jsonSettings);
                 });
+                services.AddHangfireConsoleExtensions();
+                break;
+            
+            case "postgresql":
+                services.AddHangfire(x =>
+                    x.UsePostgreSqlStorage(settings.Storage.ConnectionString));
                 break;
 
             default:

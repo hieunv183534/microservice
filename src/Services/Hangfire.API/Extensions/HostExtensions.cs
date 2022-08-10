@@ -17,7 +17,7 @@ public static class HostExtensions
         }).UseSerilog(Serilogger.Configure);
     }
     
-    public static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
+    internal static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
     {
         var configDashboard = configuration.GetSection("HangFireSettings:Dashboard").Get<DashboardOptions>();
         var hangFireSettings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();

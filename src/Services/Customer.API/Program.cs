@@ -2,7 +2,9 @@ using Customer.API;
 using Customer.API.Controllers;
 using Customer.API.Extensions;
 using Customer.API.Persistence;
+using Hangfire;
 using Infrastructure.Middlewares;
+using Infrastructure.ScheduledJobs;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -17,6 +19,7 @@ try
 {
     builder.Host.AddAppConfigurations();
     // Add services to the container.
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +28,7 @@ try
 
     builder.Services.ConfigureCustomerContext();
     builder.Services.AddInfrastructureServices();
+    builder.Services.AddHangfireService();
 
     var app = builder.Build();
 
@@ -49,6 +53,8 @@ try
 
     app.UseAuthorization();
 
+    app.UseHangfireDashboard(builder.Configuration);
+    
     app.MapControllers();
 
     app.SeedCustomerData()
@@ -56,7 +62,7 @@ try
 }
 catch (Exception ex)
 {
-    string type = ex.GetType().Name;
+    var type = ex.GetType().Name;
     if (type.Equals("StopTheHostException", StringComparison.Ordinal)) throw;
 
     Log.Fatal(ex, $"Unhandled exception: {ex.Message}");

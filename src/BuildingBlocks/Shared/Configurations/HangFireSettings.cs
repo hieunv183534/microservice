@@ -9,9 +9,6 @@ public class HangFireSettings
     public DatabaseSettings Storage { get; set; }
 
     public Dashboard Dashboard { get; set; }
-
-    // public string StorageProvider => Storage?.DBProvider;
-    // public string ConnectionString => Storage?.ConnectionString;
 }
 
 public class Dashboard
