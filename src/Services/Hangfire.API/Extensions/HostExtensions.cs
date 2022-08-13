@@ -19,7 +19,8 @@ public static class HostExtensions
     
     internal static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
     {
-        var configDashboard = configuration.GetSection("HangFireSettings:Dashboard").Get<DashboardOptions>();
+        var configDashboard = configuration.GetSection("HangFireSettings:Dashboard")
+            .Get<DashboardOptions>();
         var hangFireSettings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();
         var hangFireRoute = hangFireSettings.Route;
 

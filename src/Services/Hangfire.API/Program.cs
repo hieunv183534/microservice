@@ -21,7 +21,7 @@ try
     builder.Services.AddSwaggerGen();
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-    builder.Services.AddHangfireService();
+    builder.Services.AddTeduHangfireService();
 
     var app = builder.Build();
 

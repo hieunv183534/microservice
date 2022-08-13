@@ -17,7 +17,7 @@ namespace Infrastructure.ScheduledJobs;
 
 public static class HangfireExtensions
 {
-    public static IServiceCollection AddHangfireService(this IServiceCollection services)
+    public static IServiceCollection AddTeduHangfireService(this IServiceCollection services)
     {
         var settings = services.GetOptions<HangFireSettings>("HangFireSettings");
         if (settings == null || settings.Storage == null ||
@@ -64,7 +64,8 @@ public static class HangfireExtensions
                     },
                     CheckConnection = true,
                     Prefix = "SchedulerQueue",
-                    CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.TailNotificationsCollection
+                    CheckQueuedJobsStrategy = CheckQueuedJobsStrategy
+                        .TailNotificationsCollection
                 };
 
                 services.AddHangfire((provider, config) =>
@@ -74,7 +75,8 @@ public static class HangfireExtensions
                         .UseSimpleAssemblyNameTypeSerializer()
                         .UseRecommendedSerializerSettings()
                         .UseConsole()
-                        .UseMongoStorage(mongoClient, mongoUrlBuilder.DatabaseName, mongoStorageOptions);
+                        .UseMongoStorage(mongoClient, mongoUrlBuilder.DatabaseName, 
+                            mongoStorageOptions);
 
                     var jsonSettings = new JsonSerializerSettings
                     {

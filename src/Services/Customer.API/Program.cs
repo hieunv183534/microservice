@@ -28,7 +28,7 @@ try
 
     builder.Services.ConfigureCustomerContext();
     builder.Services.AddInfrastructureServices();
-    builder.Services.AddHangfireService();
+    builder.Services.AddTeduHangfireService();
 
     var app = builder.Build();
 
