@@ -4,6 +4,7 @@ using AutoMapper;
 using Basket.API.Entities;
 using Basket.API.GrpcServices;
 using Basket.API.Repositories.Interfaces;
+using Basket.API.Services.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@ public class BasketsController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly StockItemGrpcService _stockItemGrpcService;
+    private readonly IEmailTemplateService _emailTemplateService;
 
-    public BasketsController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcService)
+    public BasketsController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcService, IEmailTemplateService emailTemplateService)
     {
         _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
         _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         _stockItemGrpcService = stockItemGrpcService ?? throw new ArgumentNullException(nameof(stockItemGrpcService));
+        _emailTemplateService = emailTemplateService;
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
@@ -81,5 +84,17 @@ public class BasketsController : ControllerBase
         await _basketRepository.DeleteBasketFromUserName(basket.Username);
         
         return Accepted();
+    }
+
+    [HttpPost("[action]",Name = "SendEmailReminder")]
+    [ProducesResponseType(typeof(ContentResult), (int)HttpStatusCode.Accepted)]
+    public async Task<ActionResult<Cart>> SendEmailReminder()
+    {
+        var emailTemplate = _emailTemplateService.GenerateReminderCheckoutOrderEmail("kiet.pham2610@gmail.com", "kietpham");
+        return new ContentResult
+        {
+            Content = emailTemplate,
+            ContentType = "text/html"
+        };
     }
 }
