@@ -17,6 +17,11 @@ public interface IScheduledJobService
     string Schedule(Expression<Action> functionCall, DateTimeOffset enqueueAt);
     
     #endregion
+    
+    #region Continuos Jobs
+    string ContinueQueueWith(string parentJobId, Expression<Action> functionCall);
+    
+    #endregion
 
     bool Delete(string jobId);
 

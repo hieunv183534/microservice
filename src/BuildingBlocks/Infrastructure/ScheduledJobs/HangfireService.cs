@@ -18,6 +18,9 @@ public class HangfireService : IScheduledJobService
     public string Schedule(Expression<Action> functionCall, DateTimeOffset enqueueAt) 
         => BackgroundJob.Schedule(functionCall, enqueueAt);
 
+    public string ContinueQueueWith(string parentJobId, Expression<Action> functionCall)
+        => BackgroundJob.ContinueJobWith(parentJobId, functionCall);
+
     public string Schedule<T>(Expression<Action<T>> functionCall, TimeSpan delay) 
         => BackgroundJob.Schedule<T>(functionCall, delay);
     

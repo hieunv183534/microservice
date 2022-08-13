@@ -45,6 +45,19 @@ public class WelcomeController : ControllerBase
         return Ok($"Job ID: {jobId} - enqueueAt {enqueueAt}");
     }
     
+    [HttpPost]
+    [Route("[action]")]
+    public IActionResult ConfirmedWelcome()
+    {
+        const int timeInSeconds = 10;
+        var parentJobId = _jobService.Schedule(() => ResponseWelcome("Welcome to Hangfire"),
+            TimeSpan.FromSeconds(timeInSeconds));
+
+        var jobId = _jobService.ContinueQueueWith(parentJobId, () => ResponseWelcome("Welcome message is sent"));
+        
+        return Ok($"Job ID: {jobId} - Confirmed Welcome will be sent in {timeInSeconds} seconds");
+    }
+    
     [NonAction]    
     public void ResponseWelcome(string text)
     {
