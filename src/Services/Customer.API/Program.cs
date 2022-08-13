@@ -2,7 +2,6 @@ using Customer.API;
 using Customer.API.Controllers;
 using Customer.API.Extensions;
 using Customer.API.Persistence;
-using Hangfire;
 using Infrastructure.Middlewares;
 using Infrastructure.ScheduledJobs;
 using Serilog;

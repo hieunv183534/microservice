@@ -20,8 +20,8 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
     builder.Services.AddTeduHangfireService();
+    builder.Services.ConfigureServices();
 
     var app = builder.Build();
 
