@@ -26,7 +26,7 @@ public class WelcomeController : ControllerBase
     }
     
     [HttpPost]
-    [Route("[action]")]
+    [Route("delayed-welcome")]
     public IActionResult DelayedWelcome()
     {
         var seconds = 5;
@@ -36,7 +36,7 @@ public class WelcomeController : ControllerBase
     }
     
     [HttpPost]
-    [Route("[action]")]
+    [Route("welcome-at")]
     public IActionResult WelcomeAt()
     {
         var enqueueAt = DateTimeOffset.UtcNow.AddSeconds(10);
@@ -46,7 +46,7 @@ public class WelcomeController : ControllerBase
     }
     
     [HttpPost]
-    [Route("[action]")]
+    [Route("confirmed-welcome")]
     public IActionResult ConfirmedWelcome()
     {
         const int timeInSeconds = 10;
