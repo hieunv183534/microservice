@@ -1,14 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Net.Http.Headers;
 using AutoMapper;
 using Basket.API.Entities;
 using Basket.API.GrpcServices;
 using Basket.API.Repositories.Interfaces;
 using Basket.API.Services.Interfaces;
+using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
+using Infrastructure.Extensions;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Shared.DTOs.ScheduledJob;
+using Shared.Services;
 
 namespace Basket.API.Controllers;
 
@@ -21,16 +26,18 @@ public class BasketsController : ControllerBase
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly StockItemGrpcService _stockItemGrpcService;
     private readonly IEmailTemplateService _emailTemplateService;
+    private readonly BackgroundJobHttpService _backgroundJobHttp;
 
-    public BasketsController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcService, IEmailTemplateService emailTemplateService)
+    public BasketsController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcService, IEmailTemplateService emailTemplateService, BackgroundJobHttpService backgroundJobHttp)
     {
         _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
         _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         _stockItemGrpcService = stockItemGrpcService ?? throw new ArgumentNullException(nameof(stockItemGrpcService));
         _emailTemplateService = emailTemplateService;
+        _backgroundJobHttp = backgroundJobHttp;
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
-
+    
     [HttpGet("{username}", Name = "GetBasket")]
     [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Cart>> GetBasket([Required] string username)
@@ -90,11 +97,21 @@ public class BasketsController : ControllerBase
     [ProducesResponseType(typeof(ContentResult), (int)HttpStatusCode.Accepted)]
     public async Task<ActionResult<Cart>> SendEmailReminder()
     {
-        var emailTemplate = _emailTemplateService.GenerateReminderCheckoutOrderEmail("kiet.pham2610@gmail.com", "kietpham");
-        return new ContentResult
+        var email = "yegammoissute-7722@yopmail.com";
+        var username = "yegammoissute";
+        var emailTemplate = _emailTemplateService.GenerateReminderCheckoutOrderEmail(email, username);
+
+        var model = new ReminderCheckoutOrderDto(email, "reminder checkout", emailTemplate,
+            DateTimeOffset.UtcNow.AddSeconds(30));
+        
+        var uri = "/api/scheduled-jobs/send-email-reminder-checkout-order";
+        var response = await _backgroundJobHttp.Client.PostAsJsonAsync(uri, model);
+        if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
         {
-            Content = emailTemplate,
-            ContentType = "text/html"
-        };
+            var result = await response.ReadContentAs<string>();
+            return Ok($"JobId: {result}");
+        }
+
+        return NoContent();
     }
 }

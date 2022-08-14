@@ -11,6 +11,7 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
 using Inventory.Grpc.Client;
+using Shared.Services;
 
 namespace Basket.API.Extensions;
 
@@ -38,8 +39,12 @@ public static class ServiceExtensions
         services.AddScoped<IBasketRepository, BasketRepository>()
             .AddScoped<IEmailTemplateService, BasketEmailTemplateService>()
             .AddTransient<ISerializeService, SerializeService>()
-        ;
-
+    ;
+    
+    public static void ConfigureHttpClientService(this IServiceCollection services)
+    {
+        services.AddHttpClient<BackgroundJobHttpService>();
+    }
     public static void ConfigureGrpcService(this IServiceCollection services)
     {
         var settings = services.GetOptions<GrpcSettings>(nameof(GrpcSettings));
