@@ -1,7 +1,7 @@
 using Common.Logging;
 using Hangfire;
 using Serilog;
-using Shared.Configurations.HangFire;
+using Shared.Configurations;
 
 namespace Customer.API.Extensions;
 
@@ -18,7 +18,7 @@ public static class HostExtensions
                 .AddEnvironmentVariables();
         }).UseSerilog(Serilogger.Configure);
     }
-    
+
     internal static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
     {
         var configDashboard = configuration.GetSection("HangFireSettings:Dashboard").Get<DashboardOptions>();

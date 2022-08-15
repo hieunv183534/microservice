@@ -8,59 +8,60 @@ namespace Hangfire.API.Controllers;
 [Route("api/[controller]")]
 public class WelcomeController : ControllerBase
 {
-    private readonly IScheduledJobService _jobService;
-    private readonly ILogger _logger;
-    
-    public WelcomeController(IScheduledJobService jobService, ILogger logger)
-    {
-        _jobService = jobService;
-        _logger = logger;
-    }
+   private readonly IScheduledJobService _jobService;
+   private readonly ILogger _logger;
 
-    [HttpPost]
-    [Route("[action]")]
-    public IActionResult Welcome()
-    {
-        var jobId = _jobService.Enqueue(() => ResponseWelcome("Welcome to Hangfire"));
-        return Ok($"Job ID: {jobId} - Enqueue Job");
-    }
-    
-    [HttpPost]
-    [Route("delayed-welcome")]
-    public IActionResult DelayedWelcome()
-    {
-        var seconds = 5;
-        var jobId = _jobService.Schedule(() => ResponseWelcome($"Welcome to Hangfire - Delayed {seconds} seconds"), 
-            TimeSpan.FromSeconds(seconds));
-        return Ok($"Job ID: {jobId} - Delayed (Scheduled) Job");
-    }
-    
-    [HttpPost]
-    [Route("welcome-at")]
-    public IActionResult WelcomeAt()
-    {
-        var enqueueAt = DateTimeOffset.UtcNow.AddSeconds(10);
-        var jobId = _jobService.Schedule(() => ResponseWelcome($"Welcome to Hangfire - At: {enqueueAt}"), 
-            enqueueAt);
-        return Ok($"Job ID: {jobId} - enqueueAt {enqueueAt}");
-    }
-    
-    [HttpPost]
-    [Route("confirmed-welcome")]
-    public IActionResult ConfirmedWelcome()
-    {
-        const int timeInSeconds = 10;
-        var parentJobId = _jobService.Schedule(() => ResponseWelcome("Welcome to Hangfire"),
-            TimeSpan.FromSeconds(timeInSeconds));
+   public WelcomeController(IScheduledJobService jobService, ILogger logger)
+   {
+      _jobService = jobService;
+      _logger = logger;
+   }
 
-        var jobId = _jobService.ContinueQueueWith(parentJobId, () => ResponseWelcome("Welcome message is sent"));
-        
-        return Ok($"Job ID: {jobId} - Confirmed Welcome will be sent in {timeInSeconds} seconds");
-    }
-    
-    [NonAction]    
-    public void ResponseWelcome(string text)
-    {
-        _logger.Information(text);
-    }
+   [HttpPost]
+   [Route("[action]")]
+   public IActionResult Welcome()
+   {
+      var jobId = _jobService.Enqueue(() => ResponseWelcome("Welcome to Hangfire API"));
+      return Ok($"Job ID: {jobId} - Enqueue Job");
+   }
+   
+   [HttpPost]
+   [Route("[action]")]
+   public IActionResult DelayedWelcome()
+   {
+      var seconds = 5;
+      var jobId = _jobService.Schedule(() => ResponseWelcome("Welcome to Hangfire API"), 
+         TimeSpan.FromSeconds(seconds));
+      return Ok($"Job ID: {jobId} - Delayed Job");
+   }
+   
+   [HttpPost]
+   [Route("[action]")]
+   public IActionResult WelcomeAt()
+   {
+      var enqueueAt = DateTimeOffset.UtcNow.AddSeconds(10);
+      var jobId = _jobService.Schedule(() => ResponseWelcome("Welcome to Hangfire API"), 
+         enqueueAt);
+      return Ok($"Job ID: {jobId} - Schedule Job");
+   }
+   
+   [HttpPost]
+   [Route("[action]")]
+   public IActionResult ConfirmedWelcome()
+   {
+      const int timeInSeconds = 5;
+      var parentJobId =
+         _jobService.Schedule(() => ResponseWelcome("Welcome to Hangfire API"), TimeSpan.FromSeconds(5));
+
+      var jobId = _jobService.ContinueQueueWith(parentJobId, 
+         () => ResponseWelcome("Welcome message is sent"));
+      
+      return Ok($"Job ID: {jobId} - Confirmed Welcome will be sent in {timeInSeconds} seconds");
+   }
+
+   [NonAction]
+   public void ResponseWelcome(string text)
+   {
+      _logger.Information(text);
+   }
 }

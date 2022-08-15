@@ -6,7 +6,6 @@ using Customer.API.Services.Interfaces;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Shared.Configurations;
-using Shared.Configurations.HangFire;
 
 namespace Customer.API.Extensions;
 
@@ -15,6 +14,10 @@ public static class ServiceExtensions
     internal static IServiceCollection AddConfigurationSettings(this IServiceCollection services, 
         IConfiguration configuration)
     {
+        var databaseSettings = configuration.GetSection(nameof(DatabaseSettings))
+            .Get<DatabaseSettings>();
+        services.AddSingleton(databaseSettings);
+        
         var hangfireSettings = configuration.GetSection(nameof(HangFireSettings))
             .Get<HangFireSettings>();
         services.AddSingleton(hangfireSettings);

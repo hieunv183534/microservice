@@ -1,6 +1,6 @@
 using Hangfire.API.Extensions;
-using Infrastructure.ScheduledJobs;
 using Serilog;
+using Infrastructure.ScheduledJobs;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -19,7 +19,6 @@ try
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
     builder.Services.AddTeduHangfireService();
     builder.Services.ConfigureServices();
 

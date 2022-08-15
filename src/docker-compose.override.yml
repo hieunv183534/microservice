@@ -11,7 +11,7 @@ services:
       ACCEPT_EULA: "Y"
     restart: always
     volumes:
-      - sqlserver_data:/var/lib/sqlserver/data
+      - sqlserver_data:/var/opt/mssql
     ports:
       - "1435:1433"
         
@@ -54,6 +54,17 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+        
+  hangfiredb:
+    container_name: hangfiredb
+    ports:
+      - '27018:27017'
+    volumes:
+      - hangfire_mongo_data:/data/db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'admin'
+      MONGO_INITDB_ROOT_PASSWORD: 'admin' 
   
   hangfiredb:
     container_name: hangfiredb

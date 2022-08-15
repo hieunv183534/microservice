@@ -1,18 +1,20 @@
+using Shared.Configurations;
+
 namespace Shared.Services;
 
 public class BackgroundJobHttpService
 {
-    private const string BASE_URL = "http://localhost:5008";
+    public HttpClient Client { get; }
     
     public BackgroundJobHttpService(
-        HttpClient client)
+        HttpClient client,
+        BackgroundJobSettings settings
+        )
     {
-        client.BaseAddress = new Uri(BASE_URL);
+        client.BaseAddress = new Uri(settings.HangfireUrl);
         client.DefaultRequestHeaders.Clear();
         client.DefaultRequestHeaders.Add("Accept", "application/json");
 
         Client = client;
     }
-    
-    public HttpClient Client { get; }
 }

@@ -17,7 +17,7 @@ public static class HttpClientExtensions
 
         return JsonSerializer.Deserialize<T>(dataAsString,
             new JsonSerializerOptions
-                {PropertyNameCaseInsensitive = true, ReferenceHandler = ReferenceHandler.Preserve});
+                { PropertyNameCaseInsensitive = true, ReferenceHandler = ReferenceHandler.Preserve });
     }
 
     public static Task<HttpResponseMessage> PostAsJson<T>(this HttpClient httpClient, string url, T data)

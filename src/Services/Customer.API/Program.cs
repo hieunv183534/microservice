@@ -53,7 +53,7 @@ try
     app.UseAuthorization();
 
     app.UseHangfireDashboard(builder.Configuration);
-    
+
     app.MapControllers();
 
     app.SeedCustomerData()
@@ -61,7 +61,7 @@ try
 }
 catch (Exception ex)
 {
-    var type = ex.GetType().Name;
+    string type = ex.GetType().Name;
     if (type.Equals("StopTheHostException", StringComparison.Ordinal)) throw;
 
     Log.Fatal(ex, $"Unhandled exception: {ex.Message}");

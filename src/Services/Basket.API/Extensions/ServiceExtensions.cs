@@ -23,7 +23,6 @@ public static class ServiceExtensions
         var eventBusSettings = configuration.GetSection(nameof(EventBusSettings))
             .Get<EventBusSettings>();
         services.AddSingleton(eventBusSettings);
-        
         var cacheSettings = configuration.GetSection(nameof(CacheSettings))
             .Get<CacheSettings>();
         services.AddSingleton(cacheSettings);
@@ -31,20 +30,25 @@ public static class ServiceExtensions
         var grpcSettings = configuration.GetSection(nameof(GrpcSettings))
             .Get<GrpcSettings>();
         services.AddSingleton(grpcSettings);
+        
+        var backgroundJobSettings = configuration.GetSection(nameof(BackgroundJobSettings))
+            .Get<BackgroundJobSettings>();
+        services.AddSingleton(backgroundJobSettings);
 
         return services;
     }
     
     public static IServiceCollection ConfigureServices(this IServiceCollection services) =>
         services.AddScoped<IBasketRepository, BasketRepository>()
-            .AddScoped<IEmailTemplateService, BasketEmailTemplateService>()
             .AddTransient<ISerializeService, SerializeService>()
-    ;
+            .AddTransient<IEmailTemplateService, BasketEmailTemplateService>()
+        ;
     
     public static void ConfigureHttpClientService(this IServiceCollection services)
     {
         services.AddHttpClient<BackgroundJobHttpService>();
     }
+
     public static void ConfigureGrpcService(this IServiceCollection services)
     {
         var settings = services.GetOptions<GrpcSettings>(nameof(GrpcSettings));
