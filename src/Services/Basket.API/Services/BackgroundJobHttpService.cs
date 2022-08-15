@@ -1,15 +1,14 @@
 using Shared.Configurations;
 
-namespace Shared.Services;
+namespace Basket.API.Services;
 
 public class BackgroundJobHttpService
 {
     public HttpClient Client { get; }
-    
+
     public BackgroundJobHttpService(
         HttpClient client,
-        BackgroundJobSettings settings
-        )
+        BackgroundJobSettings settings)
     {
         client.BaseAddress = new Uri(settings.HangfireUrl);
         client.DefaultRequestHeaders.Clear();

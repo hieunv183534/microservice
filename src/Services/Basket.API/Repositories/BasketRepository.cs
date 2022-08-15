@@ -1,11 +1,11 @@
 using Basket.API.Entities;
 using Basket.API.Repositories.Interfaces;
+using Basket.API.Services;
 using Basket.API.Services.Interfaces;
 using Contracts.Common.Interfaces;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.DTOs.ScheduledJob;
-using Shared.Services;
 using ILogger = Serilog.ILogger;
 
 namespace Basket.API.Repositories;

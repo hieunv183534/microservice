@@ -11,7 +11,6 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
 using Inventory.Grpc.Client;
-using Shared.Services;
 
 namespace Basket.API.Extensions;
 
