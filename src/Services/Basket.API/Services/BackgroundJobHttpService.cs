@@ -5,6 +5,8 @@ namespace Basket.API.Services;
 public class BackgroundJobHttpService
 {
     public HttpClient Client { get; }
+    
+    public string ScheduledJobUrl { get; }
 
     public BackgroundJobHttpService(
         HttpClient client,
@@ -15,5 +17,7 @@ public class BackgroundJobHttpService
         client.DefaultRequestHeaders.Add("Accept", "application/json");
 
         Client = client;
+
+        ScheduledJobUrl = settings.ScheduledJobUrl;
     }
 }
