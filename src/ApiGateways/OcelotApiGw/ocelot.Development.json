@@ -49,13 +49,13 @@
           "Port": 5002
         }
       ],
-//      "AuthenticationOptions": {
-//        "AuthenticationProviderKey": "Bearer",
-//        "AllowedScopes": []
-//      },
-//      "RouteClaimsRequirement": {
-//        "Role": "Admin"
-//      },
+      //      "AuthenticationOptions": {
+      //        "AuthenticationProviderKey": "Bearer",
+      //        "AllowedScopes": []
+      //      },
+      //      "RouteClaimsRequirement": {
+      //        "Role": "Admin"
+      //      },
       "SwaggerKey": "product-service"
     },
     {
