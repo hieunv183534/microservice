@@ -49,13 +49,13 @@
           "Port": 5002
         }
       ],
-//      "AuthenticationOptions": {
-//        "AuthenticationProviderKey": "Bearer",
-//        "AllowedScopes": []
-//      },
-//      "RouteClaimsRequirement": {
-//        "Role": "Admin"
-//      },
+      //      "AuthenticationOptions": {
+      //        "AuthenticationProviderKey": "Bearer",
+      //        "AllowedScopes": []
+      //      },
+      //      "RouteClaimsRequirement": {
+      //        "Role": "Admin"
+      //      },
       "SwaggerKey": "product-service"
     },
     {
@@ -137,11 +137,11 @@
       "SwaggerKey": "basket-service"
     },
     {
-      "UpstreamPathTemplate": "/baskets/checkout",
+      "UpstreamPathTemplate": "/baskets/checkout/{username}",
       "UpstreamHttpMethod": [
         "POST"
       ],
-      "DownstreamPathTemplate": "/api/baskets/checkout",
+      "DownstreamPathTemplate": "/api/baskets/checkout/{username}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
