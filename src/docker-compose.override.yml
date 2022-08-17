@@ -150,6 +150,8 @@ services:
       - "CacheSettings:ConnectionString=basketdb:6379"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
       - "GrpcSettings:StockUrl=http://inventory.grpc"
+      - BackgroundJobSettings:HangfireUrl=http://hangfire.api
+      - BackgroundJobSettings:CheckoutUrl=http://localhost:6001
     depends_on: 
       - basketdb
       - rabbitmq
