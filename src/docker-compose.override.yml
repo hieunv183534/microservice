@@ -66,17 +66,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: 'admin'
       MONGO_INITDB_ROOT_PASSWORD: 'admin' 
   
-  hangfiredb:
-    container_name: hangfiredb
-    ports:
-      - '27018:27017'
-    volumes:
-      - hangfire_mongo_data:/data/db
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: 'admin'
-      MONGO_INITDB_ROOT_PASSWORD: 'admin'
-  
   #infrastructure section
   
   rabbitmq:
@@ -222,6 +211,18 @@ services:
       - inventory.product.api
     ports:
       - "6001:80"
+    restart: always
+
+  hangfire.api:
+    container_name: hangfire.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "HangFireSettings:Storage:ConnectionString=mongodb://admin:admin@hangfiredb/hangfire-webapi?authSource=admin"
+    depends_on:
+      - hangfiredb
+    ports:
+      - "6008:80"
     restart: always
     
   
