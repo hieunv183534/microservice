@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Common.Models;
 using Ordering.Application.Features.V1.Orders;
+using Shared.DTOs.Order;
 using Shared.SeedWork;
 
 namespace Ordering.API.Controllers;
@@ -13,10 +15,12 @@ namespace Ordering.API.Controllers;
 public class OrdersController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public OrdersController(IMediator mediator)
+    public OrdersController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _mapper = mapper;
     }
 
     private static class RouteNames
@@ -40,8 +44,9 @@ public class OrdersController : ControllerBase
     
     [HttpPost(Name = RouteNames.CreateOrder)]
     [ProducesResponseType(typeof(ApiResult<long>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ApiResult<long>>> CreateOrder([FromBody]CreateOrderCommand command)
+    public async Task<ActionResult<ApiResult<long>>> CreateOrder([FromBody]CreateOrderDto model)
     {
+        var command = _mapper.Map<CreateOrderCommand>(model);
         var result = await _mediator.Send(command);
         return Ok(result);
     }

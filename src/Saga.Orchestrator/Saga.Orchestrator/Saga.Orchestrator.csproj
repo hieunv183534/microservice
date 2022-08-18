@@ -12,10 +12,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controllers" />
+      <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
     </ItemGroup>
 
 </Project>

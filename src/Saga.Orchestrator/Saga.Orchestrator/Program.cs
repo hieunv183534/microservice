@@ -13,11 +13,15 @@ try
 {
     builder.Host.AddAppConfigurations();
 // Add services to the container.
-
+    builder.Services.ConfigureServices();
+    builder.Services.ConfigureHttpRepository();
+    builder.Services.ConfigureOrderHttpClient();
     builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.Configure<RouteOptions>(options 
+        => options.LowercaseUrls = true);
 
     var app = builder.Build();
 
