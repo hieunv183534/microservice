@@ -1,6 +1,5 @@
 using Basket.API;
 using Basket.API.Extensions;
-using Common.Logging;
 using Infrastructure.Middlewares;
 using Serilog;
 
@@ -14,10 +13,9 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
-    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Host.AddAppConfigurations();
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-    
     // Add services to the container.
     builder.Services.ConfigureServices();
     builder.Services.ConfigureHttpClientService();
