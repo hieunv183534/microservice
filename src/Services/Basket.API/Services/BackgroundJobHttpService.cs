@@ -13,8 +13,8 @@ public class BackgroundJobHttpService
         BackgroundJobSettings settings)
     {
         if (settings == null ||
-            !string.IsNullOrEmpty(settings.HangfireUrl) ||
-            !string.IsNullOrEmpty(settings.ScheduledJobUrl)
+            string.IsNullOrEmpty(settings.HangfireUrl) ||
+            string.IsNullOrEmpty(settings.ScheduledJobUrl)
            )
             throw new ArgumentNullException($"{nameof(BackgroundJobSettings)} is not configured properly");
 
