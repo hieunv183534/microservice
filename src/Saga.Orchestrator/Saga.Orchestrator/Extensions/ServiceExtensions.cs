@@ -17,12 +17,14 @@ public static class ServiceExtensions
     public static IServiceCollection ConfigureHttpRepository(this IServiceCollection services) =>
         services.AddScoped<IOrderHttpRepository, OrderHttpRepository>()
             .AddScoped<IBasketHttpRepository, BasketHttpRepository>()
+            .AddScoped<IInventoryHttpRepository, InventoryHttpRepository>()
         ;
 
     public static void ConfigureHttpClients(this IServiceCollection services)
     {
         ConfigureOrderHttpClient(services);
         ConfigureBasketHttpClient(services);
+        ConfigureInventoryHttpClient(services);
     }
 
     private static void ConfigureOrderHttpClient(this IServiceCollection services)
@@ -39,9 +41,19 @@ public static class ServiceExtensions
     {
         services.AddHttpClient<IBasketHttpRepository, BasketHttpRepository>("BasketsAPI",(sp, cl) =>
         {
-            cl.BaseAddress = new Uri("http://localhost:5004/api/baskets/");
+            cl.BaseAddress = new Uri("http://localhost:5004/api/baskets");
         });
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("BasketsAPI"));
+    }
+    
+    private static void ConfigureInventoryHttpClient(this IServiceCollection services)
+    {
+        services.AddHttpClient<IInventoryHttpRepository, InventoryHttpRepository>("InventoryAPI",(sp, cl) =>
+        {
+            cl.BaseAddress = new Uri("http://localhost:5006/api/inventory/");
+        });
+        services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
+            .CreateClient("InventoryAPI"));
     }
 }

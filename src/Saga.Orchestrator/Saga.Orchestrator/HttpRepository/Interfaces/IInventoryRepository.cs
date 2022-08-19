@@ -1,6 +1,8 @@
+using Shared.DTOs.Inventory;
+
 namespace Saga.Orchestrator.HttpRepository.Interfaces;
 
-public interface IInventoryRepository
+public interface IInventoryHttpRepository
 {
-    // Task<bool> 
+    Task<bool> CreateSalesOrder(string itemNo, SalesProductDto model);
 }

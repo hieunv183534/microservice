@@ -2,6 +2,7 @@ using AutoMapper;
 using Saga.Orchestrator.HttpRepository.Interfaces;
 using Saga.Orchestrator.Services.Interfaces;
 using Shared.DTOs.Basket;
+using Shared.DTOs.Inventory;
 using Shared.DTOs.Order;
 
 namespace Saga.Orchestrator.Services;
@@ -10,12 +11,14 @@ public class CheckoutSagaService : ICheckoutSagaService
 {
     private readonly IOrderHttpRepository _orderHttpRepository;
     private readonly IBasketHttpRepository _basketHttpRepository;
+    private readonly IInventoryHttpRepository _inventoryHttpRepository;
     private readonly IMapper _mapper;
-    public CheckoutSagaService(IOrderHttpRepository orderHttpRepository, IBasketHttpRepository basketHttpRepository, IMapper mapper)
+    public CheckoutSagaService(IOrderHttpRepository orderHttpRepository, IBasketHttpRepository basketHttpRepository, IMapper mapper, IInventoryHttpRepository inventoryHttpRepository)
     {
         _orderHttpRepository = orderHttpRepository;
         _basketHttpRepository = basketHttpRepository;
         _mapper = mapper;
+        _inventoryHttpRepository = inventoryHttpRepository;
     }
     
     public async Task<bool> Checkout(string username, BasketCheckoutDto basketCheckout)
@@ -29,9 +32,14 @@ public class CheckoutSagaService : ICheckoutSagaService
         order.TotalPrice = cart.TotalPrice;
         var orderId = await _orderHttpRepository.CreateOrder(order);
         if (orderId < 0) return false;
-        
-        // Create Sales Order from InventoryRepository
-        // var salesOrder = 
+        // var addedOrder = await _orderHttpRepository.get
+        //
+        // // Create Sales Order from InventoryRepository
+        // foreach (var item in cart.Items)
+        // {
+        //     var saleOrder = new SalesProductDto(order)
+        //     await _inventoryHttpRepository.CreateSalesOrder();
+        // }
 
         return true;
     }

@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Common.Models;
 using Ordering.Application.Features.V1.Orders;
+using Ordering.Application.Features.V1.Orders.Queries.GetOrderById;
 using Shared.DTOs.Order;
 using Shared.SeedWork;
 
@@ -26,6 +27,7 @@ public class OrdersController : ControllerBase
     private static class RouteNames
     {
         public const string GetOrders = nameof(GetOrders);
+        public const string GetOrder = nameof(GetOrder);
         public const string CreateOrder = nameof(CreateOrder);
         public const string UpdateOrder = nameof(UpdateOrder);
         public const string DeleteOrder = nameof(DeleteOrder);
@@ -38,6 +40,15 @@ public class OrdersController : ControllerBase
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required] string username)
     {
         var query = new GetOrdersByUserNameQuery(username);
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+    
+    [HttpGet("{id:long}", Name = RouteNames.GetOrder)]
+    [ProducesResponseType(typeof(OrderDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<OrderDto>> GetOrder([Required] long id)
+    {
+        var query = new GetOrderByIdQuery(id);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
