@@ -5,7 +5,7 @@ using Ordering.Application.Common.Models;
 using Serilog;
 using Shared.SeedWork;
 
-namespace Ordering.Application.Features.V1.Orders.Queries.GetOrderById;
+namespace Ordering.Application.Features.V1.Orders;
 
 public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, ApiResult<OrderDto>>
 {

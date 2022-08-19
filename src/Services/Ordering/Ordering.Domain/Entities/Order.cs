@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Contracts.Common.Events;
 using Contracts.Common.Interfaces;
 using Ordering.Domain.OrderAggregate.Events;
+using Shared.Enums.Order;
 
 namespace Ordering.Domain.Entities;
 

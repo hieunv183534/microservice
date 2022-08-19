@@ -4,5 +4,5 @@ namespace Saga.Orchestrator.HttpRepository.Interfaces;
 
 public interface IInventoryHttpRepository
 {
-    Task<bool> CreateSalesOrder(string itemNo, SalesProductDto model);
+    Task<bool> CreateSalesOrder(SalesProductDto model);
 }

@@ -23,9 +23,15 @@ public class OrderHttpRepository : IOrderHttpRepository
         return orderId.Data;
     }
 
+    public async Task<OrderDto> GetOrder(long id)
+    {
+        var order = await _client.GetFromJsonAsync<ApiSuccessResult<OrderDto>>($"orders/{id.ToString()}");
+        return order.Data;
+    }
+
     public async Task<bool> DeleteOrder(long id)
     {
-        var response = await _client.DeleteAsync($"orders/{id}");
+        var response = await _client.DeleteAsync($"orders/{id.ToString()}");
         return response.IsSuccessStatusCode;
     }
 }

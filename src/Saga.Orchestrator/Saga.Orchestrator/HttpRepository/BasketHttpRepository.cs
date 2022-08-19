@@ -14,7 +14,7 @@ public class BasketHttpRepository : IBasketHttpRepository
     
     public async Task<CartDto> GetBasket(string username)
     {
-        var cart = await _client.GetFromJsonAsync<CartDto>(username);
+        var cart = await _client.GetFromJsonAsync<CartDto>($"baskets/{username}");
         if (cart == null || !cart.Items.Any()) return null;
 
         return cart;

@@ -32,14 +32,15 @@ public class CheckoutSagaService : ICheckoutSagaService
         order.TotalPrice = cart.TotalPrice;
         var orderId = await _orderHttpRepository.CreateOrder(order);
         if (orderId < 0) return false;
-        // var addedOrder = await _orderHttpRepository.get
-        //
-        // // Create Sales Order from InventoryRepository
-        // foreach (var item in cart.Items)
-        // {
-        //     var saleOrder = new SalesProductDto(order)
-        //     await _inventoryHttpRepository.CreateSalesOrder();
-        // }
+        var addedOrder = await _orderHttpRepository.GetOrder(orderId);
+        
+        // Create Sales Order from InventoryRepository
+        foreach (var item in cart.Items)
+        {
+            var saleOrder = new SalesProductDto(addedOrder.DocumentNo, item.Quantity);
+            saleOrder.SetItemNo(item.ItemNo);
+            await _inventoryHttpRepository.CreateSalesOrder(saleOrder);
+        }
 
         return true;
     }

@@ -3,11 +3,10 @@ using System.Net;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Ordering.Application.Common.Models;
 using Ordering.Application.Features.V1.Orders;
-using Ordering.Application.Features.V1.Orders.Queries.GetOrderById;
 using Shared.DTOs.Order;
 using Shared.SeedWork;
+using OrderDto = Ordering.Application.Common.Models.OrderDto;
 
 namespace Ordering.API.Controllers;
 

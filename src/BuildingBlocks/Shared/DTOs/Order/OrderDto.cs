@@ -1,11 +1,8 @@
-using Ordering.Application.Common.Mappings;
-using Ordering.Application.Features.V1.Orders;
-using Ordering.Domain.Entities;
 using Shared.Enums.Order;
 
-namespace Ordering.Application.Common.Models;
+namespace Shared.DTOs.Order;
 
-public class OrderDto : IMapFrom<Order>, IMapFrom<UpdateOrderCommand>
+public class OrderDto
 {
     public long Id { get; set; }
     public string DocumentNo { get; set; }
