@@ -27,24 +27,20 @@ public static class ServiceExtensions
 
     private static void ConfigureOrderHttpClient(this IServiceCollection services)
     {
-        services.AddHttpClient("OrdersAPI",
-            (sp, cl) =>
-            {
-                cl.BaseAddress = new Uri("http://localhost:5005/api/v1/orders/");
-            });
-
+        services.AddHttpClient<IOrderHttpRepository, OrderHttpRepository>("OrdersAPI",(sp, cl) =>
+        {
+            cl.BaseAddress = new Uri("http://localhost:5005/api/v1/orders");
+        });
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("OrdersAPI"));
     }
     
-    public static void ConfigureBasketHttpClient(this IServiceCollection services)
+    private static void ConfigureBasketHttpClient(this IServiceCollection services)
     {
-        services.AddHttpClient("BasketsAPI",
-            (sp, cl) =>
-            {
-                cl.BaseAddress = new Uri("http://localhost:5004/api/baskets/");
-            });
-
+        services.AddHttpClient<IBasketHttpRepository, BasketHttpRepository>("BasketsAPI",(sp, cl) =>
+        {
+            cl.BaseAddress = new Uri("http://localhost:5004/api/baskets/");
+        });
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("BasketsAPI"));
     }

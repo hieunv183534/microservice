@@ -1,3 +1,4 @@
+using Saga.Orchestrator;
 using Saga.Orchestrator.Extensions;
 using Serilog;
 
@@ -22,6 +23,7 @@ try
     builder.Services.AddSwaggerGen();
     builder.Services.Configure<RouteOptions>(options 
         => options.LowercaseUrls = true);
+    builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
     var app = builder.Build();
 
