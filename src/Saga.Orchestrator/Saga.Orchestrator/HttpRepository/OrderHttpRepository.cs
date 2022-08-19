@@ -1,4 +1,3 @@
-using Contracts.Common.Interfaces;
 using Infrastructure.Extensions;
 using Saga.Orchestrator.HttpRepository.Interfaces;
 using Shared.DTOs.Order;
@@ -9,12 +8,10 @@ namespace Saga.Orchestrator.HttpRepository;
 public class OrderHttpRepository : IOrderHttpRepository
 {
     private readonly HttpClient _client;
-    private readonly ISerializeService _serializeService;
     
-    public OrderHttpRepository(HttpClient client, ISerializeService serializeService)
+    public OrderHttpRepository(HttpClient client)
     {
         _client = client;
-        _serializeService = serializeService;
     }
 
     public async Task<long> CreateOrder(CreateOrderDto order)

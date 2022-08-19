@@ -17,5 +17,5 @@ public class CartDto
         Username = username;
     }
 
-    public decimal TotalPrice { get; protected set; }
+    public decimal TotalPrice => Items.Sum(item => item.ItemPrice * item.Quantity);
 }

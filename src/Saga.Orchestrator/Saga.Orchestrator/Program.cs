@@ -15,7 +15,7 @@ try
 // Add services to the container.
     builder.Services.ConfigureServices();
     builder.Services.ConfigureHttpRepository();
-    builder.Services.ConfigureOrderHttpClient();
+    builder.Services.ConfigureHttpClients();
     builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
