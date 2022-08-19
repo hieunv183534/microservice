@@ -29,6 +29,9 @@ public class CheckoutSagaService : ICheckoutSagaService
         order.TotalPrice = cart.TotalPrice;
         var orderId = await _orderHttpRepository.CreateOrder(order);
         if (orderId < 0) return false;
+        
+        // Create Sales Order from InventoryRepository
+        // var salesOrder = 
 
         return true;
     }

@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Shared.Configurations;
 using Shared.DTOs.Inventory;
+using Shared.Enums.Inventory;
 
 namespace Inventory.Product.API.Services;
 
@@ -62,6 +63,22 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
             ItemNo = itemNo,
             Quantity = model.Quantity,
             DocumentType = model.DocumentType,
+        };
+        var entity = _mapper.Map<InventoryEntry>(itemToAdd);
+        await CreateAsync(entity);
+        var result = _mapper.Map<InventoryEntryDto>(entity);
+        
+        return result;
+    }
+
+    public async Task<InventoryEntryDto> SalesItemAsync(string itemNo, SalesProductDto model)
+    {
+        var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
+        {
+            ItemNo = itemNo,
+            ExternalDocumentNo = model.ExternalDocumentNo,
+            Quantity = model.Quantity * -1,
+            DocumentType = model.DocumentType
         };
         var entity = _mapper.Map<InventoryEntry>(itemToAdd);
         await CreateAsync(entity);

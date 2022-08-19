@@ -57,6 +57,15 @@ public class InventoryController : ControllerBase
         return Ok(result);
     }
     
+    [HttpPost("sales/{itemNo}", Name = "SalesOrder")]
+    [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<InventoryEntryDto>> SalesOrder([Required] string itemNo, [FromBody] SalesProductDto model)
+    {
+        model.SetItemNo(itemNo);
+        var result = await _inventoryService.SalesItemAsync(itemNo, model);
+        return Ok(result);
+    }
+    
     [Route("{id}", Name = "DeleteById")]
     [HttpDelete]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
