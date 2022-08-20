@@ -4,5 +4,5 @@ namespace Saga.Orchestrator.Services.Interfaces;
 
 public interface ICheckoutSagaService
 {
-    Task<bool> Checkout(string username, BasketCheckoutDto basketCheckout);
+    Task<bool> CheckoutOrder(string username, BasketCheckoutDto basketCheckout);
 }

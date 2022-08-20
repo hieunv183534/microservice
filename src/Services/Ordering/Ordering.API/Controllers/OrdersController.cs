@@ -30,6 +30,7 @@ public class OrdersController : ControllerBase
         public const string CreateOrder = nameof(CreateOrder);
         public const string UpdateOrder = nameof(UpdateOrder);
         public const string DeleteOrder = nameof(DeleteOrder);
+        public const string DeleteOrderByDocumentNo = nameof(DeleteOrderByDocumentNo);
     }
 
     #region CRUD
@@ -77,6 +78,15 @@ public class OrdersController : ControllerBase
         var command = new DeleteOrderCommand(id);
         await _mediator.Send(command);
         return NoContent();
+    }
+    
+    [HttpDelete("document-no/{documentNo}",Name = RouteNames.DeleteOrderByDocumentNo)]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.NoContent)]
+    public async Task<ApiResult<bool>> DeleteOrderByDocumentNo([Required]string documentNo)
+    {
+        var command = new DeleteOrderByDocumentNoCommand(documentNo);
+        var result = await _mediator.Send(command);
+        return result;
     }
     
     #endregion

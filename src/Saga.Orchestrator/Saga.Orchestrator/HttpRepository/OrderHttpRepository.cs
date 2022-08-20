@@ -34,4 +34,10 @@ public class OrderHttpRepository : IOrderHttpRepository
         var response = await _client.DeleteAsync($"orders/{id.ToString()}");
         return response.IsSuccessStatusCode;
     }
+
+    public async Task<bool> DeleteOrderByDocumentNo(string documentNo)
+    {
+        var response = await _client.DeleteAsync($"document-no/{documentNo}");
+        return response.IsSuccessStatusCode;
+    }
 }

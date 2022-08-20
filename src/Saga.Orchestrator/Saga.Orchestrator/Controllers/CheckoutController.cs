@@ -21,7 +21,7 @@ public class CheckoutController : ControllerBase
     public async Task<IActionResult> CheckoutOrder([Required] string username,
         [FromBody] BasketCheckoutDto model)
     {
-        var result = await _checkoutSagaService.Checkout(username, model);
+        var result = await _checkoutSagaService.CheckoutOrder(username, model);
         return Accepted(result);
     }
 }

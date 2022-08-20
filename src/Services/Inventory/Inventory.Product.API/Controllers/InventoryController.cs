@@ -77,4 +77,12 @@ public class InventoryController : ControllerBase
         await _inventoryService.DeleteAsync(id);
         return NoContent();
     }
+    
+    [Route("document-no/{documentNo}", Name = "DeleteByDocumentNo")]
+    [HttpDelete]
+    public async Task<ActionResult<bool>> DeleteByDocumentNo([Required] string documentNo)
+    {
+        await _inventoryService.DeleteByDocumentNoAsync(documentNo);
+        return true;
+    }
 }
