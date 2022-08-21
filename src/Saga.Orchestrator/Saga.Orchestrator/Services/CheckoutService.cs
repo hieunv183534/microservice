@@ -1,5 +1,4 @@
 using AutoMapper;
-using MongoDB.Bson;
 using Saga.Orchestrator.HttpRepository.Interfaces;
 using Saga.Orchestrator.Services.Interfaces;
 using Shared.DTOs.Basket;

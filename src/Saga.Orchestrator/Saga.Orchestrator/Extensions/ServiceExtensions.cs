@@ -1,9 +1,12 @@
 using Contracts.Common.Interfaces;
+using Contracts.Sagas.OrderManager;
 using Infrastructure.Common;
 using Saga.Orchestrator.HttpRepository;
 using Saga.Orchestrator.HttpRepository.Interfaces;
+using Saga.Orchestrator.OrderManager;
 using Saga.Orchestrator.Services;
 using Saga.Orchestrator.Services.Interfaces;
+using Shared.DTOs.Basket;
 
 namespace Saga.Orchestrator.Extensions;
 
@@ -11,13 +14,15 @@ public static class ServiceExtensions
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services) =>
         services.AddTransient<ISerializeService, SerializeService>()
-            .AddTransient<ICheckoutSagaService, CheckoutSagaService>()
+            .AddSingleton<ICheckoutSagaService, CheckoutSagaService>()
+            .AddSingleton<ISagaOrderManager<BasketCheckoutDto, OrderResponse>, SagaOrderManager>()
         ;
+        
 
     public static IServiceCollection ConfigureHttpRepository(this IServiceCollection services) =>
-        services.AddScoped<IOrderHttpRepository, OrderHttpRepository>()
-            .AddScoped<IBasketHttpRepository, BasketHttpRepository>()
-            .AddScoped<IInventoryHttpRepository, InventoryHttpRepository>()
+        services.AddSingleton<IOrderHttpRepository, OrderHttpRepository>()
+            .AddSingleton<IBasketHttpRepository, BasketHttpRepository>()
+            .AddSingleton<IInventoryHttpRepository, InventoryHttpRepository>()
         ;
 
     public static void ConfigureHttpClients(this IServiceCollection services)
@@ -33,7 +38,7 @@ public static class ServiceExtensions
         {
             cl.BaseAddress = new Uri("http://localhost:5005/api/v1/");
         });
-        services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
+        services.AddSingleton(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("OrdersAPI"));
     }
     
@@ -43,7 +48,7 @@ public static class ServiceExtensions
         {
             cl.BaseAddress = new Uri("http://localhost:5004/api/");
         });
-        services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
+        services.AddSingleton(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("BasketsAPI"));
     }
     
@@ -53,7 +58,7 @@ public static class ServiceExtensions
         {
             cl.BaseAddress = new Uri("http://localhost:5006/api/");
         });
-        services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
+        services.AddSingleton(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("InventoryAPI"));
     }
 }

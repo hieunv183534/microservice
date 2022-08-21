@@ -92,4 +92,24 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         
         return result;
     }
+
+    public async Task<string> SalesOrderAsync(SalesOrderDto model)
+    {
+        var documentNo = Guid.NewGuid().ToString();
+        foreach (var saleItem in model.SaleItems)
+        {
+            var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
+            {
+                DocumentNo = documentNo,
+                ItemNo = saleItem.ItemNo,
+                ExternalDocumentNo = model.OrderNo,
+                Quantity = saleItem.Quantity * -1,
+                DocumentType = saleItem.DocumentType
+            };
+            var entity = _mapper.Map<InventoryEntry>(itemToAdd);
+            await CreateAsync(entity);
+        }
+
+        return documentNo;
+    }
 }

@@ -18,8 +18,18 @@ public class InventoryHttpRepository : IInventoryHttpRepository
         if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
             throw new Exception($"Create sale order for Item: {model.ItemNo} not success");
 
-        var orderId = await response.ReadContentAs<InventoryEntryDto>();
-        return orderId.DocumentNo;
+        var result = await response.ReadContentAs<InventoryEntryDto>();
+        return result.DocumentNo;
+    }
+
+    public async Task<string> CreateOrderSale(string orderNo, SalesOrderDto model)
+    {
+        var response = await _client.PostAsJsonAsync($"inventory/sales/order-no/{orderNo}", model);
+        if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+            throw new Exception($"Create sale order for Order No: {orderNo} not success");
+
+        var result = await response.ReadContentAs<CreatedSalesOrderSuccessDto>();
+        return result.DocumentNo;
     }
 
     public async Task<bool> DeleteOrderByDocumentNo(string documentNo)
