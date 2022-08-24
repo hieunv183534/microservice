@@ -15,6 +15,6 @@ public enum EOrderTransactionState
     InventoryUpdated,
     InventoryUpdateFailed,
     RollbackInventory,
-    InventoryDeleted,
-    InventoryDeletedFailed,
+    InventoryRollback,
+    InventoryRollbackFailed,
 }
