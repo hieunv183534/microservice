@@ -16,7 +16,11 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
     
-    public SagaOrderManager(IOrderHttpRepository orderHttpRepository, IBasketHttpRepository basketHttpRepository, IInventoryHttpRepository inventoryHttpRepository, IMapper mapper, ILogger logger)
+    public SagaOrderManager(IOrderHttpRepository orderHttpRepository, 
+        IBasketHttpRepository basketHttpRepository, 
+        IInventoryHttpRepository inventoryHttpRepository, 
+        IMapper mapper, 
+        ILogger logger)
     {
         _orderHttpRepository = orderHttpRepository;
         _basketHttpRepository = basketHttpRepository;
@@ -35,6 +39,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
         OrderDto addedOrder = null;
         string? inventoryDocumentNo = null;
 
+        //1. Get Basket by Username
         orderStateMachine.Configure(EOrderTransactionState.NotStarted)
             .PermitDynamic(EOrderAction.GetBasket, () =>
             {
@@ -42,6 +47,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                 return cart != null ? EOrderTransactionState.BasketGot : EOrderTransactionState.BasketGetFailed;
             });
 
+        //2. Create order (Place Order)
         orderStateMachine.Configure(EOrderTransactionState.BasketGot)
             .PermitDynamic(EOrderAction.CreateOrder, () =>
             {
@@ -53,6 +59,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
             })
             .OnEntry(() => orderStateMachine.Fire(EOrderAction.CreateOrder));
 
+        //3. Get Order detail by Order Id
         orderStateMachine.Configure(EOrderTransactionState.OrderCreated)
             .PermitDynamic(EOrderAction.GetOrder, () =>
             {
@@ -61,6 +68,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
             })
             .OnEntry(() => orderStateMachine.Fire(EOrderAction.GetOrder));
 
+        //4. Inventory update
         orderStateMachine.Configure(EOrderTransactionState.OrderGot)
             .PermitDynamic(EOrderAction.UpdateInventory, () =>
             {
@@ -76,6 +84,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                     : EOrderTransactionState.InventoryUpdateFailed;
             }).OnEntry(() => orderStateMachine.Fire(EOrderAction.UpdateInventory));
 
+        //5. Delete Basket
         orderStateMachine.Configure(EOrderTransactionState.InventoryUpdated)
             .PermitDynamic(EOrderAction.DeleteBasket, () =>
             {
@@ -83,6 +92,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                 return result ? EOrderTransactionState.BasketDeleted : EOrderTransactionState.InventoryUpdateFailed;
             }).OnEntry(() => orderStateMachine.Fire(EOrderAction.DeleteBasket));
 
+        // Rollback order
         orderStateMachine.Configure(EOrderTransactionState.InventoryUpdateFailed)
             .PermitDynamic(EOrderAction.DeleteInventory, () =>
             {
@@ -100,6 +110,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
         var orderStateMachine =
             new Stateless.StateMachine<EOrderTransactionState, EOrderAction>(EOrderTransactionState.RollbackInventory);
 
+        //1. Delete Inventory by Document No
         orderStateMachine.Configure(EOrderTransactionState.RollbackInventory)
             .PermitDynamic(EOrderAction.DeleteInventory, () =>
             {
@@ -107,6 +118,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                 return EOrderTransactionState.InventoryRollback;
             });
         
+        //2. Delete Order by order id
         orderStateMachine.Configure(EOrderTransactionState.InventoryRollback)
             .PermitDynamic(EOrderAction.DeleteOrder, () =>
             {
