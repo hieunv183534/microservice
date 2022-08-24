@@ -82,7 +82,7 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
                 var result = _basketHttpRepository.DeleteBasket(input.UserName).Result;
                 return result ? EOrderTransactionState.BasketDeleted : EOrderTransactionState.InventoryUpdateFailed;
             }).OnEntry(() => orderStateMachine.Fire(EOrderAction.DeleteBasket));
-        
+
         orderStateMachine.Configure(EOrderTransactionState.InventoryUpdateFailed)
             .PermitDynamic(EOrderAction.DeleteInventory, () =>
             {
@@ -92,30 +92,30 @@ public class SagaOrderManager : ISagaOrderManager<BasketCheckoutDto, OrderRespon
 
         orderStateMachine.Fire(EOrderAction.GetBasket);
         
-        return new OrderResponse(orderStateMachine.State == EOrderTransactionState.InventoryUpdated);
+        return new OrderResponse(orderStateMachine.State == EOrderTransactionState.BasketDeleted);
     }
 
     public OrderResponse RollbackOrder(string username, string documentNo, long orderId)
     {
         var orderStateMachine =
             new Stateless.StateMachine<EOrderTransactionState, EOrderAction>(EOrderTransactionState.RollbackInventory);
-        
+
         orderStateMachine.Configure(EOrderTransactionState.RollbackInventory)
             .PermitDynamic(EOrderAction.DeleteInventory, () =>
             {
-                var result = _inventoryHttpRepository.DeleteOrderByDocumentNo(documentNo).Result;
-                return result ? EOrderTransactionState.InventoryRollback : EOrderTransactionState.InventoryRollbackFailed;
+                _inventoryHttpRepository.DeleteOrderByDocumentNo(documentNo);
+                return EOrderTransactionState.InventoryRollback;
             });
-
+        
         orderStateMachine.Configure(EOrderTransactionState.InventoryRollback)
             .PermitDynamic(EOrderAction.DeleteOrder, () =>
             {
                 var result = _orderHttpRepository.DeleteOrder(orderId).Result;
                 return result ? EOrderTransactionState.OrderDeleted : EOrderTransactionState.OrderDeletedFailed;
             }).OnEntry(() => orderStateMachine.Fire(EOrderAction.DeleteOrder));
-
-        orderStateMachine.Fire(EOrderAction.DeleteInventory);
         
+        orderStateMachine.Fire(EOrderAction.DeleteInventory);
+
         return new OrderResponse(orderStateMachine.State == EOrderTransactionState.InventoryRollback);
     }
 }

@@ -22,7 +22,11 @@ public class BasketHttpRepository : IBasketHttpRepository
 
     public async Task<bool> DeleteBasket(string username)
     {
-        var result = false;
+        var response = await _client.DeleteAsync($"baskets/{username}");
+        if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+            throw new Exception($"Delete basket for Username: {username} not success");
+
+        var result = response.IsSuccessStatusCode;
         return result;
     }
 }
