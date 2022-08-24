@@ -7,6 +7,7 @@ namespace Saga.Orchestrator.HttpRepository;
 public class InventoryHttpRepository : IInventoryHttpRepository
 {
     private readonly HttpClient _client;
+
     public InventoryHttpRepository(HttpClient client)
     {
         _client = client;
@@ -16,15 +17,16 @@ public class InventoryHttpRepository : IInventoryHttpRepository
     {
         var response = await _client.PostAsJsonAsync($"inventory/sales/{model.ItemNo}", model);
         if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
-            throw new Exception($"Create sale order for Item: {model.ItemNo} not success");
+            throw new Exception($"Create sale order for item: {model.ItemNo} not success");
 
-        var result = await response.ReadContentAs<InventoryEntryDto>();
-        return result.DocumentNo;
+        var inventory = await response.ReadContentAs<InventoryEntryDto>();
+        return inventory.DocumentNo;
     }
 
     public async Task<string> CreateOrderSale(string orderNo, SalesOrderDto model)
     {
-        var response = await _client.PostAsJsonAsync($"inventory/sales/order-no/{orderNo}", model);
+        var response = await _client.PostAsJsonAsync($"inventory/sales/order-no/{orderNo}",
+            model);
         if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
             throw new Exception($"Create sale order for Order No: {orderNo} not success");
 
@@ -38,7 +40,7 @@ public class InventoryHttpRepository : IInventoryHttpRepository
         if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
             throw new Exception($"Delete order for Document No: {documentNo} not success");
 
-        var result = await response.ReadContentAs<bool>();
+        var result = response.IsSuccessStatusCode;
         return result;
     }
 }

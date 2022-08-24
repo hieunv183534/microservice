@@ -68,7 +68,8 @@ public class InventoryController : ControllerBase
     
     [HttpPost("sales/order-no/{orderNo}", Name = "SalesOrder")]
     [ProducesResponseType(typeof(CreatedSalesOrderSuccessDto), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<CreatedSalesOrderSuccessDto>> SalesOrder([Required] string orderNo, [FromBody] SalesOrderDto model)
+    public async Task<ActionResult<CreatedSalesOrderSuccessDto>> SalesOrder([Required] string orderNo, 
+        [FromBody] SalesOrderDto model)
     {
         model.OrderNo = orderNo;
         var documentNo = await _inventoryService.SalesOrderAsync(model);
@@ -90,9 +91,11 @@ public class InventoryController : ControllerBase
     
     [Route("document-no/{documentNo}", Name = "DeleteByDocumentNo")]
     [HttpDelete]
-    public async Task<ActionResult<bool>> DeleteByDocumentNo([Required] string documentNo)
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    public async Task<IActionResult> DeleteByDocumentNo([Required] string documentNo)
     {
         await _inventoryService.DeleteByDocumentNoAsync(documentNo);
-        return true;
+        return NoContent();
     }
 }

@@ -18,8 +18,8 @@ public class OrderRepository : RepositoryBase<Order, long, OrderContext>, IOrder
         await FindByCondition(x => x.UserName.Equals(userName))
             .ToListAsync();
 
-    public Task<Order> GetOrderByDocumentNo(string documentNo) =>
-        FindByCondition(x => x.DocumentNo.Equals(documentNo)).FirstOrDefaultAsync();
+    public Task<Order> GetOrderByDocumentNo(string documentNo)
+        => FindByCondition(x => x.DocumentNo.ToString().Equals(documentNo)).FirstOrDefaultAsync();
 
     public void CreateOrder(Order order) => Create(order);
 

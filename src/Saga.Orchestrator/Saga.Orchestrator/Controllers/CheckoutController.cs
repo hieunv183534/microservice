@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Contracts.Sagas.OrderManager;
 using Microsoft.AspNetCore.Mvc;
 using Saga.Orchestrator.OrderManager;
+using Saga.Orchestrator.Services.Interfaces;
 using Shared.DTOs.Basket;
 
 namespace Saga.Orchestrator.Controllers;
@@ -10,11 +11,11 @@ namespace Saga.Orchestrator.Controllers;
 [Route("api/[controller]")]
 public class CheckoutController : ControllerBase
 {
-    private readonly ISagaOrderManager<BasketCheckoutDto, OrderResponse> _orderManager;
-
-    public CheckoutController(ISagaOrderManager<BasketCheckoutDto, OrderResponse> orderManager)
+    private readonly ISagaOrderManager<BasketCheckoutDto, OrderResponse> _sagaOrderManager;
+    
+    public CheckoutController(ISagaOrderManager<BasketCheckoutDto, OrderResponse> sagaOrderManager)
     {
-        _orderManager = orderManager;
+        _sagaOrderManager = sagaOrderManager;
     }
 
     [HttpPost]
@@ -23,8 +24,7 @@ public class CheckoutController : ControllerBase
         [FromBody] BasketCheckoutDto model)
     {
         model.UserName = username;
-        var result = _orderManager.CreateOrder(model);
-
+        var result = _sagaOrderManager.CreateOrder(model);
         return result;
     }
 }

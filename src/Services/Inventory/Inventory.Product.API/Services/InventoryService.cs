@@ -8,7 +8,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Shared.Configurations;
 using Shared.DTOs.Inventory;
-using Shared.Enums.Inventory;
 
 namespace Inventory.Product.API.Services;
 
@@ -56,12 +55,6 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
         return result;
     }
 
-    public async Task DeleteByDocumentNoAsync(string documentNo)
-    {
-        FilterDefinition<InventoryEntry> filter = Builders<InventoryEntry>.Filter.Eq(s => s.DocumentNo, documentNo);
-        await Collection.DeleteOneAsync(filter);
-    }
-
     public async Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseProductDto model)
     {
         var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
@@ -70,9 +63,8 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
             Quantity = model.Quantity,
             DocumentType = model.DocumentType,
         };
-        var entity = _mapper.Map<InventoryEntry>(itemToAdd);
-        await CreateAsync(entity);
-        var result = _mapper.Map<InventoryEntryDto>(entity);
+        await CreateAsync(itemToAdd);
+        var result = _mapper.Map<InventoryEntryDto>(itemToAdd);
         
         return result;
     }
@@ -86,11 +78,16 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
             Quantity = model.Quantity * -1,
             DocumentType = model.DocumentType
         };
-        var entity = _mapper.Map<InventoryEntry>(itemToAdd);
-        await CreateAsync(entity);
-        var result = _mapper.Map<InventoryEntryDto>(entity);
+        await CreateAsync(itemToAdd);
+        var result = _mapper.Map<InventoryEntryDto>(itemToAdd);
         
         return result;
+    }
+
+    public async Task DeleteByDocumentNoAsync(string documentNo)
+    {
+        FilterDefinition<InventoryEntry> filter = Builders<InventoryEntry>.Filter.Eq(s => s.DocumentNo, documentNo);
+        await Collection.DeleteManyAsync(filter);
     }
 
     public async Task<string> SalesOrderAsync(SalesOrderDto model)
@@ -106,8 +103,7 @@ public class InventoryService : MongoDbRepository<InventoryEntry>, IInventorySer
                 Quantity = saleItem.Quantity * -1,
                 DocumentType = saleItem.DocumentType
             };
-            var entity = _mapper.Map<InventoryEntry>(itemToAdd);
-            await CreateAsync(entity);
+            await CreateAsync(itemToAdd);
         }
 
         return documentNo;

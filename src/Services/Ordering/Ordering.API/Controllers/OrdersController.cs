@@ -81,7 +81,7 @@ public class OrdersController : ControllerBase
     }
     
     [HttpDelete("document-no/{documentNo}",Name = RouteNames.DeleteOrderByDocumentNo)]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.NoContent)]
+    [ProducesResponseType(typeof(ApiResult<bool>), (int)HttpStatusCode.NoContent)]
     public async Task<ApiResult<bool>> DeleteOrderByDocumentNo([Required]string documentNo)
     {
         var command = new DeleteOrderByDocumentNoCommand(documentNo);

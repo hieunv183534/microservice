@@ -1,7 +1,5 @@
 using MediatR;
-using Ordering.Application.Common.Exceptions;
 using Ordering.Application.Common.Interfaces;
-using Ordering.Domain.Entities;
 using Serilog;
 using Shared.SeedWork;
 
@@ -27,7 +25,7 @@ public class DeleteOrderByDocumentNoCommandHandler : IRequestHandler<DeleteOrder
         orderEntity.DeletedOrder();
         await _orderRepository.SaveChangesAsync();
 
-        _logger.Information($"Order {orderEntity.Id} was successfully deleted.");
+        _logger.Information($"Order {orderEntity.DocumentNo} was successfully deleted.");
 
         return new ApiResult<bool>(true);
     }

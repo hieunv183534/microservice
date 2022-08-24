@@ -6,7 +6,7 @@ namespace Saga.Orchestrator.HttpRepository;
 public class BasketHttpRepository : IBasketHttpRepository
 {
     private readonly HttpClient _client;
-    
+
     public BasketHttpRepository(HttpClient client)
     {
         _client = client;
@@ -20,9 +20,9 @@ public class BasketHttpRepository : IBasketHttpRepository
         return cart;
     }
 
-    // implement finally
-    public Task<bool> DeleteBasket(string username)
+    public async Task<bool> DeleteBasket(string username)
     {
-        throw new NotImplementedException();
+        var result = false;
+        return result;
     }
 }

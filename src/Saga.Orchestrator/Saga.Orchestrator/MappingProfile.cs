@@ -5,7 +5,7 @@ using Shared.DTOs.Order;
 
 namespace Saga.Orchestrator;
 
-public class MappingProfile : Profile
+public class MappingProfile: Profile
 {
     public MappingProfile()
     {

@@ -5,7 +5,7 @@ namespace Basket.API.Extensions;
 
 public static class HostExtensions
 {
-    public static void AddAppConfigurations(this ConfigureHostBuilder host)
+    internal static void AddAppConfigurations(this ConfigureHostBuilder host)
     {
         host.ConfigureAppConfiguration((context, config) =>
         {
