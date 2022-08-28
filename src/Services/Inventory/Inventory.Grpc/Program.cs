@@ -1,10 +1,9 @@
-using Common.Logging;
 using Inventory.Grpc.Extensions;
 using Inventory.Grpc.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(Serilogger.Configure);
+builder.Host.AddAppConfigurations();
 
 Log.Information($"Start {builder.Environment.ApplicationName} up");
 
