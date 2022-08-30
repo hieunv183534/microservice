@@ -1,14 +1,9 @@
-using Common.Logging;
 using Infrastructure.Middlewares;
 using Ordering.API.Extensions;
 using Ordering.Application;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
 using Serilog;
-
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -37,6 +37,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Order API: http://localhost:6005/api/v1/orders
 - Inventory API: http://localhost:6006/api/inventory
 - Inventory GRPC: http://localhost:6007
+- Scheduled Job API: http://localhost:6008
 
 ## Docker Application URLs - LOCAL Environment (Docker Container):
 - Portainer: http://localhost:9000 - username: admin ; pass: admin1234
@@ -54,6 +55,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Order API: http://localhost:5005/api/v1/orders
 - Inventory API: http://localhost:5006/api/inventory
 - Inventory GRPC: http://localhost:5007
+- Scheduled Job API: http://localhost:5008
 ---
 ## Application URLs - PRODUCTION Environment:
 
@@ -72,6 +74,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-6.0&tabs=visual-studio
 - https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot?view=aspnetcore-6.0
 - https://github.com/ThreeMammals/Ocelot
+- https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-6.0
 
 ## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
