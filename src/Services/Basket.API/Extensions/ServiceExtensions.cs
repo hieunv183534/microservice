@@ -3,6 +3,7 @@ using Basket.API.Repositories;
 using Basket.API.Repositories.Interfaces;
 using Basket.API.Services;
 using Basket.API.Services.Interfaces;
+using Common.Logging;
 using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
 using Infrastructure.Common;
@@ -41,17 +42,19 @@ public static class ServiceExtensions
         services.AddScoped<IBasketRepository, BasketRepository>()
             .AddTransient<ISerializeService, SerializeService>()
             .AddTransient<IEmailTemplateService, BasketEmailTemplateService>()
+            .AddTransient<LoggingDelegatingHandler>()
         ;
     
     public static void ConfigureHttpClientService(this IServiceCollection services)
     {
-        services.AddHttpClient<BackgroundJobHttpService>();
+        services.AddHttpClient<BackgroundJobHttpService>()
+            .AddHttpMessageHandler<LoggingDelegatingHandler>();
     }
 
     public static void ConfigureGrpcService(this IServiceCollection services)
     {
         var settings = services.GetOptions<GrpcSettings>(nameof(GrpcSettings));
-        services.AddGrpcClient<StockProtoService.StockProtoServiceClient>(x => 
+        services.AddGrpcClient<StockProtoService.StockProtoServiceClient>(x =>
             x.Address = new Uri(settings.StockUrl));
         services.AddScoped<StockItemGrpcService>();
     }
