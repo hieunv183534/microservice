@@ -12,6 +12,7 @@ using Infrastructure.Policies;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
+using Inventory.Grpc.Client;
 
 namespace Basket.API.Extensions;
 
@@ -55,10 +56,9 @@ public static class ServiceExtensions
     public static void ConfigureGrpcService(this IServiceCollection services)
     {
         var settings = services.GetOptions<GrpcSettings>(nameof(GrpcSettings));
-        services.AddGrpcClient<StockItemGrpcService>(x =>
-                x.Address = new Uri(settings.StockUrl))
-            // .ConfigRetryPolicy() //not work yet
-            ;
+        services.AddGrpcClient<StockProtoService.StockProtoServiceClient>(x =>
+            x.Address = new Uri(settings.StockUrl));
+            // .UseImmediateHttpRetryPolicy(); //not work yet
         services.AddScoped<StockItemGrpcService>();
     }
 
