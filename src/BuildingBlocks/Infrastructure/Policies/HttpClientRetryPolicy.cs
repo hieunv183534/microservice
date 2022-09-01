@@ -7,22 +7,37 @@ namespace Infrastructure.Policies;
 
 public static class HttpClientRetryPolicy
 {
-    public static void UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
     {
-        builder.AddPolicyHandler(ImmediateHttpRetry());
-    }
-    
-    public static void UseLinearHttpRetryPolicy(this IHttpClientBuilder builder)
-    {
-        builder.AddPolicyHandler(LinearHttpRetry());
-    }
-    
-    public static void UseExponentialHttpRetryPolicy(this IHttpClientBuilder builder)
-    {
-        builder.AddPolicyHandler(ExponentialHttpRetry());
+        return builder.AddPolicyHandler(ConfigureImmediateHttpRetry());
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> ImmediateHttpRetry() =>
+    public static IHttpClientBuilder UseLinearHttpRetryPolicy(this IHttpClientBuilder builder)
+    {
+        return builder.AddPolicyHandler(ConfigureLinearHttpRetry());
+    }
+    
+    public static IHttpClientBuilder UseExponentialHttpRetryPolicy(this IHttpClientBuilder builder)
+    {
+        return builder.AddPolicyHandler(ConfigureExponentialHttpRetry());
+    }
+
+    public static IHttpClientBuilder UseCircuitBreakerPolicy(this IHttpClientBuilder builder)
+    {
+        return builder.AddPolicyHandler(ConfigureCircuitBreakerPolicy());
+    }
+
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureCircuitBreakerPolicy()
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .CircuitBreakerAsync(
+                handledEventsAllowedBeforeBreaking: 3,
+                durationOfBreak: TimeSpan.FromSeconds(30)
+            );
+    }
+
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureImmediateHttpRetry() =>
         HttpPolicyExtensions
             .HandleTransientHttpError()
             .RetryAsync(3, (exception, retryCount, context) =>
@@ -31,7 +46,7 @@ public static class HttpClientRetryPolicy
                           $"{context.OperationKey}, due to: {exception.Exception.Message}");
             });
     
-    private static IAsyncPolicy<HttpResponseMessage> LinearHttpRetry() =>
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureLinearHttpRetry() =>
         HttpPolicyExtensions
             .HandleTransientHttpError()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(3),
@@ -42,7 +57,7 @@ public static class HttpClientRetryPolicy
             });
     
     
-    private static IAsyncPolicy<HttpResponseMessage> ExponentialHttpRetry() =>
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureExponentialHttpRetry() =>
         // In this case will wait for
         //  2 ^ 1 = 2 seconds then
         //  2 ^ 2 = 4 seconds then

@@ -34,9 +34,9 @@ public static class ServiceExtensions
     private static void ConfigureOrderHttpClient(this IServiceCollection services)
     {
         services.AddHttpClient<IOrderHttpRepository, OrderHttpRepository>("OrdersAPI", (sp, cl) =>
-        {
-            cl.BaseAddress = new Uri("http://localhost:5005/api/v1/");
-        }).AddHttpMessageHandler<LoggingDelegatingHandler>()
+            {
+                cl.BaseAddress = new Uri("http://localhost:5005/api/v1/");
+            }).AddHttpMessageHandler<LoggingDelegatingHandler>()
             .UseExponentialHttpRetryPolicy();
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("OrdersAPI"));
@@ -52,6 +52,7 @@ public static class ServiceExtensions
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("BasketsAPI"));
     }
+    
     private static void ConfigureInventoryHttpClient(this IServiceCollection services)
     {
         services.AddHttpClient<IInventoryHttpRepository, InventoryHttpRepository>("InventoryAPI", (sp, cl) =>
@@ -59,7 +60,6 @@ public static class ServiceExtensions
             cl.BaseAddress = new Uri("http://localhost:5006/api/");
         }).AddHttpMessageHandler<LoggingDelegatingHandler>()
             .UseExponentialHttpRetryPolicy();
-            ;
         services.AddScoped(sp => sp.GetService<IHttpClientFactory>()
             .CreateClient("InventoryAPI"));
     }
