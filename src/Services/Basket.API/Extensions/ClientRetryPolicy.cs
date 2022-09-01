@@ -6,12 +6,9 @@ namespace Basket.API.Extensions;
 
 public static class RetryPolicyExtensions
 {
-    public static IHttpClientBuilder ConfigBackgroundJobRetryPolicy(this IHttpClientBuilder builder)
-    {
-        return
-            builder.AddPolicyHandler(GetLinearHttpRetryPolicy());
-    }
-    
+    public static IHttpClientBuilder ConfigRetryPolicy(this IHttpClientBuilder builder)
+        => builder.AddPolicyHandler(GetLinearHttpRetryPolicy());
+
     private static IAsyncPolicy<HttpResponseMessage> GetExponentialHttpRetryPolicy()
     {
         //  2 ^ 1 = 2 seconds then
@@ -31,7 +28,7 @@ public static class RetryPolicyExtensions
                         $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
                 });
     }
-    
+
     private static IAsyncPolicy<HttpResponseMessage> GetImmediateHttpRetryPolicy()
     {
         return HttpPolicyExtensions
@@ -44,7 +41,7 @@ public static class RetryPolicyExtensions
                         $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
                 });
     }
-    
+
     private static IAsyncPolicy<HttpResponseMessage> GetLinearHttpRetryPolicy()
     {
         return HttpPolicyExtensions

@@ -55,7 +55,7 @@ public static class ServiceExtensions
     {
         services.AddHttpClient<BackgroundJobHttpService>()
             .AddHttpMessageHandler<LoggingDelegatingHandler>()
-            .ConfigBackgroundJobRetryPolicy();
+            .ConfigRetryPolicy();
     }
 
     public static void ConfigureGrpcService(this IServiceCollection services)
