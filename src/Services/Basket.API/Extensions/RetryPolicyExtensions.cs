@@ -6,7 +6,7 @@ namespace Basket.API.Extensions;
 
 public static class RetryPolicyExtensions
 {
-    public static IHttpClientBuilder ConfigRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder ConfigPolicyHandler(this IHttpClientBuilder builder)
         => builder.AddPolicyHandler(GetLinearHttpRetryPolicy());
 
     private static IAsyncPolicy<HttpResponseMessage> GetExponentialHttpRetryPolicy()

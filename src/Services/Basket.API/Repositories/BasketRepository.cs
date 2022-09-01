@@ -3,7 +3,6 @@ using Basket.API.Repositories.Interfaces;
 using Basket.API.Services;
 using Basket.API.Services.Interfaces;
 using Contracts.Common.Interfaces;
-using Contracts.Policies;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.DTOs.ScheduledJob;
@@ -19,7 +18,7 @@ public class BasketRepository : IBasketRepository
     private readonly BackgroundJobHttpService _backgroundJobHttp;
     private readonly IEmailTemplateService _emailTemplateService;
 
-    public BasketRepository(IDistributedCache redisCacheService, ISerializeService serializeService, ILogger logger, BackgroundJobHttpService backgroundJobHttp, IEmailTemplateService emailTemplateService, IClientPolicy clientPolicy)
+    public BasketRepository(IDistributedCache redisCacheService, ISerializeService serializeService, ILogger logger, BackgroundJobHttpService backgroundJobHttp, IEmailTemplateService emailTemplateService)
     {
         _redisCacheService = redisCacheService;
         _serializeService = serializeService;

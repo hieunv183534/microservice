@@ -5,18 +5,12 @@ using Basket.API.Services;
 using Basket.API.Services.Interfaces;
 using Common.Logging;
 using Contracts.Common.Interfaces;
-using Contracts.Policies;
 using EventBus.Messages.IntegrationEvents.Events;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
-using Infrastructure.Policies;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
-using Inventory.Grpc.Client;
-using Polly;
-using Polly.Extensions.Http;
-using Serilog;
 
 namespace Basket.API.Extensions;
 
@@ -48,21 +42,22 @@ public static class ServiceExtensions
             .AddTransient<ISerializeService, SerializeService>()
             .AddTransient<IEmailTemplateService, BasketEmailTemplateService>()
             .AddTransient<LoggingDelegatingHandler>()
-            .AddSingleton<IClientPolicy, ClientPolicy>()
         ;
     
     public static void ConfigureHttpClientService(this IServiceCollection services)
     {
         services.AddHttpClient<BackgroundJobHttpService>()
             .AddHttpMessageHandler<LoggingDelegatingHandler>()
-            .ConfigRetryPolicy();
+            .ConfigPolicyHandler();
     }
 
     public static void ConfigureGrpcService(this IServiceCollection services)
     {
         var settings = services.GetOptions<GrpcSettings>(nameof(GrpcSettings));
-        services.AddGrpcClient<StockProtoService.StockProtoServiceClient>(x =>
-            x.Address = new Uri(settings.StockUrl));
+        services.AddGrpcClient<StockItemGrpcService>(x =>
+                x.Address = new Uri(settings.StockUrl))
+            // .ConfigRetryPolicy() //not work yet
+            ;
         services.AddScoped<StockItemGrpcService>();
     }
 

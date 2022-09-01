@@ -1,28 +1,55 @@
-using Contracts.Policies;
+using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
+using Serilog;
 
 namespace Infrastructure.Policies;
 
-public class ClientPolicy : IClientPolicy
+public static class ClientPolicy
 {
-    public AsyncRetryPolicy<HttpResponseMessage> ImmediateHttpRetry { get;}
-    public AsyncRetryPolicy<HttpResponseMessage> LinearHttpRetry {get;}
-    public AsyncRetryPolicy<HttpResponseMessage> ExponentialHttpRetry {get;}
-
-    public ClientPolicy()
+    public static void GetImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
     {
-        ImmediateHttpRetry = HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .RetryAsync(10);
-
-        LinearHttpRetry = HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(3));
-
-        ExponentialHttpRetry = HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));            
+        builder.AddPolicyHandler(ImmediateHttpRetry());
     }
+
+    public static void GetLinearHttpRetryPolicy(this IHttpClientBuilder builder)
+    {
+        builder.AddPolicyHandler(LinearHttpRetry());
+    }
+
+    public static void GetExponentialHttpRetryPolicy(this IHttpClientBuilder builder)
+    {
+        builder.AddPolicyHandler(LinearHttpRetry());
+    }
+
+    private static IAsyncPolicy<HttpResponseMessage> ImmediateHttpRetry() =>
+        HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .RetryAsync(3,
+                (exception, retryCount, context) =>
+                {
+                    Log.Error(
+                        $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                });
+
+    private static AsyncRetryPolicy<HttpResponseMessage> LinearHttpRetry() =>
+        HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(3),
+                (exception, retryCount, context) =>
+                {
+                    Log.Error(
+                        $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                });
+
+    public static AsyncRetryPolicy<HttpResponseMessage> ExponentialHttpRetry =>
+        HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                (exception, retryCount, context) =>
+                {
+                    Log.Error(
+                        $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                });
 }
