@@ -6,7 +6,7 @@ using Serilog;
 
 namespace Infrastructure.Policies;
 
-public static class RetryPolicy
+public static class HttpClientRetryPolicy
 {
     public static void UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
     {
