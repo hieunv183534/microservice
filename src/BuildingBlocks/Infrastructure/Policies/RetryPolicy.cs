@@ -6,19 +6,19 @@ using Serilog;
 
 namespace Infrastructure.Policies;
 
-public static class ClientPolicy
+public static class RetryPolicy
 {
-    public static void GetImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static void UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
     {
         builder.AddPolicyHandler(ImmediateHttpRetry());
     }
 
-    public static void GetLinearHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static void UseLinearHttpRetryPolicy(this IHttpClientBuilder builder)
     {
         builder.AddPolicyHandler(LinearHttpRetry());
     }
 
-    public static void GetExponentialHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static void UseExponentialHttpRetryPolicy(this IHttpClientBuilder builder)
     {
         builder.AddPolicyHandler(LinearHttpRetry());
     }

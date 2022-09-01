@@ -1,8 +1,11 @@
 using Grpc.Core;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Configuration;
+using Polly;
+using Polly.Retry;
 using Shared.Configurations;
 using ILogger = Serilog.ILogger;
+using RetryPolicy = Grpc.Net.Client.Configuration.RetryPolicy;
 
 namespace Basket.API.GrpcServices;
 
@@ -12,11 +15,14 @@ public class StockItemGrpcService
 {
     private readonly ILogger _logger;
     private readonly GrpcSettings _grpcSettings;
-    
+    private readonly AsyncRetryPolicy<StockModel> _retryPolicy;
+
     public StockItemGrpcService(ILogger logger, GrpcSettings grpcSettings)
     {
         _logger = logger;
         _grpcSettings = grpcSettings;
+        _retryPolicy = Policy<StockModel>.Handle<RpcException>()
+            .RetryAsync(3);
     }
     
     public async Task<StockModel> GetStock(string itemNo)
@@ -26,18 +32,24 @@ public class StockItemGrpcService
             _logger.Information($"BEGIN: Get Stock StockItemGrpcService Item No: {itemNo}");
             var stockItemRequest = new GetStockRequest { ItemNo = itemNo };
 
-            var channel = GrpcChannel.ForAddress(_grpcSettings.StockUrl, new GrpcChannelOptions
-            {
-                ServiceConfig = new ServiceConfig { MethodConfigs = { getDefaultMethodConfig() } }
-            });
-            // var channel = GrpcChannel.ForAddress(_grpcSettings.StockUrl);
+            // var channel = GrpcChannel.ForAddress(_grpcSettings.StockUrl, new GrpcChannelOptions
+            // {
+            //     ServiceConfig = new ServiceConfig { MethodConfigs = { getDefaultMethodConfig() } }
+            // });
+            var channel = GrpcChannel.ForAddress(_grpcSettings.StockUrl);
             var client = new StockProtoService.StockProtoServiceClient(channel);
 
-            var result = await client.GetStockAsync(stockItemRequest);
-            _logger.Information($"END: Get Stock StockItemGrpcService Item No: {itemNo} - Stock value: {result.Quantity}");
+            return await _retryPolicy.ExecuteAsync(async () =>
+            {
+                var result = await client.GetStockAsync(stockItemRequest);
 
-            return result;
+                if (result != null)
+                    _logger.Information($"END: Get Stock StockItemGrpcService Item No: {itemNo} - Stock value: {result.Quantity}");
+                
+                return result;
+            });
         }
+        
         catch (RpcException e)
         {
             _logger.Error($"Grpc StockItemGrpcService failed : {e.Message}");

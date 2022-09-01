@@ -8,6 +8,7 @@ using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
+using Infrastructure.Policies;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
@@ -48,7 +49,7 @@ public static class ServiceExtensions
     {
         services.AddHttpClient<BackgroundJobHttpService>()
             .AddHttpMessageHandler<LoggingDelegatingHandler>()
-            .ConfigPolicyHandler();
+            .UseImmediateHttpRetryPolicy();
     }
 
     public static void ConfigureGrpcService(this IServiceCollection services)
