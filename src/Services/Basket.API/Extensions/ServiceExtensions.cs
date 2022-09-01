@@ -5,13 +5,18 @@ using Basket.API.Services;
 using Basket.API.Services.Interfaces;
 using Common.Logging;
 using Contracts.Common.Interfaces;
+using Contracts.Policies;
 using EventBus.Messages.IntegrationEvents.Events;
 using Infrastructure.Common;
 using Infrastructure.Extensions;
+using Infrastructure.Policies;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
 using Inventory.Grpc.Client;
+using Polly;
+using Polly.Extensions.Http;
+using Serilog;
 
 namespace Basket.API.Extensions;
 
@@ -43,12 +48,35 @@ public static class ServiceExtensions
             .AddTransient<ISerializeService, SerializeService>()
             .AddTransient<IEmailTemplateService, BasketEmailTemplateService>()
             .AddTransient<LoggingDelegatingHandler>()
+            .AddSingleton<IClientPolicy, ClientPolicy>()
         ;
     
     public static void ConfigureHttpClientService(this IServiceCollection services)
     {
         services.AddHttpClient<BackgroundJobHttpService>()
-            .AddHttpMessageHandler<LoggingDelegatingHandler>();
+            .AddHttpMessageHandler<LoggingDelegatingHandler>()
+            .AddPolicyHandler(GetRetryPolicy());
+    }
+    
+    private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    {
+        // In this case will wait for
+        //  2 ^ 1 = 2 seconds then
+        //  2 ^ 2 = 4 seconds then
+        //  2 ^ 3 = 8 seconds then
+        //  2 ^ 4 = 16 seconds then
+        //  2 ^ 5 = 32 seconds
+
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .WaitAndRetryAsync(
+                5,
+                retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                (exception, retryCount, context) =>
+                {
+                    Log.Error(
+                        $"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                });
     }
 
     public static void ConfigureGrpcService(this IServiceCollection services)

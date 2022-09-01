@@ -3,6 +3,7 @@ using Basket.API.Repositories.Interfaces;
 using Basket.API.Services;
 using Basket.API.Services.Interfaces;
 using Contracts.Common.Interfaces;
+using Contracts.Policies;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.DTOs.ScheduledJob;
@@ -18,7 +19,7 @@ public class BasketRepository : IBasketRepository
     private readonly BackgroundJobHttpService _backgroundJobHttp;
     private readonly IEmailTemplateService _emailTemplateService;
 
-    public BasketRepository(IDistributedCache redisCacheService, ISerializeService serializeService, ILogger logger, BackgroundJobHttpService backgroundJobHttp, IEmailTemplateService emailTemplateService)
+    public BasketRepository(IDistributedCache redisCacheService, ISerializeService serializeService, ILogger logger, BackgroundJobHttpService backgroundJobHttp, IEmailTemplateService emailTemplateService, IClientPolicy clientPolicy)
     {
         _redisCacheService = redisCacheService;
         _serializeService = serializeService;
@@ -70,6 +71,7 @@ public class BasketRepository : IBasketRepository
 
         var uri = $"{_backgroundJobHttp.ScheduledJobUrl}/send-email-reminder-checkout-order";
         var response = await _backgroundJobHttp.Client.PostAsJson(uri, model);
+        
         if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
         {
             var jobId = await response.ReadContentAs<string>();
