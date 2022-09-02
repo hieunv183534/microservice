@@ -8,24 +8,28 @@ namespace Infrastructure.Policies;
 
 public static class HttpClientRetryPolicy
 {
-    public static IHttpClientBuilder UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseImmediateHttpRetryPolicy(this IHttpClientBuilder builder,
+        int retryCount = 3)
     {
-        return builder.AddPolicyHandler(ConfigureImmediateHttpRetry());
+        return builder.AddPolicyHandler(ConfigureImmediateHttpRetry(retryCount));
     }
 
-    public static IHttpClientBuilder UseLinearHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseLinearHttpRetryPolicy(this IHttpClientBuilder builder,
+        int retryCount = 3)
     {
-        return builder.AddPolicyHandler(ConfigureLinearHttpRetry());
+        return builder.AddPolicyHandler(ConfigureLinearHttpRetry(retryCount));
     }
     
-    public static IHttpClientBuilder UseExponentialHttpRetryPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseExponentialHttpRetryPolicy(this IHttpClientBuilder builder,
+        int retryCount = 5)
     {
-        return builder.AddPolicyHandler(ConfigureExponentialHttpRetry());
+        return builder.AddPolicyHandler(ConfigureExponentialHttpRetry(retryCount));
     }
 
-    public static IHttpClientBuilder UseCircuitBreakerPolicy(this IHttpClientBuilder builder)
+    public static IHttpClientBuilder UseCircuitBreakerPolicy(this IHttpClientBuilder builder,
+        int eventsAllowedBeforeBreaking = 3, int fromSeconds = 30)
     {
-        return builder.AddPolicyHandler(ConfigureCircuitBreakerPolicy());
+        return builder.AddPolicyHandler(ConfigureCircuitBreakerPolicy(eventsAllowedBeforeBreaking, fromSeconds));
     }
     
     public static IHttpClientBuilder ConfigureTimeoutPolicy(this IHttpClientBuilder builder, int seconds = 5)
@@ -33,32 +37,31 @@ public static class HttpClientRetryPolicy
         return builder.AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(seconds));
     }
 
-
-    private static IAsyncPolicy<HttpResponseMessage> ConfigureCircuitBreakerPolicy()
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureCircuitBreakerPolicy(int eventsAllowedBeforeBreaking, int fromSeconds)
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
             .CircuitBreakerAsync(
-                handledEventsAllowedBeforeBreaking: 3,
-                durationOfBreak: TimeSpan.FromSeconds(30)
+                handledEventsAllowedBeforeBreaking: eventsAllowedBeforeBreaking,
+                durationOfBreak: TimeSpan.FromSeconds(fromSeconds)
             );
     }
 
-    private static IAsyncPolicy<HttpResponseMessage> ConfigureImmediateHttpRetry() =>
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureImmediateHttpRetry(int retryCount) =>
         HttpPolicyExtensions
             .HandleTransientHttpError()
             .Or<TimeoutRejectedException>()
-            .RetryAsync(3, (exception, retryCount, context) =>
+            .RetryAsync(retryCount, (exception, retryCount, context) =>
             {
                 Log.Error($"Retry {retryCount} of {context.PolicyKey} at " +
                           $"{context.OperationKey}, due to: {exception.Exception.Message}");
             });
     
-    private static IAsyncPolicy<HttpResponseMessage> ConfigureLinearHttpRetry() =>
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureLinearHttpRetry(int retryCount) =>
         HttpPolicyExtensions
             .HandleTransientHttpError()
             .Or<TimeoutRejectedException>()
-            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(3),
+            .WaitAndRetryAsync(retryCount, retryAttempt => TimeSpan.FromSeconds(3),
                 (exception, retryCount, context) =>
             {
                 Log.Error($"Retry {retryCount} of {context.PolicyKey} at " +
@@ -66,7 +69,7 @@ public static class HttpClientRetryPolicy
             });
     
     
-    private static IAsyncPolicy<HttpResponseMessage> ConfigureExponentialHttpRetry() =>
+    private static IAsyncPolicy<HttpResponseMessage> ConfigureExponentialHttpRetry(int retryCount) =>
         // In this case will wait for
         //  2 ^ 1 = 2 seconds then
         //  2 ^ 2 = 4 seconds then
@@ -75,7 +78,8 @@ public static class HttpClientRetryPolicy
         //  2 ^ 5 = 32 seconds
         HttpPolicyExtensions
             .HandleTransientHttpError()
-            .WaitAndRetryAsync(3, retryAttempt 
+            .Or<TimeoutRejectedException>()
+            .WaitAndRetryAsync(retryCount, retryAttempt 
                     => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                 (exception, retryCount, context) =>
             {
