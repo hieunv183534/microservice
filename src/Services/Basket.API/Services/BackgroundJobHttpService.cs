@@ -1,12 +1,14 @@
+using Infrastructure.Extensions;
 using Shared.Configurations;
+using Shared.DTOs.ScheduledJob;
 
 namespace Basket.API.Services;
 
 public class BackgroundJobHttpService
 {
-    public HttpClient Client { get; }
+    private readonly HttpClient _client;
 
-    public string ScheduledJobUrl { get; }
+    private readonly string _scheduledJobUrl;
 
     public BackgroundJobHttpService(
         HttpClient client,
@@ -22,8 +24,26 @@ public class BackgroundJobHttpService
         client.DefaultRequestHeaders.Clear();
         client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-        Client = client;
+        _client = client;
 
-        ScheduledJobUrl = settings.ScheduledJobUrl;
+        _scheduledJobUrl = settings.ScheduledJobUrl;
+    }
+
+    public async Task<string> SendEmailReminderCheckout(ReminderCheckoutOrderDto model)
+    {
+        var uri = $"{_scheduledJobUrl}/send-email-reminder-checkout-order";
+        var response = await _client.PostAsJson(uri, model);
+
+        string jobId = null;
+        if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+            jobId = await response.ReadContentAs<string>();
+
+        return jobId;
+    }
+    
+    public void DeleteReminderCheckoutOrder(string jobId) 
+    {
+        var uri = $"{_scheduledJobUrl}/delete/jobId/{jobId}";
+        _client.DeleteAsync(uri);
     }
 }
