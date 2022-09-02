@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
+using Polly.Timeout;
 using Serilog;
 
 namespace Infrastructure.Policies;
@@ -26,6 +27,12 @@ public static class HttpClientRetryPolicy
     {
         return builder.AddPolicyHandler(ConfigureCircuitBreakerPolicy());
     }
+    
+    public static IHttpClientBuilder ConfigureTimeoutPolicy(this IHttpClientBuilder builder, int seconds = 5)
+    {
+        return builder.AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(seconds));
+    }
+
 
     private static IAsyncPolicy<HttpResponseMessage> ConfigureCircuitBreakerPolicy()
     {
@@ -40,6 +47,7 @@ public static class HttpClientRetryPolicy
     private static IAsyncPolicy<HttpResponseMessage> ConfigureImmediateHttpRetry() =>
         HttpPolicyExtensions
             .HandleTransientHttpError()
+            .Or<TimeoutRejectedException>()
             .RetryAsync(3, (exception, retryCount, context) =>
             {
                 Log.Error($"Retry {retryCount} of {context.PolicyKey} at " +
@@ -49,6 +57,7 @@ public static class HttpClientRetryPolicy
     private static IAsyncPolicy<HttpResponseMessage> ConfigureLinearHttpRetry() =>
         HttpPolicyExtensions
             .HandleTransientHttpError()
+            .Or<TimeoutRejectedException>()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(3),
                 (exception, retryCount, context) =>
             {

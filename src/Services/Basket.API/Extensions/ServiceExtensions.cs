@@ -13,6 +13,7 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
 using Inventory.Grpc.Client;
+using Polly;
 
 namespace Basket.API.Extensions;
 
@@ -51,7 +52,9 @@ public static class ServiceExtensions
         services.AddHttpClient<BackgroundJobHttpService>()
             .AddHttpMessageHandler<LoggingDelegatingHandler>()
             .UseImmediateHttpRetryPolicy()
-            .UseCircuitBreakerPolicy();
+            .UseCircuitBreakerPolicy()
+            .ConfigureTimeoutPolicy()
+            ;
     }
 
     public static void ConfigureGrpcService(this IServiceCollection services)
