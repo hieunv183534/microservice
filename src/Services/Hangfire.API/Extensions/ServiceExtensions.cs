@@ -38,7 +38,7 @@ public static class ServiceExtensions
         var databaseSettings = services.GetOptions<HangFireSettings>(nameof(HangFireSettings));
         services.AddHealthChecks()
             .AddMongoDb(databaseSettings.Storage.ConnectionString, 
-                "MySql Health",
+                "MongoDb Health",
                 HealthStatus.Degraded);
     }
 }

@@ -1,3 +1,4 @@
+using Grpc.HealthCheck;
 using Infrastructure.Extensions;
 using Inventory.Grpc.Repositories;
 using Inventory.Grpc.Repositories.Interfaces;
@@ -45,9 +46,13 @@ public static class ServiceExtensions
 
     public static void ConfigureHealthChecks(this IServiceCollection services)
     {
+        var databaseSettings = services.GetOptions<MongoDbSettings>(nameof(MongoDbSettings));
+        services.AddSingleton<HealthServiceImpl>();
+        services.AddHostedService<StatusService>();
         services.AddHealthChecks()
-            // .AddGrpcHealthChecks()
-            // .AddCheck("Inventory Grpc Health", () => HealthCheckResult.Degraded());
-            ;
+            .AddMongoDb(databaseSettings.ConnectionString,
+                name: "Inventory MongoDb Health",
+                failureStatus: HealthStatus.Degraded)
+            .AddCheck("Inventory Grpc Health", () => HealthCheckResult.Healthy());
     }
 }

@@ -1,5 +1,7 @@
+using HealthChecks.UI.Client;
 using Inventory.Grpc.Extensions;
 using Inventory.Grpc.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,7 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.ConfigureMongoDbClient();
     builder.Services.AddInfrastructureServices();
+    builder.Services.ConfigureHealthChecks();
     // Additional configuration is required to successfully run gRPC on macOS.
     // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
     builder.Services.AddGrpc();
@@ -26,13 +29,25 @@ try
     // });
 
     var app = builder.Build();
-
+    app.UseRouting();
     // app.UseHttpsRedirection();
-    // Configure the HTTP request pipeline.
-    app.MapGrpcService<InventoryService>();
-    app.MapGet("/",
-        () =>
-            "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+   
+    app.UseEndpoints(endpoints =>
+    {
+        // health checks
+        endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+        endpoints.MapGrpcHealthChecksService();
+        endpoints.MapGrpcService<InventoryService>();
+
+        endpoints.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+        });
+    });
 
     app.Run();
 }

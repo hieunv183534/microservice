@@ -8,6 +8,7 @@
     <toRun name="OcelotApiGw" type="LaunchSettings" />
     <toRun name="Ordering.API" type="LaunchSettings" />
     <toRun name="Product.API" type="LaunchSettings" />
+    <toRun name="Saga.Orchestrator" type="LaunchSettings" />
     <toRun name="WebHealthStatus" type="LaunchSettings" />
     <method v="2" />
   </configuration>
