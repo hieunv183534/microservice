@@ -13,7 +13,7 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Configurations;
 using Inventory.Grpc.Client;
-using Polly;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Basket.API.Extensions;
 
@@ -25,6 +25,7 @@ public static class ServiceExtensions
         var eventBusSettings = configuration.GetSection(nameof(EventBusSettings))
             .Get<EventBusSettings>();
         services.AddSingleton(eventBusSettings);
+        
         var cacheSettings = configuration.GetSection(nameof(CacheSettings))
             .Get<CacheSettings>();
         services.AddSingleton(cacheSettings);
@@ -97,5 +98,14 @@ public static class ServiceExtensions
             // Publish submit order message, instead of sending it to a specific queue directly.
             config.AddRequestClient<IBasketCheckoutEvent>();
         });
+    }
+    
+    public static void ConfigureHealthChecks(this IServiceCollection services)
+    {
+        var cacheSettings = services.GetOptions<CacheSettings>(nameof(CacheSettings));
+        services.AddHealthChecks()
+            .AddRedis(cacheSettings.ConnectionString,
+                name: "Redis Health",
+                failureStatus: HealthStatus.Degraded);
     }
 }

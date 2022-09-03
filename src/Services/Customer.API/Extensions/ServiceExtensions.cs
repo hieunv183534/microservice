@@ -5,6 +5,7 @@ using Customer.API.Services;
 using Customer.API.Services.Interfaces;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Shared.Configurations;
 
 namespace Customer.API.Extensions;
@@ -39,5 +40,14 @@ public static class ServiceExtensions
     {
         services.AddScoped<ICustomerRepository, CustomerRepository>()
             .AddScoped<ICustomerService, CustomerService>();
+    }
+    
+    public static void ConfigureHealthChecks(this IServiceCollection services)
+    {
+        var databaseSettings = services.GetOptions<DatabaseSettings>(nameof(DatabaseSettings));
+        services.AddHealthChecks()
+            .AddNpgSql(databaseSettings.ConnectionString,
+                name: "PostgresQL Health",
+                failureStatus: HealthStatus.Degraded);
     }
 }

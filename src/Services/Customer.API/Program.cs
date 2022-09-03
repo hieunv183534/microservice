@@ -2,8 +2,10 @@ using Customer.API;
 using Customer.API.Controllers;
 using Customer.API.Extensions;
 using Customer.API.Persistence;
+using HealthChecks.UI.Client;
 using Infrastructure.Middlewares;
 using Infrastructure.ScheduledJobs;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,7 @@ try
     builder.Services.ConfigureCustomerContext();
     builder.Services.AddInfrastructureServices();
     builder.Services.AddTeduHangfireService();
+    builder.Services.ConfigureHealthChecks();
 
     var app = builder.Build();
 
@@ -45,12 +48,20 @@ try
     app.UseMiddleware<ErrorWrappingMiddleware>();
 
     // app.UseHttpsRedirection(); //production only
-
+    app.UseRouting();
     app.UseAuthorization();
 
     app.UseHangfireDashboard(builder.Configuration);
 
-    app.MapControllers();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+        endpoints.MapDefaultControllerRoute();
+    });
 
     app.SeedCustomerData()
         .Run();
