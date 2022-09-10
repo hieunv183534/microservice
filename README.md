@@ -76,6 +76,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://github.com/ThreeMammals/Ocelot
 - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-6.0
 - https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/httpclient-message-handlers
+- Tedu Exam course (MongoDb, DDD, CQRS, Identity Server): https://tedu.com.vn/course-ref/43/C5D7O1.html
 
 ## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
