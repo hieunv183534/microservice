@@ -9,12 +9,17 @@ public static class ApplicationExtensions
     public static void UseInfrastructure(this IApplicationBuilder app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API"));
+        app.UseSwaggerUI(c =>
+        {
+            c.OAuthClientId("tedu_microservices_swagger");
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API");
+            c.DisplayRequestDuration();
+        });
         app.UseMiddleware<ErrorWrappingMiddleware>();
-        // app.UseAuthentication();
+        app.UseAuthentication();
         app.UseRouting();
         // app.UseHttpsRedirection(); //for production only
-        // app.UseAuthorization();
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
