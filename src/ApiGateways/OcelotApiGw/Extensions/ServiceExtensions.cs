@@ -1,5 +1,6 @@
 using System.Text;
 using Contracts.Identity;
+using IdentityServer4.AccessTokenValidation;
 using Infrastructure.Extensions;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +20,10 @@ public static class ServiceExtensions
         var jwtSettings = configuration.GetSection(nameof(JwtSettings))
             .Get<JwtSettings>();
         services.AddSingleton(jwtSettings);
+        
+        var apiConfiguration = configuration.GetSection(nameof(ApiConfiguration))
+            .Get<ApiConfiguration>();
+        services.AddSingleton(apiConfiguration);
         return services;
     }
 

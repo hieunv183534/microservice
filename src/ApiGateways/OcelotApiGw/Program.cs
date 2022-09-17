@@ -1,4 +1,5 @@
 using Common.Logging;
+using Infrastructure.Identity;
 using Infrastructure.Middlewares;
 using Ocelot.Middleware;
 using OcelotApiGw.Extensions;
@@ -23,6 +24,7 @@ try
     builder.Services.AddSwaggerGen();
     builder.Services.ConfigureOcelot(builder.Configuration);
     builder.Services.ConfigureCors(builder.Configuration);
+    builder.Services.ConfigureAuthenticationHandler();
 
     var app = builder.Build();
 
@@ -52,7 +54,12 @@ try
     });
 
     app.UseSwaggerForOcelotUI(
-        opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
+        opt =>
+        {
+            opt.PathToSwaggerGenerator = "/swagger/docs";
+            opt.OAuthClientId("tedu_microservices_swagger");
+            opt.DisplayRequestDuration();
+        });
    
     await app.UseOcelot();
     app.Run();
