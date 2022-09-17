@@ -130,7 +130,7 @@ public static class ServiceExtensions
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "OctoQual API V1",
+                        Title = "Product API V1",
                         Version = configuration.ApiVersion,
                     });
 
