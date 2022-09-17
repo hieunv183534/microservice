@@ -1,4 +1,3 @@
-using Common.Logging;
 using Infrastructure.Identity;
 using Infrastructure.Middlewares;
 using Ocelot.Middleware;
