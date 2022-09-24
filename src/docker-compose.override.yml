@@ -134,6 +134,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "DatabaseSettings:ConnectionString=Server=productdb;Port=3306;Database=ProductDb;Uid=root;Pwd=Passw0rd!"
+      - "ApiConfiguration:ApiBaseUrl=http://inventory.product.api"
+      - "ApiConfiguration:IdentityServerBaseUrl=http://localhost:6001"
+      - "ApiConfiguration:IssuerUri=http://tedu.identity.api"
     depends_on: 
       - productdb
     ports:
@@ -216,6 +219,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Local
       - ASPNETCORE_URLS=http://+:80
       - GlobalConfiguration:BaseUrl=http://apigw.ocelot
+      - ApiConfiguration:ApiBaseUrl=http://apigw.ocelot
+      - ApiConfiguration:IdentityServerBaseUrl=http://localhost:6001
+      - ApiConfiguration:IssuerUri=http://tedu.identity.api
     depends_on:
       - customer.api
       - basket.api
@@ -223,7 +229,7 @@ services:
       - ordering.api
       - inventory.product.api
     ports:
-      - "6001:80"
+      - "6020:80"
     restart: always
 
   hangfire.api:
