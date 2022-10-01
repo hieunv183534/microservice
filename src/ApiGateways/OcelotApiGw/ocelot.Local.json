@@ -188,6 +188,21 @@
       "SwaggerKey": "order-service"
     },
     {
+      "UpstreamPathTemplate": "/{version}/orders/username/{username}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders/username/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6005
+        }
+      ],
+      "SwaggerKey": "order-service"
+    },
+    {
       "UpstreamPathTemplate": "/{version}/orders",
       "UpstreamHttpMethod": [
         "POST"
@@ -302,7 +317,7 @@
         {
           "Name": "Order API",
           "Version": "v1",
-          "Url": "http://order.api/swagger/v1/swagger.json"
+          "Url": "http://ordering.api/swagger/v1/swagger.json"
         }
       ]
     },

@@ -35,7 +35,7 @@ public class OrdersController : ControllerBase
 
     #region CRUD
 
-    [HttpGet("{username}", Name = RouteNames.GetOrders)]
+    [HttpGet("username/{username}", Name = RouteNames.GetOrders)]
     [ProducesResponseType(typeof(IEnumerable<OrderDto>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByUserName([Required] string username)
     {
