@@ -88,6 +88,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://github.com/ThreeMammals/Ocelot
 - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-6.0
 - https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/httpclient-message-handlers
+- https://github.com/dotnet-architecture/eShopOnContainers
 - Làm chủ Docker để chinh phục DevOps: https://tedu.com.vn/course-ref/42/C5D7O1.html
 - Tedu Exam course (MongoDb, DDD, CQRS, Identity Server): https://tedu.com.vn/course-ref/43/C5D7O1.html
 - Authentication và Authorization nâng cao: https://tedu.com.vn/course-ref/36/C5D7O1.html
