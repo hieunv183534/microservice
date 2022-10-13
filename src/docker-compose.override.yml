@@ -18,8 +18,11 @@ services:
   #productdb: mysql
   productdb:
     container_name: productdb
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: "Passw0rd!"
+      MYSQL_TCP_PORT: 3306
+      MYSQL_DATABASE: ProductDB
     restart: always
     volumes:
       - mysql_data:/var/lib/mysql
