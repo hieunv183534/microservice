@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Infrastructure.Middlewares;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -21,7 +22,11 @@ try
     builder.Services.ConfigureMassTransit();
     builder.Services.ConfigureHealthChecks();
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers()
+        .AddFluentValidation(s =>
+        {
+            s.RegisterValidatorsFromAssemblyContaining<Program>();
+        });
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);

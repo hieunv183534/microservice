@@ -66,7 +66,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - Inventory GRPC: http://localhost:5007
 - Scheduled Job API: http://localhost:5008
 - Ocelot Api Gateway: http://localhost:5020
-- Webstatus Health Check: http://localhost:6010
+- Webstatus Health Check: http://localhost:5010
 ---
 ## Application URLs - PRODUCTION Environment:
 
