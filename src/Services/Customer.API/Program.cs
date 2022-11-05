@@ -25,7 +25,6 @@ try
 
     builder.Services.ConfigureCustomerContext();
     builder.Services.AddInfrastructureServices();
-    builder.Services.AddTeduHangfireService();
     builder.Services.ConfigureHealthChecks();
 
     var app = builder.Build();
@@ -50,8 +49,6 @@ try
     // app.UseHttpsRedirection(); //production only
     app.UseRouting();
     app.UseAuthorization();
-
-    app.UseHangfireDashboard(builder.Configuration);
 
     app.UseEndpoints(endpoints =>
     {
