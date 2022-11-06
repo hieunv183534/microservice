@@ -4,7 +4,6 @@ using Customer.API.Extensions;
 using Customer.API.Persistence;
 using HealthChecks.UI.Client;
 using Infrastructure.Middlewares;
-using Infrastructure.ScheduledJobs;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
