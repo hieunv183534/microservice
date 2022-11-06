@@ -40,7 +40,7 @@ public static class HangfireExtensions
         {
             case "mongodb":
                 var mongoUrlBuilder = new MongoUrlBuilder(settings.Storage.ConnectionString);
-
+                mongoUrlBuilder.DatabaseName = settings.Storage.DatabaseName;
                 var mongoClientSettings = MongoClientSettings.FromUrl(
                     new MongoUrl(settings.Storage.ConnectionString));
                 mongoClientSettings.SslSettings = new SslSettings
@@ -48,7 +48,7 @@ public static class HangfireExtensions
                     EnabledSslProtocols = SslProtocols.Tls12
                 };
                 var mongoClient = new MongoClient(mongoClientSettings);
-
+                mongoClient.GetDatabase(settings.Storage.DatabaseName);
                 var mongoStorageOptions = new MongoStorageOptions
                 {
                     MigrationOptions = new MongoMigrationOptions
@@ -82,6 +82,8 @@ public static class HangfireExtensions
                 break;
             
             case "mssql":
+                services.AddHangfire(x =>
+                    x.UseSqlServerStorage(settings.Storage.ConnectionString));
                 break;
             
             default:
