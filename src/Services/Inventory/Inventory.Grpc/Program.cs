@@ -40,6 +40,14 @@ try
                 listenOptions.Protocols = HttpProtocols.Http2;
             });
         }
+        if (builder.Environment.IsProduction())
+        {
+            options.ListenAnyIP(8080);
+            options.ListenAnyIP(8585, listenOptions =>
+            {
+                listenOptions.Protocols = HttpProtocols.Http2;
+            });
+        }
     });
 
     var app = builder.Build();
