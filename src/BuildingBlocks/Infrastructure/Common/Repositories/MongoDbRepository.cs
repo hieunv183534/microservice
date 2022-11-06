@@ -13,7 +13,8 @@ public class MongoDbRepository<T> : IMongoDbRepositoryBase<T> where T : MongoEnt
 
     public MongoDbRepository(IMongoClient client, MongoDbSettings settings)
     {
-        Database = client.GetDatabase(settings.DatabaseName);
+        Database = client.GetDatabase(settings.DatabaseName)
+            .WithWriteConcern(WriteConcern.Acknowledged);
     }
 
     public IMongoCollection<T> FindAll(ReadPreference? readPreference = null)
