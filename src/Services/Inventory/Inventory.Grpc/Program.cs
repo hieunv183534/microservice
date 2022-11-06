@@ -3,6 +3,7 @@ using Inventory.Grpc.Extensions;
 using Inventory.Grpc.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.AddAppConfigurations();
@@ -20,6 +21,7 @@ try
     // Additional configuration is required to successfully run gRPC on macOS.
     // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
     builder.Services.AddGrpc();
+    builder.Services.AddGrpcReflection();
 
     // builder.WebHost.ConfigureKestrel(options =>
     // {
@@ -27,6 +29,18 @@ try
     //     options.ListenLocalhost(5007, o => o.Protocols =
     //         HttpProtocols.Http2);
     // });
+
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            options.ListenAnyIP(5007);
+            options.ListenAnyIP(5107, listenOptions =>
+            {
+                listenOptions.Protocols = HttpProtocols.Http2;
+            });
+        }
+    });
 
     var app = builder.Build();
     app.UseRouting();
@@ -42,10 +56,11 @@ try
         });
         endpoints.MapGrpcHealthChecksService();
         endpoints.MapGrpcService<InventoryService>();
+        endpoints.MapGrpcReflectionService();
 
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+            await context.Response.WriteAsync("Inventory.GRPC - Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
         });
     });
 
