@@ -37,20 +37,22 @@ public class ErrorWrappingMiddleware
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         }
 
-        if (!context.Response.HasStarted && (context.Response.StatusCode == StatusCodes.Status403Forbidden ||
-                                             context.Response.StatusCode == StatusCodes.Status401Unauthorized))
+        if (!context.Response.HasStarted && (context.Response.StatusCode == StatusCodes.Status401Unauthorized) ||
+            context.Response.StatusCode == StatusCodes.Status403Forbidden)
         {
             context.Response.ContentType = "application/json";
 
-            var response = new ApiErrorResult<bool>("You are not authorized!");
+            var response = new ApiErrorResult<bool>("Unauthorized");
 
             var json = JsonSerializer.Serialize(response);
 
             await context.Response.WriteAsync(json);
         }
 
-        if (!context.Response.HasStarted && context.Response.StatusCode != 204 &&
-            context.Response.StatusCode != 202)
+        else if (!context.Response.HasStarted && context.Response.StatusCode != StatusCodes.Status204NoContent &&
+            context.Response.StatusCode != StatusCodes.Status202Accepted && 
+            context.Response.StatusCode != StatusCodes.Status200OK &&
+            context.Response.ContentType != "text/html; charset=utf-8")
         {
             context.Response.ContentType = "application/json";
 
