@@ -79,7 +79,7 @@ public class BasketsController : ControllerBase
         var basket = await _basketRepository.GetBasketByUserName(username);
         if (basket == null || !basket.Items.Any()) return NotFound();
         
-        //publish checkout event to EventBus Message 
+        //publish checkout event to EventBus Message
         var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
         eventMessage.TotalPrice = basket.TotalPrice;
         await _publishEndpoint.Publish(eventMessage);
