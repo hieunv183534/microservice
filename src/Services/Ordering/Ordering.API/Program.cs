@@ -18,7 +18,7 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices();
-    builder.Services.ConfigureMassTransit();
+    //builder.Services.ConfigureMassTransit(); // using Saga Basket Checkout
     builder.Services.ConfigureHealthChecks();
 
     builder.Services.AddControllers();
@@ -51,8 +51,6 @@ try
     app.UseRouting();
 
     app.UseAuthorization();
-
-    app.MapControllers();
 
     app.UseEndpoints(endpoints =>
     {

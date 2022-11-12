@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using Contracts.Sagas.OrderManager;
 using Microsoft.AspNetCore.Mvc;
 using Saga.Orchestrator.OrderManager;
-using Saga.Orchestrator.Services.Interfaces;
 using Shared.DTOs.Basket;
 
 namespace Saga.Orchestrator.Controllers;

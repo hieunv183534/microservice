@@ -84,7 +84,7 @@ public class BasketsController : ControllerBase
         eventMessage.TotalPrice = basket.TotalPrice;
         await _publishEndpoint.Publish(eventMessage);
         //remove the basket
-        await _basketRepository.DeleteBasketFromUserName(basket.Username);
+        //await _basketRepository.DeleteBasketFromUserName(basket.Username);
         
         return Accepted();
     }
