@@ -13,7 +13,8 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 try
 {
     builder.Host.AddAppConfigurations();
-// Add services to the container.
+    builder.Services.AddConfigurationSettings(builder.Configuration);
+    // Add services to the container.
     builder.Services.ConfigureServices();
     builder.Services.ConfigureHttpRepository();
     builder.Services.ConfigureHttpClients();
