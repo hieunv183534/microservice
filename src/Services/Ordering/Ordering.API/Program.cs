@@ -18,7 +18,6 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices();
-    //builder.Services.ConfigureMassTransit(); // using Saga Basket Checkout
     builder.Services.ConfigureHealthChecks();
 
     builder.Services.AddControllers();
