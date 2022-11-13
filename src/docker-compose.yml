@@ -31,10 +31,10 @@ services:
     image: portainer/portainer-ce
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.7
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.17.2
+    image: docker.elastic.co/kibana/kibana:7.17.7
     
   #microservices api section
   product.api:

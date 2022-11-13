@@ -3,6 +3,53 @@
     "BaseUrl": "http://apigw.ocelot"
   },
   "Routes": [
+    // identity api: http://localhost:6001/api
+    {
+      "UpstreamPathTemplate": "/permissions/roles/{roleId}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/permissions/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6001
+        }
+      ],
+      "SwaggerKey": "identity-service"
+    },
+    {
+      "UpstreamPathTemplate": "/permissions/roles/{roleId}/function/{function}/command/{command}",
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/permissions/roles/{roleId}/function/{function}/command/{command}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6001
+        }
+      ],
+      "SwaggerKey": "identity-service"
+    },
+    {
+      "UpstreamPathTemplate": "/permissions/roles/{roleId}/update-permissions",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/permissions/roles/{roleId}/update-permissions",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6001
+        }
+      ],
+      "SwaggerKey": "identity-service"
+    },
     // Customer api: http://localhost:5003/api/customers
     {
       "UpstreamPathTemplate": "/customers/{username}",
@@ -281,6 +328,16 @@
     }
   ],
   "SwaggerEndPoints": [
+    {
+      "Key": "identity-service",
+      "Config": [
+        {
+          "Name": "Identity API",
+          "Version": "v1",
+          "Url": "http://tedu.identity.api/swagger/v1/swagger.json"
+        }
+      ]
+    },
     {
       "Key": "product-service",
       "Config": [

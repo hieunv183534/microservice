@@ -206,7 +206,7 @@ services:
   inventory.grpc:
     container_name: inventory.grpc
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Local
       - ASPNETCORE_URLS=http://+:80
       - "MongoDbSettings:ConnectionString=mongodb://inventorydb"
       - "MongoDbSettings:DatabaseName=InventoryDb"

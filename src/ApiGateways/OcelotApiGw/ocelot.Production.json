@@ -1,0 +1,361 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://apigw-tedu.azurewebsites.net"
+  },
+  "Routes": [
+    // identity api: https://identity-tedu.azurewebsites.net/api
+    {
+      "UpstreamPathTemplate": "/permissions/roles/{roleId}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/permissions/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identity-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "identity-service"
+    },
+    {
+      "UpstreamPathTemplate": "/permissions/roles/{roleId}/function/{function}/command/{command}",
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/permissions/roles/{roleId}/function/{function}/command/{command}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identity-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "identity-service"
+    },
+    {
+      "UpstreamPathTemplate": "/permissions/roles/{roleId}/update-permissions",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/permissions/roles/{roleId}/update-permissions",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identity-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "identity-service"
+    },
+    // Customer api: https://customer-tedu.azurewebsites.net/api
+    {
+      "UpstreamPathTemplate": "/customers/{username}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/customers/{username}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "customer-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "customer-service"
+    },
+    // Product api: https://product-tedu.azurewebsites.net/api/products
+    {
+      "UpstreamPathTemplate": "/products/{id}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "product-tedu.azurewebsites.net"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "product-service"
+    },
+    {
+      "UpstreamPathTemplate": "/products/{id}",
+      "UpstreamHttpMethod": [
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "product-tedu.azurewebsites.net"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      //      "RouteClaimsRequirement": {
+      //        "Role": "Admin"
+      //      },
+      "SwaggerKey": "product-service"
+    },
+    {
+      "UpstreamPathTemplate": "/products",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/products",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "product-tedu.azurewebsites.net"
+        }
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        // the client in this array will not be affected by the rate limiting
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        // 1s, 5m, 1h, 1d
+        "PeriodTimespan": 10,
+        // retry after a certain number of seconds
+        "Limit": 3
+        // the maximum number of requests that a client can make in a defined period.
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        //If the service does not response for 2 seconds, it will throw a timeout exception
+        "DurationOfBreak": 1000,
+        "TimeoutValue": 5000
+        //If the service throws a second exception, the service will not be accessible for five seconds
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 15
+        //cached seconds
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "product-service"
+    },
+    {
+      "UpstreamPathTemplate": "/products/get-product-by-no/{productNo}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/products/get-product-by-no/{productNo}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "product-tedu.azurewebsites.net"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "product-service"
+    },
+    // Basket api: https://basket-tedu.azurewebsites.net/api/baskets
+    {
+      "UpstreamPathTemplate": "/baskets/{username}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/baskets/{username}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "basket-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "basket-service"
+    },
+    {
+      "UpstreamPathTemplate": "/baskets",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/baskets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "basket-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "basket-service"
+    },
+    {
+      "UpstreamPathTemplate": "/baskets/checkout/{username}",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/baskets/checkout/{username}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "basket-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "basket-service"
+    },
+    // Order api: https://order-tedu.azurewebsites.net/api/{version}/orders
+    {
+      "UpstreamPathTemplate": "/{version}/orders/{id}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "order-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "order-service"
+    },
+    {
+      "UpstreamPathTemplate": "/{version}/orders",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/{version}/orders",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "order-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "order-service"
+    },
+    // Inventory API : https://inventory-product-tedu.azurewebsites.net
+    {
+      "UpstreamPathTemplate": "/inventory/items/{itemNo}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/items/{itemNo}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "inventory-product-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "inventory-service"
+    },
+    {
+      "UpstreamPathTemplate": "/inventory/items/{itemNo}/paging",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/items/{itemNo}/paging",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "inventory-product-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "inventory-service"
+    },
+    {
+      "UpstreamPathTemplate": "/inventory/{id}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "inventory-product-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "inventory-service"
+    },
+    {
+      "UpstreamPathTemplate": "/inventory/purchase/{itemNo}",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/inventory/purchase/{itemNo}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "inventory-product-tedu.azurewebsites.net"
+        }
+      ],
+      "SwaggerKey": "inventory-service"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "identity-service",
+      "Config": [
+        {
+          "Name": "Identity API",
+          "Version": "v1",
+          "Url": "https://identity-tedu.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "product-service",
+      "Config": [
+        {
+          "Name": "Product API",
+          "Version": "v1",
+          "Url": "https://product-tedu.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "customer-service",
+      "Config": [
+        {
+          "Name": "Customer API",
+          "Version": "v1",
+          "Url": "https://customer-tedu.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basket-service",
+      "Config": [
+        {
+          "Name": "Basket API",
+          "Version": "v1",
+          "Url": "https://basket-tedu.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "order-service",
+      "Config": [
+        {
+          "Name": "Order API",
+          "Version": "v1",
+          "Url": "https://order-tedu.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "inventory-service",
+      "Config": [
+        {
+          "Name": "Inventory API",
+          "Version": "v1",
+          "Url": "https://inventory-product-tedu.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

@@ -16,9 +16,10 @@ public static class ConfigureAuthAuthorHandler
 
         var issuerUri = configuration.IssuerUri;
         var apiName = configuration.ApiName;
+        var authScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
 
-        services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            .AddIdentityServerAuthentication(opt =>
+        services.AddAuthentication(authScheme)
+            .AddIdentityServerAuthentication(authScheme, opt =>
             {
                 opt.Authority = issuerUri;
                 opt.ApiName = apiName;

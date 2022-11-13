@@ -14,13 +14,13 @@ namespace OcelotApiGw.Extensions;
 
 public static class ServiceExtensions
 {
-    internal static IServiceCollection AddConfigurationSettings(this IServiceCollection services, 
+    internal static IServiceCollection AddConfigurationSettings(this IServiceCollection services,
         IConfiguration configuration)
     {
         var jwtSettings = configuration.GetSection(nameof(JwtSettings))
             .Get<JwtSettings>();
         services.AddSingleton(jwtSettings);
-        
+
         var apiConfiguration = configuration.GetSection(nameof(ApiConfiguration))
             .Get<ApiConfiguration>();
         services.AddSingleton(apiConfiguration);

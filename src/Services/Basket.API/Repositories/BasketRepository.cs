@@ -50,7 +50,8 @@ public class BasketRepository : IBasketRepository
         _logger.Information($"END: UpdateBasket for {cart.Username}");
         try
         {
-            await TriggerSendEmailReminderCheckout(cart);
+            // Switch to kafka message queue later
+            TriggerSendEmailReminderCheckout(cart);
         }
         catch (Exception e)
         {

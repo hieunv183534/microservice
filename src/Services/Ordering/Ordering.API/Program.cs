@@ -18,7 +18,6 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices();
-    builder.Services.ConfigureMassTransit();
     builder.Services.ConfigureHealthChecks();
 
     builder.Services.AddControllers();
@@ -30,12 +29,12 @@ try
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
-            $"{builder.Environment.ApplicationName} v1"));
-    }
+    //if (app.Environment.IsDevelopment())
+    //{ 
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
+        $"{builder.Environment.ApplicationName} v1"));
+    //}
 
     // Initialise and seed database
     using (var scope = app.Services.CreateScope())
@@ -51,8 +50,6 @@ try
     app.UseRouting();
 
     app.UseAuthorization();
-
-    app.MapControllers();
 
     app.UseEndpoints(endpoints =>
     {

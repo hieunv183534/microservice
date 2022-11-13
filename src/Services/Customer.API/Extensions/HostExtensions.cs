@@ -18,22 +18,4 @@ public static class HostExtensions
                 .AddEnvironmentVariables();
         }).UseSerilog(Serilogger.Configure);
     }
-
-    internal static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
-    {
-        var configDashboard = configuration.GetSection("HangFireSettings:Dashboard").Get<DashboardOptions>();
-        var hangFireSettings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();
-        var hangFireRoute = hangFireSettings.Route;
-
-        app.UseHangfireDashboard(hangFireRoute, new DashboardOptions
-        {
-            // Authorization = new[] {new HangfireAuthorizationFilter()},
-            DashboardTitle = configDashboard.DashboardTitle,
-            StatsPollingInterval = configDashboard.StatsPollingInterval,
-            AppPath = configDashboard.AppPath,
-            IgnoreAntiforgeryToken = true
-        });
-
-        return app;
-    }
 }

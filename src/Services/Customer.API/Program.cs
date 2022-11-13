@@ -4,7 +4,6 @@ using Customer.API.Extensions;
 using Customer.API.Persistence;
 using HealthChecks.UI.Client;
 using Infrastructure.Middlewares;
-using Infrastructure.ScheduledJobs;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
@@ -25,7 +24,6 @@ try
 
     builder.Services.ConfigureCustomerContext();
     builder.Services.AddInfrastructureServices();
-    builder.Services.AddTeduHangfireService();
     builder.Services.ConfigureHealthChecks();
 
     var app = builder.Build();
@@ -35,23 +33,21 @@ try
     app.MapCustomersAPI();
     
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+    //if (app.Environment.IsDevelopment())
+    //{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                $"{builder.Environment.ApplicationName} v1"));
-        });
-    }
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
+            $"{builder.Environment.ApplicationName} v1"));
+    });
+    //}
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
 
     // app.UseHttpsRedirection(); //production only
     app.UseRouting();
     app.UseAuthorization();
-
-    app.UseHangfireDashboard(builder.Configuration);
 
     app.UseEndpoints(endpoints =>
     {
