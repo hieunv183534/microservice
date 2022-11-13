@@ -1,0 +1,32 @@
+﻿NAME,TYPE,LOCATION
+apigw-tedu,App Service,Australia Southeast
+basket-tedu,App Service,Australia Southeast
+customer-tedu,App Service,Australia Southeast
+identity-tedu,App Service,Australia Southeast
+inventory-grpc-tedu,App Service,Australia Southeast
+inventory-product-tedu,App Service,Australia Southeast
+order-tedu,App Service,Australia Southeast
+product-tedu,App Service,Australia Southeast
+saga-orchestrator-tedu,App Service,Australia Southeast
+scheduled-job-tedu,App Service,Australia Southeast
+webstatus-tedu,App Service,Australia Southeast
+tedumicroservices-asp-apigw-linux,App Service plan,Australia Southeast
+tedumicroservices-asp-grpc-linux,App Service plan,Australia Southeast
+tedumicroservices-asp-linux,App Service plan,Australia Southeast
+tedumicroservices-asp-linux-basket,App Service plan,Australia Southeast
+tedumicroservices-asp-linux-inventory,App Service plan,Australia Southeast
+tedumicroservices-asp-linux-main,App Service plan,Australia Southeast
+tedumicroservices-asp-linux-order,App Service plan,Australia Southeast
+basket,Azure Cache for Redis,Australia Southeast
+teduserver-mysql,Azure Database for MySQL flexible server,Australia East
+customer-server,Azure Database for PostgreSQL flexible server,East US
+vm-tedu_OsDisk_1_8f8f1b1af3eb46089ed29e2652aaac43,Disk,Australia Southeast
+vm-tedu564,Network Interface,Australia Southeast
+vm-tedu-nsg,Network security group,Australia Southeast
+vm-tedu-ip,Public IP address,Australia Southeast
+TeduIdentity (teduserver/TeduIdentity),SQL database,Australia Southeast
+TeduOrderDb (teduserver/TeduOrderDb),SQL database,Australia Southeast
+teduserver,SQL server,Australia Southeast
+vm-tedu_key,SSH key,Australia Southeast
+vm-tedu,Virtual machine,Australia Southeast
+tedu-microservices-rg-vnet,Virtual network,Australia Southeast
