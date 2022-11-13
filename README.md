@@ -89,10 +89,14 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-6.0
 - https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/httpclient-message-handlers
 - https://github.com/dotnet-architecture/eShopOnContainers
+
+## Recommended Courses:
 - Làm chủ Docker để chinh phục DevOps: https://tedu.com.vn/course-ref/42/C5D7O1.html
 - Tedu Exam course (MongoDb, DDD, CQRS, Identity Server): https://tedu.com.vn/course-ref/43/C5D7O1.html
 - Authentication và Authorization nâng cao: https://tedu.com.vn/course-ref/36/C5D7O1.html
 - Xây dựng ứng dụng web với ASP.NET Core Web API + Identity Server + Angular: https://tedu.com.vn/course-ref/35/C5D7O1.htm
+- Phát triển Web App với .NET 6 (ABP Framework & Angular): https://tedu.com.vn/course-ref/50/C5D7O1.html
+- Triển khai CI/CD với Azure DevOps: https://tedu.com.vn/course-ref/37/C5D7O1.html
 
 ## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
