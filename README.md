@@ -11,7 +11,7 @@ A large numerous developers have heard about microservices and how it is the nex
 * Install dotnet core version in file `global.json`
 * IDE: Visual Studio 2022+, Rider, Visual Studio Code
 * Docker Desktop
-* EF Core tools reference (.NET CLI): 
+* EF Core tools reference (.NET CLI):
 ```Powershell
 dotnet tool install --global dotnet-ef
 ```
@@ -91,12 +91,14 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --remo
 - https://github.com/dotnet-architecture/eShopOnContainers
 
 ## Recommended Courses:
-- Làm chủ Docker để chinh phục DevOps: https://tedu.com.vn/course-ref/42/C5D7O1.html
-- Tedu Exam course (MongoDb, DDD, CQRS, Identity Server): https://tedu.com.vn/course-ref/43/C5D7O1.html
-- Authentication và Authorization nâng cao: https://tedu.com.vn/course-ref/36/C5D7O1.html
-- Xây dựng ứng dụng web với ASP.NET Core Web API + Identity Server + Angular: https://tedu.com.vn/course-ref/35/C5D7O1.htm
-- Phát triển Web App với .NET 6 (ABP Framework & Angular): https://tedu.com.vn/course-ref/50/C5D7O1.html
-- Triển khai CI/CD với Azure DevOps: https://tedu.com.vn/course-ref/37/C5D7O1.html
+- Xây dựng hệ thống với kiến trúc Micro-service: [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/49/C5D7O1.html)
+- Làm chủ Docker để chinh phục DevOps:  [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/42/C5D7O1.html)
+- Tedu Exam course (MongoDb, DDD, CQRS, Identity Server):  [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/43/C5D7O1.html)
+- Authentication và Authorization nâng cao:  [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/36/C5D7O1.html)
+- Xây dựng ứng dụng web với ASP.NET Core Web API + Identity Server + Angular:  [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/35/C5D7O1.htm)
+- Phát triển Web App với .NET 6 (ABP Framework & Angular):  [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/50/C5D7O1.html)
+- Triển khai CI/CD với Azure DevOps:  [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/37/C5D7O1.html)
+- Thiết kế RESTful API với ASP.NET Core và Dapper ORM: [https://tedu.com.vn/khoa-hoc](https://tedu.com.vn/course-ref/24/C5D7O1.html)
 
 ## Docker Commands: (cd into folder contain file `docker-compose.yml`, `docker-compose.override.yml`)
 
