@@ -236,9 +236,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/customers",
+							"raw": "{{customerApiUrl}}/customers",
 							"host": [
-								"{{apiGateway}}"
+								"{{customerApiUrl}}"
 							],
 							"path": [
 								"customers"
@@ -266,13 +266,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/customers/customer4",
+							"raw": "{{apiGateway}}/customers/customer1",
 							"host": [
 								"{{apiGateway}}"
 							],
 							"path": [
 								"customers",
-								"customer4"
+								"customer1"
 							]
 						}
 					},
@@ -444,7 +444,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userName\": \"customer1\",\n  \"emailAddress\": \"yegammoissute-7722@yopmail.com\",\n  \"items\": [\n    {\n      \"quantity\": 2,\n      \"itemPrice\": 1400,\n      \"itemNo\": \"Lotus\",\n      \"itemName\": \"Lotus\"\n    }\n  ]\n}",
+							"raw": "{\n  \"userName\": \"customer1\",\n  \"emailAddress\": \"yegammoissute-7722@yopmail.com\",\n  \"items\": [\n    {\n      \"quantity\": 1,\n      \"itemPrice\": 1000,\n      \"itemNo\": \"Lotus\",\n      \"itemName\": \"Lotus\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -559,13 +559,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/v1/orders/customer1",
+							"raw": "{{apiGateway}}/v1/orders/username/customer1",
 							"host": [
 								"{{apiGateway}}"
 							],
 							"path": [
 								"v1",
 								"orders",
+								"username",
 								"customer1"
 							]
 						}
@@ -581,14 +582,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/v1/orders/18",
+							"raw": "{{apiGateway}}/v1/orders/4",
 							"host": [
 								"{{apiGateway}}"
 							],
 							"path": [
 								"v1",
 								"orders",
-								"18"
+								"4"
 							]
 						}
 					},
@@ -664,14 +665,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/v1/orders/30",
+							"raw": "{{apiGateway}}/v1/orders/2",
 							"host": [
 								"{{apiGateway}}"
 							],
 							"path": [
 								"v1",
 								"orders",
-								"30"
+								"2"
 							]
 						}
 					},
@@ -686,7 +687,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/v1/orders/document-no/55d71b30-cd2e-4475-8778-319840c72e07",
+							"raw": "{{apiGateway}}/v1/orders/document-no/7756e73d-05f9-4071-8749-7d985da9c4d0",
 							"host": [
 								"{{apiGateway}}"
 							],
@@ -694,7 +695,7 @@
 								"v1",
 								"orders",
 								"document-no",
-								"55d71b30-cd2e-4475-8778-319840c72e07"
+								"7756e73d-05f9-4071-8749-7d985da9c4d0"
 							]
 						}
 					},
@@ -724,14 +725,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/inventory/items/Cadillac",
+							"raw": "{{apiGateway}}/inventory/items/Lotus",
 							"host": [
 								"{{apiGateway}}"
 							],
 							"path": [
 								"inventory",
 								"items",
-								"Cadillac"
+								"Lotus"
 							]
 						}
 					},
@@ -959,13 +960,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{apiGateway}}/inventory/6305bcd5225c48918f0758aa",
+							"raw": "{{apiGateway}}/inventory/63704cf8a13b16deaf557f32",
 							"host": [
 								"{{apiGateway}}"
 							],
 							"path": [
 								"inventory",
-								"6305bcd5225c48918f0758aa"
+								"63704cf8a13b16deaf557f32"
 							]
 						}
 					},
@@ -1023,9 +1024,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{checkoutSagaUrl}}/checkout/customer1",
+							"raw": "{{apiGateway}}/checkout/customer1",
 							"host": [
-								"{{checkoutSagaUrl}}"
+								"{{apiGateway}}"
 							],
 							"path": [
 								"checkout",
@@ -1076,15 +1077,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{identityUrl}}/api/permissions/roles/30ac89cb-fafa-487f-a101-bc6346c9e50b",
+									"raw": "{{apiGateway}}/permissions/roles/d4973489-ab83-49da-93f7-66134e1b293d",
 									"host": [
-										"{{identityUrl}}"
+										"{{apiGateway}}"
 									],
 									"path": [
-										"api",
 										"permissions",
 										"roles",
-										"30ac89cb-fafa-487f-a101-bc6346c9e50b"
+										"d4973489-ab83-49da-93f7-66134e1b293d"
 									]
 								}
 							},
@@ -1265,7 +1265,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"ADD\"\n    },\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"EDIT\"\n    },\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"VIEW\"\n    },\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"DELETE\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"CREATE\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"VIEW\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"EDIT\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"DELETE\"\n    }\n]",
+									"raw": "[\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"ADD\"\n    },\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"UPDATE\"\n    },\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"VIEW\"\n    },\n    {\n        \"function\": \"ROLE\",\n        \"command\": \"DELETE\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"CREATE\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"VIEW\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"UPDATE\"\n    },\n    {\n        \"function\": \"PRODUCT\",\n        \"command\": \"DELETE\"\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1273,7 +1273,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{identityUrl}}/api/permissions/roles/30ac89cb-fafa-487f-a101-bc6346c9e50b/update-permissions",
+									"raw": "{{identityUrl}}/api/permissions/roles/d4973489-ab83-49da-93f7-66134e1b293d/update-permissions",
 									"host": [
 										"{{identityUrl}}"
 									],
@@ -1281,7 +1281,7 @@
 										"api",
 										"permissions",
 										"roles",
-										"30ac89cb-fafa-487f-a101-bc6346c9e50b",
+										"d4973489-ab83-49da-93f7-66134e1b293d",
 										"update-permissions"
 									]
 								}
