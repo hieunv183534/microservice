@@ -483,7 +483,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userName\": \"customer1\",\n  \"firstName\": \"Kiet\",\n  \"lastName\": \"Pham\",\n  \"emailAddress\": \"kietpham.dev@gmail.com\",\n  \"shippingAddress\": \"Wollongong, Australia\",\n  \"invoiceAddress\": \"Sydney, Australia\"\n}",
+							"raw": "{\n  \"userName\": \"customer1\",\n  \"firstName\": \"Kiet\",\n  \"lastName\": \"Pham\",\n  \"emailAddress\": \"kietpham.dev@example.com\",\n  \"shippingAddress\": \"Wollongong, Australia\",\n  \"invoiceAddress\": \"Sydney, Australia\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1015,7 +1015,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userName\": \"customer1\",\n  \"firstName\": \"Kiet\",\n  \"lastName\": \"Pham\",\n  \"emailAddress\": \"kietpham.dev@gmail.com\",\n  \"shippingAddress\": \"Wollongong, Australia\",\n  \"invoiceAddress\": \"Sydney, Australia\"\n}",
+							"raw": "{\n  \"userName\": \"customer1\",\n  \"firstName\": \"Kiet\",\n  \"lastName\": \"Pham\",\n  \"emailAddress\": \"kietpham.dev@example.com\",\n  \"shippingAddress\": \"Wollongong, Australia\",\n  \"invoiceAddress\": \"Sydney, Australia\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
