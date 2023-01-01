@@ -71,11 +71,16 @@ public class RepositoryBase<T, K, TContext> : RepositoryQueryBase<T, K, TContext
         await SaveChangesAsync();
     }
 
-    public void UpdateList(IEnumerable<T> entities) => _dbContext.Set<T>().AddRange(entities);
+    public void UpdateList(IEnumerable<T> entities)
+    {
+        foreach (var entity in entities)
+            Update(entity);
+    }
 
     public async Task UpdateListAsync(IEnumerable<T> entities)
     {
-        await _dbContext.Set<T>().AddRangeAsync(entities);
+        foreach (var entity in entities)
+            Update(entity);
         await SaveChangesAsync();
     }
 
